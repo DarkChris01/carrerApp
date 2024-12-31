@@ -1,0 +1,64 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+
+* {
+    font-family: "Nunit", sans-serif;
+    /* font-size: 16px; */
+}
+
+body {
+    scroll-behavior: smooth;
+}
+
+.avatar {
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+.scrollable {
+    scrollbar-color: #00030533 rgba(194, 194, 194, 0.034);
+    scrollbar-width: thin;
+}
+
+
+.scrollable-light {
+    scrollbar-color: #cfcfcf94 rgba(0, 0, 0, 0.027);
+    scrollbar-width: thin;
+}
+
+option {
+    font-family: "figtree", sans-serif;
+    color: rgb(43, 43, 43);
+}
+
+optgroup {
+    font-family: "figtree", sans-serif;
+    font-style: normal;
+    color: rgb(255, 255, 255);
+    background-color: rgb(113, 162, 253);
+}
+
+td,th {
+    text-align: start;   
+    padding: 3px;
+}
+
+tr{
+border-bottom: 1px solid rgb(226, 224, 224);
+}
+
+table {
+    border-collapse: collapse;
+}
+
+button{
+    user-select: none;
+}
+
+.text-standard{
+    font-size: 13px;
+}
