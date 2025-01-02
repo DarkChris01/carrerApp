@@ -74,7 +74,7 @@
                         {#each JSON.parse(job.competence.competence) as competence}
                             {#if competence}
                                 <span
-                                    class="px-2 rounded bg-gray-700 text-white p-0.5 flex items-center w-fit text-sm me-2 my-1"
+                                    class="px-2 rounded bg-gray-700 text-white p-0.5 flex items-center w-fit text-xs me-2 my-1"
                                 >
                                     {competence}
                                 </span>

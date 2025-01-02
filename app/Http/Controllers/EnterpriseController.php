@@ -91,4 +91,15 @@ class EnterpriseController extends Controller
     {
         return Enterprise::get(["id", "name"]);
     }
+
+    public function show_enterprise(Enterprise $enterprise)
+    {
+        return inertia("User/Visit_enterprise", [
+            "enterprise" => $enterprise->with(["employer", "sector", "employer" => function ($query) {
+                return $query->with(["jobs" => function ($query) {
+                    return $query->with(["enterprise","competence"]);
+                }]);
+            }])->first()
+        ]);
+    }
 }

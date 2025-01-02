@@ -3,11 +3,10 @@
     import { Toaster } from "svelte-french-toast";
 </script>
 
-
-<div>
-    <Navbar />
+<div class="flex justify-center my-2">
+    <div class="w-full xl:w-3/4">
+        <Navbar/>
+        <slot/>
+    </div>
 </div>
-<slot></slot>
-<div class="text-sm">
-    <Toaster />
-</div>
+<Toaster />

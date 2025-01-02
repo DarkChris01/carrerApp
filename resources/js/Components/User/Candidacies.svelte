@@ -83,8 +83,8 @@
                             </div>
                         </div>
                     </div>
-                    <div class="flex mt-3 capitalize justify-between items-end">
-                        <div class="font-bold block">
+                    <div class="flex mt-3 justify-between items-end">
+                        <div class="font-bold text-xs block">
                             {candidacy.status === "pending"
                                 ? "en attente"
                                 : candidacy.status === "rejected"

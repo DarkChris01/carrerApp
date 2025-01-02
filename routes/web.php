@@ -106,6 +106,10 @@ Route::middleware('auth')->group(function () {
         Route::patch("/", [NotificationController::class, "markAllAsread"]);
         Route::patch("/{notification}", [NotificationController::class, "markAsread"]);
     });
+
+    Route::group(["prefix" => "enterprise"], function () {
+        Route::get("/{enterprise}", [EnterpriseController::class, "show_enterprise"]);
+    });
 });
 
 
@@ -209,6 +213,6 @@ Route::post("/enterprise/autocompletion", function (Request $request) {
 Route::get("get-most-cv", [CvController::class, "get_best_profil"]);
 Route::get("rate/{cv}", [CvController::class, "rate"]);
 Route::get("get-all-enterprises", [EnterpriseController::class, "retrieve_all_enterprise"]);
-Route::get("/postes", [JobController::class,"retrieve_all_jobs"]);
+Route::get("/postes", [JobController::class, "retrieve_all_jobs"]);
 
 require __DIR__ . '/auth.php';

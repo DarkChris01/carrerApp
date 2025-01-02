@@ -33,7 +33,7 @@
 
 <main>
     <div class="flex justify-center w-full relative">
-        <div class="w-full me-1 lg:w-4/5">
+        <div>
             <div
                 class="md:p-4 my-4 bg-white border shadow border-gray-400/80 rounded"
             >

@@ -180,7 +180,7 @@
             {#if !isLoading}
                 <select
                     on:change={(e) => select_by_enterprise(e.target.value)}
-                    class="rounded m-2 py-1 text-xs text-gray-600 w-1/2 scrollable ring-1 ring-gray-200 hover:ring-orange-500 border-0"
+                    class="rounded m-2 py-1 text-sm text-gray-600 w-1/2 scrollable ring-1 ring-gray-200 hover:ring-orange-500 border-0"
                 >
                     <option value="">Choisissez une entreprise</option>
                     {#each enterprises as enterprise}
@@ -196,7 +196,7 @@
                 </select>
                 <select
                     on:change={(e) => select_by_country(e.target.value)}
-                    class=" rounded m-2 w-1/2 py-1 text-xs text-gray-600 ring-gray-200 scrollable ring-1 hover:ring-orange-500 border-0"
+                    class=" rounded m-2 w-1/2 py-1 text-sm text-gray-600 ring-gray-200 scrollable ring-1 hover:ring-orange-500 border-0"
                 >
                     <option value="">Choisissez un pays</option>
                     {#each countries as country}

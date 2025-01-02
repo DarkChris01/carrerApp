@@ -6,8 +6,8 @@
     import LeftSideBar from "@components/Left-side-bar.svelte";
 </script>
 
-<div class="flex justify-center">
-    <div class="w-full lg:w-4/5 2xl:w-3/4">
+<div class="flex justify-center my-2">
+    <div class="w-full lg:w-3/4">
             <Navbar />
         <div>
             <div class="flex w-full items-end justify-center">

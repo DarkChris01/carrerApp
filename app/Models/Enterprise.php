@@ -29,10 +29,15 @@ class Enterprise extends Model
 
 
 
-    use HasFactory, SoftDeletes, HasUuids,Notifiable;
+    use HasFactory, SoftDeletes, HasUuids, Notifiable;
 
     public function sector()
     {
         return $this->hasOne(Sector::class);
+    }
+
+    public function employer()
+    {
+        return $this->belongsTo(Employer::class);
     }
 }

@@ -89,7 +89,7 @@
 <div
     class="flex justify-between items-center relative text-xs p-1 bg-transparent"
 >
-    <div class=" hidden md:flex items-center">
+    <div class="hidden md:flex items-center">
         <Logo />
     </div>
 
@@ -104,7 +104,7 @@
                         class="text-nowrap btn hidden btn-xs text-xs mx-2 lg:flex items-center hover:bg-gray-300 rounded"
                     >
                         Entretiens
-                        <span class="text-red-600 bg-white p-1 rounded-sm"
+                        <span class="text-red-600 bg-white  w-5 h-5 flex justify-center items-center p-1 rounded-full"
                             >{$page.props.auth.entretiens}</span
                         >
                     </button>
@@ -123,7 +123,7 @@
                         class="text-nowrap btn btn-xs hidden lg:flex text-xs mx-2 items-center hover:bg-gray-300 rounded"
                     >
                         candidatures
-                        <span class="text-red-600 bg-white p-1 rounded-sm"
+                        <span class="text-red-600 bg-white p-1 w-5 h-5 flex justify-center items-center rounded-full"
                             >{$page.props.auth.candidacies}</span
                         >
                     </button>
