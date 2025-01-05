@@ -60,6 +60,7 @@ class JobController extends Controller
 
     public function show(Job $job, Request $request)
     {
+       
         $data = job::where('id', $job->id)
             ->with(['competence', 'enterprise'])
             ->when($request->user(), function ($query) use ($request) {

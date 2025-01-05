@@ -5,7 +5,7 @@
 {#if competence}
     {#each JSON.parse(competence.technical_competences) as competence}
         {#if competence}
-            <div class="p-1 rounded m-1 text-nowrap capitalize font-bold text-gray-700/90">
+            <div class="p-1 rounded text-base m-1 text-nowrap capitalize font-bold text-gray-700/90">
                 {competence}
             </div>
         {/if}
@@ -19,7 +19,7 @@
 
     {#each JSON.parse(competence.no_technical_competences) as competence}
         {#if competence}
-            <div class="p-1 rounded m-1 capitalize font-light text-gray-600/80">
+            <div class="p-1 rounded  m-1 capitalize font-light text-gray-600/80">
                 {competence}
             </div>
         {/if}

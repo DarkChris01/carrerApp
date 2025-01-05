@@ -21,7 +21,7 @@
         <div>
             <a use:inertia href="/cv">
                 <button
-                    class="flex w-full rounded justify-center items-center px-3 py-1 text-sm font-semibold btn btn-neutral btn-xs focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 transition ease duration-500"
+                    class="flex w-full rounded justify-center items-center px-3 py-1 text-sm font-semibold btn btn-neutral btn-sm 2xl:btn-base focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 transition ease duration-500"
                 >
                     Creer mon Cv
                     <svg
@@ -46,7 +46,7 @@
             <div class="text-center font-semibold text-gray-600 my-2">
                 <a use:inertia href="/password">
                     <button
-                        class="btn bg-warning text-center w-full btn-xs rounded text-gray-900"
+                        class="btn border text-center w-full btn-sm 2xl:btn-base rounded text-gray-900"
                     >
                         Modifier mot de passe
                     </button>
@@ -55,7 +55,7 @@
             <div>
                 <button
                     type="button"
-                    class="flex w-full justify-center items-center rounded shadow btn btn-xs bg-red-600 py-1.5 font-semibold leading-6 text-white hover:bg-red-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-600 transition ease duration-500"
+                    class="flex w-full justify-center items-center rounded shadow btn btn-sm 2xl:btn-base bg-red-600 py-1.5 font-semibold leading-6 text-white hover:bg-red-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-600 transition ease duration-500"
                     on:click={() => (showdeleteForm = true)}
                 >
                     Supprimer mon compte

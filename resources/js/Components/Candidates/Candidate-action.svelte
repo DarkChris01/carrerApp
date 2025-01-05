@@ -32,7 +32,7 @@
                 return jobs;
             });
             entretiens_store.set([...$entretiens_store, response.data]);
-            console.log($entretiens_store);
+        
         } else {
             toast.error("Une errerur est survenue ,veuillez reesayez");
         }

@@ -174,7 +174,7 @@
                     </div>
                     <div class="p-2 my-6">
                         <div
-                            class=" text-sm lg:text-xl font-bold rounded text-gray-300"
+                            class=" text-sm border-b lg:text-xl font-bold rounded text-gray-300"
                         >
                             Formations
                         </div>
@@ -183,7 +183,7 @@
                                 {#if cv.formation}
                                     {#each JSON.parse(cv.formation.formations) as formation}
                                         {#if formation.school}
-                                            <div class="my-4 text-standard text-gray-600">
+                                            <div class="my-4 text-base text-gray-600">
                                                 <div
                                                     class="my-1 flex justify-between"
                                                 >

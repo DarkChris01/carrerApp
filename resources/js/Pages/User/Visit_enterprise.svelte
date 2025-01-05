@@ -1,5 +1,5 @@
 <script>
-    import { inertia } from "@inertiajs/svelte";
+    import { inertia, useForm } from "@inertiajs/svelte";
     import Job from "@components/Jobs/Job.svelte";
     import PrimaryButton from "@utils/PrimaryButton.svelte";
     export let enterprise;
@@ -7,6 +7,22 @@
         description:
             "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quam, ut tempore nulla consequuntur dicta autem ea eaque minus, quia id ab odio iure minima. Sint quas libero dolore doloremque vel.",
         story: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quam, ut tempore nulla consequuntur dicta autem ea eaque minus, quia id ab odio iure minima. Sint quas libero dolore doloremque vel.Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quam, ut tempore nulla consequuntur dicta autem ea eaque minus, quia id ab odio iure minima. Sint quas libero dolore doloremque vel.",
+    };
+    let form = useForm({
+        message: null,
+        subject: null,
+        enterprise: enterprise.id,
+    });
+
+    const contactUs = () => {
+        $form.post("/enterprise/contact-us", {
+            onSuccess: () => {
+                toast.success("message envoyé");
+            },
+            onError: () => {
+                toast.error("une erreur est survenue !");
+            },
+        });
     };
 </script>
 
@@ -20,7 +36,7 @@
         <div
             class="absolute font-semibold p-1 rounded bottom-2 right-2 bg-white"
         >
-            <div class="capitalize text-xs flex items-end">
+            <div class="capitalize text-sm flex items-end">
                 {enterprise.address}
                 <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -44,109 +60,16 @@
             </div>
         </div>
     </div>
-    <div class="flex justify-start items-end mt-4">
-        <div class="mb-1 me-1">
-            <div class="ms-2">
-                <a
-                    class="hover:text-red-400 text-sm"
-                    href="https://{enterprise.email}"
-                    ><img
-                        src="/storage/icones/gmail.png"
-                        class="w-5"
-                        alt=""
-                    /></a
-                >
-            </div>
 
-            {#if enterprise.facebook}
-                <div class="flex mb-1 me-1">
-                    <div class="ms-2">
-                        <a
-                            class="hover:text-red-400 text-sm"
-                            href="https://{enterprise.facebook}"
-                        >
-                            <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                viewBox="0 0 24 24"
-                                fill="none"
-                                stroke="currentColor"
-                                stroke-width="2"
-                                stroke-linecap="round"
-                                stroke-linejoin="round"
-                                class="feather feather-facebook stroke-none fill-blue-500 w-6"
-                                ><path
-                                    d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"
-                                ></path></svg
-                            ></a
-                        >
-                    </div>
-                </div>
-            {/if}
-            {#if enterprise.linkedin}
-                <div class="flex mb-1 me-1">
-                    <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        width="24"
-                        height="24"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        stroke-width="2"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        class="feather feather-linkedin bg-blue-500 w-6"
-                        ><path
-                            d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"
-                        ></path><rect x="2" y="9" width="4" height="12"
-                        ></rect><circle cx="4" cy="4" r="2"></circle></svg
-                    >
-                    <div class="ms-2 font-semibold text-sm">
-                        {enterprise.linkedin}
-                    </div>
-                </div>
-            {/if}
-            {#if enterprise.twitter}
-                <div class="flex mb-1 me-1">
-                    <img src="/storage/icones/twitter.png" class="w-5" alt="" />
-                </div>
-            {/if}
-
-            {#if enterprise.site}
-                <div class="flex mb-1 me-1">
-                    <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        stroke-width="1.5"
-                        stroke="currentColor"
-                        class="size-6"
-                    >
-                        <path
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
-                            d="M12 21a9.004 9.004 0 0 0 8.716-6.747M12 21a9.004 9.004 0 0 1-8.716-6.747M12 21c2.485 0 4.5-4.03 4.5-9S14.485 3 12 3m0 18c-2.485 0-4.5-4.03-4.5-9S9.515 3 12 3m0 0a8.997 8.997 0 0 1 7.843 4.582M12 3a8.997 8.997 0 0 0-7.843 4.582m15.686 0A11.953 11.953 0 0 1 12 10.5c-2.998 0-5.74-1.1-7.843-2.918m15.686 0A8.959 8.959 0 0 1 21 12c0 .778-.099 1.533-.284 2.253m0 0A17.919 17.919 0 0 1 12 16.5c-3.162 0-6.133-.815-8.716-2.247m0 0A9.015 9.015 0 0 1 3 12c0-1.605.42-3.113 1.157-4.418"
-                        />
-                    </svg>
-                    <div class="ms-2 font-semibold text-sm">
-                        <a
-                            class="hover:text-red-400 text-sm"
-                            href={enterprise.site}>{enterprise.site}</a
-                        >
-                    </div>
-                </div>
-            {/if}
-        </div>
-    </div>
-
-    <div class="text-sm p-2 my-8">
-        <h1 class="font-semibold text-sm text-gray-500 border-b">
+    <div class="text-base p-2 my-8">
+        <h1 class="font-semibold text-base text-gray-500 border-b">
             Qui sommes-nous ?
         </h1>
         <div class="mt-4 text-gray-500">
             {exemple.description}
         </div>
 
-        <h1 class="font-semibold text-sm text-gray-500 border-b mt-16">
+        <h1 class="font-semibold text-base text-gray-500 border-b mt-16">
             Quels services proposons nous ?
         </h1>
         <div class="my-5">
@@ -189,7 +112,7 @@
             </ul>
         </div>
         <div>
-            <h1 class="font-semibold text-sm text-gray-500 border-b mt-16">
+            <h1 class="font-semibold text-base text-gray-500 border-b mt-16">
                 Quelques offres ouvertes
             </h1>
             <div class="mt-6">
@@ -200,7 +123,7 @@
                                 {job.poste}
                             </div>
                             <a use:inertia href="/job/mon-offre/{job.id}">
-                                <PrimaryButton size="text-xs"
+                                <PrimaryButton size="text-sm"
                                     >Consulter l'offre</PrimaryButton
                                 >
                             </a>
@@ -210,7 +133,7 @@
                                 {#each JSON.parse(job.competence.competence) as competence}
                                     {#if competence}
                                         <span
-                                            class="px-2 text-xs rounded bg-gray-700 text-white p-0.5 flex items-center w-fit me-2 my-1"
+                                            class="px-2 text-sm rounded bg-gray-700 text-white p-0.5 flex items-center w-fit me-2 my-1"
                                         >
                                             {competence}
                                         </span>
@@ -220,6 +143,76 @@
                         </div>
                     </div>
                 {/each}
+            </div>
+
+            <div class="mt-6 text-base">
+                <div>
+                    <section class="bg-white dark:bg-gray-900">
+                        <div class="py-8 lg:py-16 px-4 mx-auto max-w-screen-md">
+                            <h2
+                                class="mb-4 text-4xl tracking-tight font-extrabold text-center text-gray-900 dark:text-white"
+                            >
+                                Nous Contacter
+                            </h2>
+                            <p
+                                class="mb-8 lg:mb-16 font-light text-center text-gray-500 dark:text-gray-400 sm:text-xl"
+                            >
+                                Got a technical issue? Want to send feedback
+                                about a beta feature? Need details about our
+                                Business plan? Let us know.
+                            </p>
+                            <form
+                                on:submit|preventDefault={contactUs}
+                                class="space-y-8"
+                            >
+                                <div>
+                                    <label
+                                        for="subject"
+                                        class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+                                        >Subject</label
+                                    >
+                                    <input
+                                        type="text"
+                                        id="subject"
+                                        bind:value={$form.subject}
+                                        class="block p-3 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 shadow-sm focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500 dark:shadow-sm-light"
+                                        placeholder="raison du message"
+                                        required
+                                    />
+                                </div>
+                                <div class="sm:col-span-2">
+                                    <label
+                                        for="message"
+                                        class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-400"
+                                        >Message</label
+                                    >
+                                    <textarea
+                                        bind:value={$form.message}
+                                        id="message"
+                                        rows="6"
+                                        class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg shadow-sm border border-gray-300 focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                                        placeholder="Laisser un commentaire..."
+                                    ></textarea>
+                                </div>
+                                <button
+                                    disabled={$form.isProgress}
+                                    type="submit"
+                                    class="py-2 px-4 font-medium text-center text-white rounded-medium btn-primary btn btn-base hover:bg-primary-800 focus:ring-4 focus:outline-none focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
+                                    >Send message</button
+                                >
+
+                                {#if $form.errors.message}
+                                    {$form.errors.message}
+                                {/if}
+
+
+                                {#if $form.errors.subject}
+                                    {$form.errors.subject}
+                                {/if}
+                            </form>
+                        </div>
+                    </section>
+                </div>
             </div>
         </div>
     </div>

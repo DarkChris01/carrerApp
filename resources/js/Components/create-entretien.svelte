@@ -75,8 +75,9 @@
 
 <!-- svelte-ignore a11y-click-events-have-key-events -->
 <!-- svelte-ignore a11y-no-static-element-interactions -->
-<div on:click|self
-    class="fixed w-full bg-black/10 top-0 h-screen left-0 flex justify-center items-center"
+<div
+    on:click|self
+    class="fixed w-full bg-black/30 top-0 h-screen left-0 z-50 flex justify-center items-center"
 >
     <div
         class="w-full text-nowrap lg:w-1/3 m-2 p-6 text-sm border shadow shadow-gray-600/40 bg-white rounded"
@@ -146,7 +147,7 @@
                         </button>
                     </div>
                     <button
-                        class="absolute right-3 top-3 bg-white"
+                        class="absolute right-3 top-3"
                         type="button"
                         bind:this={close}
                         on:click

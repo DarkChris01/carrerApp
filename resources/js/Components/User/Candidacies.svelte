@@ -15,11 +15,6 @@
             candidacies_store.set(response.data);
             isLoading = false;
         }
-        document.body.style.overflow = "hidden";
-    });
-
-    onDestroy(() => {
-        document.body.style.overflow = "";
     });
 
     const archive = (candidacy) => {
@@ -39,7 +34,7 @@
 <main
     class="z-20 fixed lg:absolute w-full h-screen lg:w-[30rem] 2xl:w-[35rem] shadow overflow-y-auto scrollable bg-white lg:h-[35rem] 2xl:h-[50rem] border border-gray-400/20 rounded right-0 lg:right-4 top-0 lg:top-full"
 >
-    <div class="w-full h-full text-sm p-2 text-gray-500">
+    <div class="w-full h-full text-sm p-2 text-gray-700">
         {#if !isLoading}
             <button
                 class="lg:hidden mb-8"
@@ -69,7 +64,7 @@
                         <div class="bg-blue-600 w-fit me-2 p-2 rounded">
                             <img
                                 src={candidacy.job.enterprise.logo}
-                                class="w-10 h-10"
+                                class="w-14 h-14"
                                 alt="logo"
                             />
                         </div>
@@ -78,18 +73,20 @@
                                 {candidacy.job.enterprise.name}
                             </div>
 
-                            <div class="text-red-600">
+                            <div class="text-red-600 capitalize">
                                 {candidacy.job.poste.toLowerCase()}
                             </div>
                         </div>
                     </div>
-                    <div class="flex mt-3 justify-between items-end">
-                        <div class="font-bold text-xs block">
+                    <div class="flex mt-1 capitalize justify-between items-end">
+                        <div class="font-bold text-sm block">
                             {candidacy.status === "pending"
-                                ? "en attente"
+                                ? "En attente"
                                 : candidacy.status === "rejected"
-                                  ? "rejétée"
-                                  : "acceptée"}
+                                  ? "Rejétée"
+                                  : candidacy.status === "process"
+                                    ? "En examen"
+                                    : "recruté"}
                         </div>
                         <div class="flex capitalize">
                             <button

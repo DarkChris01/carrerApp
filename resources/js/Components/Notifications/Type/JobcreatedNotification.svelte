@@ -24,7 +24,7 @@
                 alt="avatar"
             />
         </div>
-        <div class="text-gray-500 flex-1 text-start ">
+        <div class="flex-1 text-start ">
             {#if notification.type === "App\\Notifications\\NewJobCreatedNotification"}
                 <button
                     on:click={() => redirectToJob(notification.data.job.id)}

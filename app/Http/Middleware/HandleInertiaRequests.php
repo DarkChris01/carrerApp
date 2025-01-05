@@ -64,7 +64,7 @@ class HandleInertiaRequests extends Middleware
                 $candidatures = Candidacy::where("cv_id", $request->user()->cv->id)
                     ->whereNotIn("id", $archived)
                     ->count();
-                $entretiens = $request->user()->cv->candidacies->where("status", "OK")?->count();
+                $entretiens = $request->user()->cv->candidacies->where("status", "process")?->count();
             } else {
                 $candidatures = 0;
                 $entretiens = 0;

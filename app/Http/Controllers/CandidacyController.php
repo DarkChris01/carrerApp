@@ -8,6 +8,8 @@ use App\Models\Candidacy;
 use Illuminate\Http\Request;
 use App\Events\NotifyCandidate;
 use App\Models\Archive;
+use App\Models\Entretien;
+use App\Models\Hired_candidate;
 use App\Services\StringAnalyser;
 use App\Services\CandidacyService;
 use App\Services\NotificationService;
@@ -37,7 +39,7 @@ class CandidacyController extends Controller
 
     public function index(Request $request)
     {
-       
+
         $jobs = $this->candidacyService->get($request->user("employer"));
 
         return inertia("Candidates/index", ["jobs" => $jobs]);
@@ -49,7 +51,7 @@ class CandidacyController extends Controller
             "job" => ["required", "string", "exists:jobs,id"]
         ]);
         if (Candidacy::where("job_id", $request->job)->where("cv_id", $request->user()->cv->id)->first()) {
-            return back()->withErrors("", "dejaCandidate");
+            return back()->withErrors("", "alreadyApply");
         }
         try {
             $candidature = Candidacy::create([
@@ -147,5 +149,23 @@ class CandidacyController extends Controller
         ])) {
             Notification::send($candidate->cv->user, new CandidacyRejectedNotification($candidate->job));
         }
+    }
+
+    public function candidateHasSelected(Request $request)
+    {
+        $request->validate([
+            "entretien" => ["required", "string", "exists:entretiens,id"]
+        ]);
+
+        $entretien = Entretien::find($request->entretien);
+        Hired_candidate::create([
+            "cv_id" => $entretien->candidacy->cv_id,
+            "job_id" => $entretien->candidacy->job_id
+        ]);
+
+        Entretien::find($entretien->id)->update(["status" => "OK"]);
+        Candidacy::find($entretien->candidacy->id)->update(["status" => "recruited"]);
+
+        $this->notificationService->notififyWhereUserSelectedForJob($entretien->candidacy);
     }
 }

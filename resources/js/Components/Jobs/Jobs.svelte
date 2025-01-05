@@ -1,6 +1,9 @@
 <script>
     import { inertia, page, useForm } from "@inertiajs/svelte";
-    import { format_date_anglo_to_french } from "@dependencies/utilities";
+    import {
+        format_date_anglo_to_french,
+        compareDate,
+    } from "@dependencies/utilities";
     import toast from "svelte-french-toast";
     export let job;
     export let i;
@@ -18,8 +21,12 @@
 
     <td>
         <div class="px-1">
-            <div class="text-gray-600">
+            <div class="text-gray-600 flex justify-between">
                 <span class="capitalize">{job.poste} </span>
+                <span class="text-red-600">
+
+                    {compareDate(job.expired_at) < 0 ? "expiré" : ""}
+                </span>
             </div>
         </div>
     </td>
@@ -76,7 +83,7 @@
                     </svg>
                 </a>
             </div>
-            <a use:inertia href="/candidatures?offre={job.id}" class="mx-1">
+            <a use:inertia href="/candidatures?offre={job.id}" class="mx-1 z-0">
                 <button
                     type="button"
                     on:click

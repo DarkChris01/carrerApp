@@ -7,20 +7,24 @@
     export let job;
     export let candidacy;
     let status;
-console.log(candidacy.cv_id);
 
     $: if ($page.props) {
         if (candidacy.status === "pending") {
             status = "En attente";
-        } else if (candidacy.status === "OK") {
-            status = "OK";
-        } else if (candidacy.status === "rejected") {
+        }else if (candidacy.status === "rejected") {
             status = "Rejeté";
+        } else if (candidacy.status === "process") {
+            status = "En examen";
+        } else if (candidacy.status === "recruited") {
+            status = "Recruté";
         }
     }
 </script>
 
-<tr class="text-standard font-semibold text-sm text-gray-700 hover:bg-gray-50" id={candidacy.cv_id}>
+<tr
+    class="text-standard font-semibold text-sm text-gray-700 hover:bg-gray-50"
+    id={candidacy.cv_id}
+>
     <td>
         <span class="text-gray-500"> </span>
     </td>
@@ -50,8 +54,8 @@ console.log(candidacy.cv_id);
         </div>
     </td>
     <td>
-        {#if relativeTimeFormatter("Fr", job.expired_at).match(/il y a/g)}
-            <div class="text-red-600">expiré</div>
+        {#if compareDate(job.expired_at) < 0}
+            <div class="text-red-600">fermé</div>
         {:else}
             {relativeTimeFormatter("Fr", job.expired_at)}
         {/if}

@@ -56,6 +56,7 @@ class AcceuilController extends Controller
                     }
                 });
             })
+            ->latest()
             ->select(["jobs.*", "domains.intitules"])
             ->paginate()
             ->appends(["domain" => $request->domain]);

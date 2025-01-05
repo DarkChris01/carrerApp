@@ -1,36 +1,31 @@
 <?php
 
-use App\Contracts\TestInterface;
 use App\Models\Domain;
 
 use App\Models\Candidacy;
 use App\Models\Enterprise;
 
 use Illuminate\Http\Request;
-use App\Services\TestService;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CvController;
-use Illuminate\Foundation\Application;
 use App\Http\Controllers\JobController;
 use App\Http\Controllers\FileController;
-use App\Http\Controllers\UserController;
 use App\Http\Controllers\GraphController;
 use App\Http\Controllers\AcceuilController;
 use App\Http\Controllers\ArchiveController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\EmployerController;
 use App\Http\Controllers\CandidacyController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\EntretienController;
 use App\Http\Controllers\FormationController;
 use App\Http\Controllers\CompetenceController;
+
 use App\Http\Controllers\EnterpriseController;
 use App\Http\Controllers\ExperienceController;
 use App\Http\Controllers\NotificationController;
-
 use App\Http\Controllers\Auth\RegisteredUserController;
-use App\Services\EmployerService;
-use App\Services\GetCv;
-use App\Services\UserService;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -109,26 +104,14 @@ Route::middleware('auth')->group(function () {
 
     Route::group(["prefix" => "enterprise"], function () {
         Route::get("/{enterprise}", [EnterpriseController::class, "show_enterprise"]);
+        Route::post("/contact-us", [EnterpriseController::class, "contactUs"]);
     });
 });
 
 
 Route::middleware("employer")->group(function () {
     Route::get("/download/{cv}", [FileController::class, "download_cv"]);
-    Route::get("/dashboard", function (Request $request) {
-
-        $candidatures =  Candidacy::join("jobs", "jobs.id", "candidacies.job_id")
-            ->join("employers", "employers.id", "jobs.employer_id")
-            ->join("cvs", "cvs.id", "candidacies.cv_id")
-            ->where("employers.id", $request->user("employer")->id)
-            ->select("candidacies.id as candidature_id", "candidacies.*", "cvs.firstName", "cvs.profession", "cvs.picture", "jobs.poste")
-            ->where("candidacies.status", "pending")
-            ->get();
-
-        return inertia("Employer/Home", [
-            "candidates" => $candidatures
-        ]);
-    })->name("employer.home");
+    Route::get("/dashboard", [DashboardController::class, "index"])->name("employer.home");
 
     Route::group(['prefix' => "my-enterprise"], function () {
         Route::get("/creer-une-entreprise", [EnterpriseController::class, "create"]);
@@ -155,9 +138,8 @@ Route::middleware("employer")->group(function () {
         Route::delete("/job", [JobController::class, "delete"])->name("job.delete");
         Route::get("/edit/jobs/{job}", [JobController::class, "edit"]);
         Route::post("/update/{job}", [JobController::class, "update"]);
-        Route::get("get-candidate-datas/{candidacy}", [CandidacyController::class, "candidature_profile"]);
-        Route::get("get-dashboard-datas", [GraphController::class, "get_dashboard_data"]);
-        Route::get("/get-open-jobs-datas", [GraphController::class, "get_open_jobs_datas"]);
+        Route::get("get-dashboard-datas/{year}", [DashboardController::class, "get_dashboard_data"]);
+        Route::get("/get-open-jobs-datas/{year}", [DashboardController::class, "get_open_jobs_datas"]);
 
         Route::group(['prefix' => 'notifications'], function () {
             Route::post('/invitation', [NotificationController::class, "sendInvitation"]);
@@ -183,6 +165,7 @@ Route::middleware("employer")->group(function () {
         Route::get("/{job}", [CandidacyController::class, "show"])->name("candidature.show");
         Route::patch("/approuved/{candidacy}", [CandidacyController::class, "approuved"]);
         Route::patch("/rejected/{candidate}", [CandidacyController::class, "rejected"]);
+        Route::post("/candidate-selected", [CandidacyController::class, "candidateHasSelected"]);
     });
 });
 

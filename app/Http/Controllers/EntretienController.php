@@ -16,6 +16,7 @@ use App\Notifications\NewEntretienNotification;
 use App\Notifications\DeleteEntretienNotification;
 use App\Notifications\UpdateEntretienNotification;
 use App\Services\EntretienService;
+use Carbon\Carbon;
 use Exception;
 
 class EntretienController extends Controller
@@ -37,6 +38,7 @@ class EntretienController extends Controller
                     $query->with("user");
                 }]);
             }, "job"])
+            ->whereDate("date",">=",Carbon::now()->day())
             ->when($request->entretien, function ($query) use ($request) {
                 return   $query->where("id", $request->entretien);
             })
@@ -59,18 +61,18 @@ class EntretienController extends Controller
         try {
 
             $entretien = $this->entretienService->create($validated);
-
-            $candidacy->update(["status" => "OK"]);
-
+            $candidacy->update(["status" => "process"]);
             $this->notificationService->NotifyUserWhenInterviewIsValided($candidacy->cv->user, $entretien, Job::find($request->job_id)->employer);
 
-            return ($entretien->with(["candidacy" => function ($query) {
+            $newEntretien = $entretien->with(["candidacy" => function ($query) {
                 $query->with(["cv" => function ($query) {
                     return $query->with("user");
                 }]);
             }])
                 ->orderby("date")
-                ->first());
+                ->first();
+
+            return $newEntretien;
         } catch (\Throwable $th) {
             return back()->with("error", "Une erreur est survenue !");
         }

@@ -32,7 +32,7 @@
     });
 </script>
 
-<div class="relative rounded py-2">
+<div class="relative rounded my-1 p-1">
     <div class="p-2 rounded">
         <div class="p-1 rounded">
             {#if !isLoading}
@@ -64,15 +64,15 @@
                         </p>
                     </div>
 
-                    {#if candidates.length}
+                    {#if Array.isArray(candidates) && candidates.length}
                         {#each candidates as candidate}
                             <div
-                                class="flex items-center flex-wrap justify-start p-2 rounded text-sm bg-gray-50 hover:bg-gray-100 transition duration-50 ease-linear w-auto"
+                                class="flex items-center flex-wrap justify-start rounded text-sm bg-gray-50 hover:bg-gray-100 transition duration-50 ease-linear w-auto my-2 p-1 border"
                             >
                                 <div
-                                    class=" flex items-center me-6 mb-1 text-sm uppercase text-nowrap"
+                                    class=" flex items-center me-6 mb-1 text-xs uppercase text-nowrap"
                                 >
-                                <img class="w-9 h-9 rounded-full me-2" src={candidate.picture} alt="img">
+                                <img class="w-8 h-8 rounded-full me-2" src={candidate.picture} alt="img">
                                     {candidate.firstName}
                                     {candidate.lastName}
                                 </div>
@@ -80,7 +80,7 @@
                                     class="flex justify-between w-full items-center flex-wrap"
                                 >
                                     <div
-                                        class="bg-indigo-600 text-white text-sm me-1 p-1 capitalize rounded"
+                                        class="bg-indigo-600 text-white text-xs me-1 p-1 capitalize rounded"
                                     >
                                         {candidate.profession}
                                     </div>
@@ -104,7 +104,7 @@
                                             {/each}
 
                                             <span
-                                                class="bg-gray-800 py-0.5 px-2 text-sm text-gray-50 rounded ms-2"
+                                                class="bg-gray-800 py-0.5 px-2 text-xs text-gray-50 rounded ms-2"
                                                 >{candidate.rate > 1
                                                     ? candidate.rate + "/10 points"
                                                     : candidate.rate + "/10 point"}

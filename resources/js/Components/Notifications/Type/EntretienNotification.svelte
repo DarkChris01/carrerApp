@@ -14,9 +14,9 @@
                 alt="avatar"
             />
         </div>
-        <div class="text-gray-500 flex-1 text-start">
+        <div class="flex-1 text-start">
             <button>
-                <div class="text-gray-700 font-semibold text-start">
+                <div class="font-semibold text-start">
                     {notification.data.sender.name}
                 </div>
                 <p class="text-start">

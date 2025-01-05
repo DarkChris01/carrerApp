@@ -68,7 +68,7 @@
                 <button
                     type="submit"
                     disabled={!$form.isDirty || $form.processing}
-                    class="flex w-full content-center btn-primary btn btn-xs px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow shadow-gray-400/20 rounded focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                    class="flex w-full content-center btn-primary btn btn-sm  2xl:btn-base  px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow shadow-gray-400/20 rounded focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
                     >Mettre à jour mes données</button
                 >
             </div>

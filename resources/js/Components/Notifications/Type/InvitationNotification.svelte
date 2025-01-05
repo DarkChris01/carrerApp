@@ -4,7 +4,7 @@
     export let notification;
 
     const redirectTo = () => {
-        router.visit(`/?enterprise=${notification.data.enterprise.id}`);
+        router.visit(`/enterprise/${notification.data.enterprise.id}`);
     };
 </script>
 
@@ -18,7 +18,7 @@
                 alt="avatar"
             />
         </div>
-        <div class="text-gray-500 flex-1 text-start ">
+        <div class="flex-1 text-start ">
             <button on:click={redirectTo}>
                 <div class="text-gray-700 font-semibold text-start">
                     {notification.data.enterprise.name}

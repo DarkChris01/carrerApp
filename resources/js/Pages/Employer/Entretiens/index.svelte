@@ -2,8 +2,11 @@
     import Entretien from "@components/Employer/Entretien.svelte";
     import { entretiens_store } from "@dependencies/Stores/Store";
     import axios from "axios";
+    import { page } from "@inertiajs/svelte";
     export let entretiens;
-    entretiens_store.set(entretiens);
+    $: if ($page.props) {
+        entretiens_store.set(entretiens);
+    }
 
     const delete_all = async () => {
         const request = await axios.delete("/mes-entretiens");
@@ -14,7 +17,7 @@
 </script>
 
 <main class="flex justify-center p-2 my-10">
-    <div class="w-full bg-white text-sm p-4 min-h-[33rem]">
+    <div class="w-full bg-white text-sm p-4 min-h-[33rem] border">
         <h1 class="flex items-center">
             <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -33,19 +36,19 @@
 
             Mes entretiens
         </h1>
-       
+
         {#if $entretiens_store.find((entretien) => entretien.status === "pending")}
             <div class="flex justify-end mb-2">
                 <button
                     on:click={delete_all}
-                    class="p-1 ms-3 flex text-sm items-center bg-red-600 text-white rounded hover:bg-red-500 shadow hover:shadow-gray-200/80 shadow-400/80"
+                    class="p-1 ms-3 flex btn btn-xs btn-error items-centert text-white rounded"
                     >Tout supprimer <svg
                         xmlns="http://www.w3.org/2000/svg"
                         fill="none"
                         viewBox="0 0 24 24"
                         stroke-width="1.5"
                         stroke="currentColor"
-                        class="size-4 ms-2"
+                        class="size-4"
                     >
                         <path
                             stroke-linecap="round"
@@ -68,7 +71,9 @@
                     <th>actions</th>
                 </tr>
                 {#each $entretiens_store as entretien, i}
-                    <Entretien {entretien} {i} />
+                    {#if entretien.status !== "OK"}
+                        <Entretien {entretien} {i} />
+                    {/if}
                 {/each}
             </table>
         {:else}
@@ -80,4 +85,3 @@
         {/if}
     </div>
 </main>
-

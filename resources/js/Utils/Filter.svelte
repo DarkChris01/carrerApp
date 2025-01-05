@@ -206,9 +206,9 @@
         {#if !isLoading_country}
             <div class="lg:flex justify-between items-center">
                 <div class="flex items-center">
-                    <div class="me-2 btn-xs text-gray-700 rounded border">
+                    <div class="me-2 text-gray-700 rounded">
                         <button
-                            class="flex items-center"
+                            class="btn btn-ghost btn-xs 2xl:btn-sm rounded ring-1 ring-gray-600 flex items-center"
                             on:click={reset_filter}>Aucun</button
                         >
                     </div>
@@ -381,7 +381,7 @@
                         </div>
                         {#if $AutoCompleteStoreComponent && words.length > 0}
                             <div
-                                class="absolute top-10 overflow-hidden p-1 left-0 w-full bg-white border text-gray-700 hover:text-gray-600 rounded"
+                                class="absolute z-50 top-10 overflow-hidden p-1 left-0 w-full bg-white border text-gray-700 hover:text-gray-600 rounded"
                             >
                                 {#each words as word}
                                     <AutoComplete {word} />

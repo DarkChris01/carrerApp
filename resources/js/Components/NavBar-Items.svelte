@@ -140,7 +140,7 @@
                 on:focus={resetAllModal}
                 bind:value={searchValue}
                 on:keyup={autoComplete}
-                class="border-none w-full placeholder:text-xs text-gray-500/80 placeholder:text-gray-600/30 focus:ring-0"
+                class="border-none w-full placeholder:text-sm text-gray-500/80 placeholder:text-gray-600/30 focus:ring-0"
             />
             {#if !loading && $autoCompletionModalComponent && domains.length > 0}
                 <div
@@ -180,7 +180,7 @@
             {#if !isLoading}
                 <select
                     on:change={(e) => select_by_enterprise(e.target.value)}
-                    class="rounded m-2 py-1 text-sm text-gray-600 w-1/2 scrollable ring-1 ring-gray-200 hover:ring-orange-500 border-0"
+                    class="rounded m-2 py-1 text-sm text-gray-600  scrollable ring-1 ring-gray-200 hover:ring-orange-500 border-0"
                 >
                     <option value="">Choisissez une entreprise</option>
                     {#each enterprises as enterprise}
@@ -196,7 +196,7 @@
                 </select>
                 <select
                     on:change={(e) => select_by_country(e.target.value)}
-                    class=" rounded m-2 w-1/2 py-1 text-sm text-gray-600 ring-gray-200 scrollable ring-1 hover:ring-orange-500 border-0"
+                    class=" rounded m-2 py-1 text-sm text-gray-600 ring-gray-200 scrollable ring-1 hover:ring-orange-500 border-0"
                 >
                     <option value="">Choisissez un pays</option>
                     {#each countries as country}
@@ -207,7 +207,7 @@
                                 : false}
                             value={country.name.common}
                         >
-                            {country.name.common}</option
+                            {country.name.common.substr(0,12)}</option
                         >
                     {/each}
                 </select>

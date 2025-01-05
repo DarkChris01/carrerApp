@@ -4,8 +4,8 @@
     const a = new Date();
 </script>
 
-<div class="mt-6 text-sm md:text-sm">
-    <div class="my-1 md:flex items-center justify-between">
+<div class="mt-6 text-base">
+    <div class="my-1 md:flex border-b items-center justify-between">
         <div class="font-semibold text-gray-700/80 capitalize md:flex w-max">
             {experience.poste} ({new Date(experience.start).getFullYear()} - {experience.end
                 ? new Date(experience.end).getFullYear()
@@ -17,7 +17,7 @@
         </div>
     </div>
     <div class="my-1">
-        <div class="text-sm text-gray-600">
+        <div class="text-gray-600">
             {experience.mission}
         </div>
     </div>

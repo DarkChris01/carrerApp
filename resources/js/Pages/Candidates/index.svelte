@@ -9,7 +9,7 @@
     export let jobs;
     let search;
 
-    $: if ($page.props) {
+    $:if ($page.props) {
         jobs_store.set(jobs);
         candidaciesFilterComponent.set(false);
     }

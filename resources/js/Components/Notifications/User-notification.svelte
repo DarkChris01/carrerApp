@@ -11,10 +11,10 @@
     import InvitationNotification from "@components/Notifications/Type/InvitationNotification.svelte";
     import DeleteEntretienNotification from "@components/Notifications/Type/DeleteEntretienNotification.svelte";
     import UpdateEntretienNotification from "@components/Notifications/Type/UpdateEntretienNotification.svelte";
+    import NotififyWhereUserSelectedForJob from "@components/Notifications/Type/NotififyWhereUserSelectedForJob.svelte";
     import axios from "axios";
     import { inertia, router } from "@inertiajs/svelte";
     export let notification;
-
 
     const markAsRead = async () => {
         if (!notification.read) {
@@ -36,11 +36,8 @@
     };
 </script>
 
-<!-- svelte-ignore a11y-no-noninteractive-element-interactions -->
-<!-- svelte-ignore a11y-click-events-have-key-events -->
-<!-- svelte-ignore missing-declaration -->
-<main
-    class="my-2 text-sm cursor-pointer hover:bg-gray-50 rounded p-1"
+<button
+    class="my-2 text-sm cursor-pointer hover:bg-gray-50 rounded p-1 text-gray-600 hover:text-gray-800"
     class:unread={!notification.read_at}
     on:click={markAsRead}
 >
@@ -58,12 +55,14 @@
         <UpdateEntretienNotification {notification} />
     {:else if notification.type === "App\\Notifications\\DeleteEntretienNotification"}
         <DeleteEntretienNotification {notification} />
+    {:else if notification.type === "App\\Notifications\\NotififyWhereUserSelectedForJob"}
+        <NotififyWhereUserSelectedForJob {notification} />
     {/if}
-</main>
+</button>
 
 <style>
     .unread {
         background-color: rgb(245, 245, 245);
-        border: 1px solid rgb(230, 230, 230);
+        border: 1px solid rgb(206, 206, 206);
     }
 </style>

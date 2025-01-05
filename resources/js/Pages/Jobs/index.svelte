@@ -33,7 +33,7 @@
 
 <main>
     <div class="flex justify-center w-full relative">
-        <div>
+        <div class="w-full me-1 lg:w-4/5">
             <div
                 class="md:p-4 my-4 bg-white border shadow border-gray-400/80 rounded"
             >
@@ -79,7 +79,7 @@
                                 href="/employer/creer-une-offre"
                             >
                                 <button
-                                    class="btn btn-xs btn-neutral text-white flex items-center border-0 hover:ring-1 rounded p-1"
+                                    class="btn btn-sm btn-neutral text-white flex items-center border-0 hover:ring-1 rounded p-1"
                                     disabled={!has_Enterprise}
                                 >
                                     Créer une offre

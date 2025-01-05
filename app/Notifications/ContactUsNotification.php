@@ -2,23 +2,26 @@
 
 namespace App\Notifications;
 
-use App\Models\Job;
+use App\Models\User;
+use Illuminate\Http\Request;
 use Illuminate\Bus\Queueable;
+use Illuminate\Notifications\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
-use Illuminate\Notifications\Notification;
 
-class NewJobCreatedNotification extends Notification
+class ContactUsNotification extends Notification
 {
     use Queueable;
-    public $sender;
-    public $job;
+    private $content;
+    private $sender;
+    private $subject;
     /**
      * Create a new notification instance.
      */
-    public function __construct(Job $job, $sender)
+    public function __construct(string $subject, string $content, User $sender)
     {
-        $this->job = $job;
+        $this->content = $content;
+        $this->subject = $subject;
         $this->sender = $sender;
     }
 
@@ -29,7 +32,7 @@ class NewJobCreatedNotification extends Notification
      */
     public function via(object $notifiable): array
     {
-        return ['database','mail'];
+        return ['mail', 'database'];
     }
 
     /**
@@ -38,10 +41,8 @@ class NewJobCreatedNotification extends Notification
     public function toMail(object $notifiable): MailMessage
     {
         return (new MailMessage)
-            ->subject("Nouvelle offre d'emploi")
-            ->greeting("Bonjour Mr {$notifiable->firstName},")
-            ->line("{$this->job->enterprise->name} recherche un {$this->job->poste}.")
-            ->line("Date limite de depot des candidatures {$this->job->expired}.");
+            ->subject("{$this->subject}")
+            ->line("{$this->content}");
     }
 
     /**
@@ -52,9 +53,9 @@ class NewJobCreatedNotification extends Notification
     public function toArray(object $notifiable): array
     {
         return [
-            "sender" => $this->sender->enterprise->only(["name", "logo"]),
-            "job" => $this->job->only(["poste", "country", "id"]),
-            "content" => "a publié une nouvelle offre d'emploi",
+            "sender" => $this->sender,
+            "content" => $this->content,
+            "subject" => $this->subject,
         ];
     }
 }

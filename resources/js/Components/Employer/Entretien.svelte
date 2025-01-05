@@ -15,8 +15,8 @@
 
     if (entretien.status === "pending") {
         status = "En attente";
-    } else if (entretien.status === "accepted") {
-        status = "OK";
+    } else if (entretien.status === "process") {
+        status = "en examen";
     } else {
         status = "rejeté";
     }
@@ -25,6 +25,9 @@
     let showEntretien = false;
     let timeout;
     let hideTimeout;
+    let form = useForm({
+        entretien: entretien.id,
+    });
 
     async function handleDelete() {
         const request = await axios.delete(`/mes-entretiens/${entretien.id}`);
@@ -54,9 +57,19 @@
             tooltip = false;
         }, 700);
     }
+
+    const retenu = () => {
+        $form.post("candidatures/candidate-selected", {
+            onSuccess: () => {
+                toast.success(
+                    "Felicitation pour votre nouveau collaborateur !",
+                );
+            },
+        });
+    };
 </script>
 
-<tr class="rounded text-gray-600/80 hover:text-gray-700 font-semibold">
+<tr class="rounded text-gray-600 hover:text-gray-700">
     <td>{i + 1}</td>
     <td>
         <a
@@ -121,7 +134,7 @@
                     on:mouseenter={showTooltip}
                     on:mouseleave={hideTooltip}
                     on:click={() => (showEntretien = true)}
-                    class="relative btn btn-xs btn-primary flex items-center text-white rounded"
+                    class="relative btn btn-xs btn-primary flex items-center text-white rounded mx-1"
                 >
                     modifier
                     {#if tooltip}
@@ -129,18 +142,26 @@
                         <Tooltip
                             x="right-[100%]"
                             y="-bottom-6"
-                            size="text-sm"
+                            size="text-xs"
                             message="Modifier la date ou l'heure"
                         />
                     {/if}
                 </button>
             {/if}
+            {#if entretien.status === "process"}
+                <button
+                    disabled={$form.isProcess}
+                    on:click={retenu}
+                    class="relative btn btn-xs btn-success flex items-center text-white rounded mx-1"
+                    >recruter</button
+                >
+            {/if}
 
             <button
                 type="button"
-                class="btn btn-xs btn-error rounded text-white flex items-center ms-3"
+                class="btn btn-xs btn-error rounded mx-1 text-white flex items-center"
                 on:click={handleDelete}
-                >annuler
+                >rejeter
             </button>
         </div>
     </td>

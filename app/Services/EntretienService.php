@@ -38,7 +38,7 @@ class EntretienService
     public function accepted(Entretien $entretien)
     {
         $entretien->update([
-            "status" => "accepted"
+            "status" => "process"
         ]);
     }
 
@@ -53,7 +53,7 @@ class EntretienService
     {
         $response = [];
         $candidacies = $user->cv?->candidacies()
-            ->where("status", "OK")
+            ->where("status", "process")
             ->get();
 
         if ($candidacies) {
@@ -63,8 +63,6 @@ class EntretienService
                 }])->first();
             }
         }
-
-
         return $response;
     }
 }

@@ -12,7 +12,7 @@
     class:unreadDiv={!notification.read_at}
 >
     <span
-        class="w-4 h-4 rounded-full absolute -top-2 -left-2"
+        class="w-3 h-3 rounded-full absolute -top-2 -left-2"
         class:unread={!notification.read_at}
     ></span>
 

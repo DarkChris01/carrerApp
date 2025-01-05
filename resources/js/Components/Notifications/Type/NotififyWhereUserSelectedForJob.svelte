@@ -1,23 +1,26 @@
 <script>
     import { router } from "@inertiajs/svelte";
-    import { relativeTimeFormatter,format_date_anglo_to_french } from "@dependencies/utilities";
+    import { relativeTimeFormatter } from "@dependencies/utilities";
     export let notification;
+    const redirectTo = () => {
+        router.visit(`/enterprise/${notification.data.enterprise.id}`);
+    };
 </script>
 
 <div class="font-light">
     <div class="flex justify-start rounded">
         <div class="me-2 flex w-fit justify-center rounded">
             <img
-                src={notification.data.sender.logo ??
+                src={notification.data.enterprise.logo ??
                     "/storage/avatars/default/man.png"}
                 class="size-14 m-1 rounded bg-primary"
                 alt="avatar"
             />
         </div>
         <div class="flex-1 text-start">
-            <button>
-                <div class="text-gray-700 font-semibold text-start">
-                    {notification.data.sender.name}
+            <button on:click={redirectTo}>
+                <div class="font-semibold text-start text-sm">
+                    {notification.data.enterprise.name}
                 </div>
                 <p class="text-start">
                     {notification.data.content}

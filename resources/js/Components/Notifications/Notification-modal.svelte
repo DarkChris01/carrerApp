@@ -17,12 +17,8 @@
             notifications_store.set(response.data);
             isLoading = false;
         }
-
-        document.body.style.overflow = "hidden";
     });
-    onDestroy(() => {
-        document.body.style.overflow = "";
-    });
+  
     const unreadNotification = $notifications_store
         ? $notifications_store.filter((notification) => {
               return notification.read_at === null;

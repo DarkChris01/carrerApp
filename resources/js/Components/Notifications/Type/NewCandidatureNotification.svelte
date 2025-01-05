@@ -58,7 +58,7 @@
         <!-- svelte-ignore a11y-no-static-element-interactions -->
         <div on:click={redirecTo}>
             <p
-                class="flex justify-end w-fit text-sm px-1 bg-red-600 rounded text-white ms-2"
+                class="flex justify-end w-fit text-xs px-1 bg-red-600 rounded text-white ms-2"
             >
                 {relativeTimeFormatter("FR-fr", notification.created_at)}
             </p>

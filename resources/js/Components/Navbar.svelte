@@ -87,7 +87,7 @@
 </script>
 
 <div
-    class="flex justify-between items-center relative text-xs p-1 bg-transparent"
+    class="flex justify-between items-center relative 2xl:text-sm text-xs p-1 bg-transparent"
 >
     <div class="hidden md:flex items-center">
         <Logo />
@@ -95,13 +95,13 @@
 
     <div class="flex justify-between items-center w-full">
         <div
-            class="flex items-center justify-start lg:justify-end w-full h-full text-xs flex-nowrap"
+            class="flex items-center justify-start lg:justify-end w-full h-full 2xl:text-sm text-xs flex-nowrap"
         >
             {#if $page.props.auth.user && !$page.props.auth.isEmployer}
                 <div class="relative">
                     <button
                         on:click|self={toggleEntretien}
-                        class="text-nowrap btn hidden btn-xs text-xs mx-2 lg:flex items-center hover:bg-gray-300 rounded"
+                        class="text-nowrap btn hidden btn-xs 2xl:text-sm text-xs mx-2 lg:flex items-center hover:bg-gray-300 rounded"
                     >
                         Entretiens
                         <span class="text-red-600 bg-white  w-5 h-5 flex justify-center items-center p-1 rounded-full"
@@ -120,7 +120,7 @@
                 <div class="relative">
                     <button
                         on:click|self={toggleCandidature}
-                        class="text-nowrap btn btn-xs hidden lg:flex text-xs mx-2 items-center hover:bg-gray-300 rounded"
+                        class="text-nowrap btn btn-xs hidden lg:flex 2xl:text-sm text-xs mx-2 items-center hover:bg-gray-300 rounded"
                     >
                         candidatures
                         <span class="text-red-600 bg-white p-1 w-5 h-5 flex justify-center items-center rounded-full"
@@ -191,7 +191,7 @@
             {/if}
         </div>
         <div class="relative ms-8">
-            <div class="flex items-end text-xs font-semibold">
+            <div class="flex items-end 2xl:text-sm text-xs font-semibold">
                 <button on:click={toggleMenu}>
                     <img
                         alt="avatar"

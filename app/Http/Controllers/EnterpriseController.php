@@ -2,14 +2,21 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Sector;
 use App\Models\Enterprise;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Notification;
 use App\Http\Requests\CreateEnterpriseRequest;
-use App\Models\Sector;
+use App\Notifications\ContactUsNotification;
+use App\Services\NotificationService;
 
 class EnterpriseController extends Controller
 {
+    public function __construct(private NotificationService $notificationService)
+    {
+        
+    }
     public function create(Request $request)
     {
         $enterprise = Enterprise::where("employer_id", $request->user("employer")->id)
@@ -95,11 +102,23 @@ class EnterpriseController extends Controller
     public function show_enterprise(Enterprise $enterprise)
     {
         return inertia("User/Visit_enterprise", [
-            "enterprise" => $enterprise->with(["employer", "sector", "employer" => function ($query) {
+            "enterprise" => $enterprise->with(["sector", "employer" => function ($query) {
                 return $query->with(["jobs" => function ($query) {
-                    return $query->with(["enterprise","competence"]);
+                    return $query->where("expired_at", ">", now())
+                        ->with(["enterprise", "competence"]);
                 }]);
             }])->first()
         ]);
+    }
+
+    public function contactUs(Request $request)
+    {
+        $request->validate([
+            "message" => ["required", "string"],
+            "enterprise" => ["required", "string", "exists:enterprises,id"],
+            "subject" => ["required", "string"]
+        ]);
+
+     $this->notificationService->contactUsNotification(Enterprise::find($request->enterprise),$request->subject,$request->message,$request->user());
     }
 }

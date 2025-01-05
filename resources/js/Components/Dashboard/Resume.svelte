@@ -2,6 +2,7 @@
     import { onMount } from "svelte";
     import { Line, Bar } from "svelte-chartjs";
     import { counter } from "@dependencies/utilities";
+    import { compareDate } from "@dependencies/utilities";
     import {
         datas,
         get_dashboard_data,
@@ -37,42 +38,79 @@
     let total_open_jobs = 0;
     let candidatures = 0;
     let total_jobs = 0;
-    let isLoading = true;
+    let isLoadingDiagramme = true;
+    let isLoadingOpen_jobs = true;
     let diagramme;
+    let period = new Date().getFullYear();
 
     onMount(async () => {
-        diagramme = await open_jobs_graph_datas();
-        data = await datas();
-        if (data) {
-            isLoading = false;
-        }
-        const dashboard__datas = await get_dashboard_data();
+        diagramme = await open_jobs_graph_datas(period);
+        data = await datas(period);
+
+        const dashboard__datas = await get_dashboard_data(period);
 
         if (dashboard__datas.status === 200) {
             jobs = dashboard__datas.data.jobs;
             candidates = dashboard__datas.data.candidatures;
             open_jobs = jobs.filter((res) => {
-                return new Date(res.expired_at).getTime() >= new Date().getTime();
+                return compareDate(res.expired_at)>0;
             });
-
-            counter(jobs.length, (value) => {
-                total_jobs = value;
-            });
-            counter(candidates.length, (value) => {
-                candidatures = value;
-            });
-            counter(open_jobs.length, (value) => {
-                total_open_jobs = value;
-            });
+            render_counter_value(candidates, jobs, open_jobs);
+            isLoadingDiagramme = false;
+            isLoadingOpen_jobs = false;
         }
     });
+
+    const updateDashboard = async (year) => {
+        isLoadingDiagramme = true;
+        data = await datas(year);
+        diagramme = await open_jobs_graph_datas(period);
+
+        const refreshed_diagram_data = await get_dashboard_data(year);
+        if (refreshed_diagram_data.status === 200) {
+            jobs = refreshed_diagram_data.data.jobs;
+            candidates = refreshed_diagram_data.data.candidatures;
+            open_jobs = jobs.filter((res) => {
+                return compareDate(res.expired_at) > 0;
+            });
+
+            render_counter_value(candidates, jobs, open_jobs);
+            isLoadingDiagramme = false;
+        }
+    };
+
+    function render_counter_value(candidates, jobs, open_jobs) {
+      
+
+        counter(jobs.length, (value) => {
+            total_jobs = value;
+        });
+        counter(candidates.length, (value) => {
+            candidatures = value;
+        });
+        counter(open_jobs.length, (value) => {
+            total_open_jobs = value;
+        });
+    }
 </script>
 
 <main class="lg:flex justify-between">
     <div
-        class="w-full mx-0.5 min-h-52 bg-white rounded border border-gray-400/50 p-4"
+        class="w-full mx-0.5 min-h-52 bg-white rounded border border-gray-400/50 p-2"
     >
-        {#if !isLoading}
+        <div>
+            <select
+                class="rounded text-xs py-1"
+                on:change={(e) => updateDashboard(e.target.value)}
+            >
+                <option value="2021">2021</option>
+                <option value="2022">2022</option>
+                <option value="2023">2023</option>
+                <option value="2024">2024</option>
+                <option selected value="2025">2025</option>
+            </select>
+        </div>
+        {#if !isLoadingDiagramme}
             <Line {data} options={{ responsive: true }} />
         {:else}
             <div
@@ -86,7 +124,7 @@
     <div
         class="mx-0.5 min-h-52 w-full bg-white rounded border border-gray-400/50 p-4"
     >
-        {#if !isLoading}
+        {#if !isLoadingOpen_jobs}
             <Bar data={diagramme} options={{ responsive: true }} />
         {:else}
             <div
@@ -101,7 +139,7 @@
     class=" text-sm grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-x-1"
 >
     <div
-        class="bg-white border border-gray-400/80  text-gray-800 flex rounded justify-center items-center my-0.5 w-full cursor-pointer p-8"
+        class="bg-white border border-gray-400/80 text-gray-800 flex rounded justify-center items-center my-0.5 w-full cursor-pointer p-8"
     >
         <div>
             <div class="font-bold text-gray-800 text-2xl text-center">
@@ -132,7 +170,7 @@
     </div>
 
     <div
-        class="bg-white border border-gray-400/80  text-gray-800 flex rounded justify-center items-center my-0.5 w-full cursor-pointer p-8"
+        class="bg-white border border-gray-400/80 text-gray-800 flex rounded justify-center items-center my-0.5 w-full cursor-pointer p-8"
     >
         <div>
             <div class="font-bold text-2xl text-center text-blue-600">
@@ -155,7 +193,7 @@
                 </svg>
 
                 <p class="text-gray-600/50 text-center">
-                    Nombre de candidatatures
+                    Nombre de candidatures
                 </p>
                 <p />
             </div>
@@ -163,7 +201,7 @@
     </div>
 
     <div
-        class="bg-white border border-gray-400/80  text-gray-800 flex rounded justify-center items-center my-0.5 w-full cursor-pointer p-8"
+        class="bg-white border border-gray-400/80 text-gray-800 flex rounded justify-center items-center my-0.5 w-full cursor-pointer p-8"
     >
         <div>
             <div class="font-bold text-red-600 text-2xl text-center">

@@ -13,6 +13,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Events\NewEntretienCreatedEvent;
 use App\Notifications\ApprouvedNotification;
+use App\Notifications\ContactUsNotification;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\Notification;
 use App\Notifications\NewEntretienNotification;
@@ -21,6 +22,7 @@ use App\Notifications\NewCandidatureNotification;
 use App\Notifications\DeleteEntretienNotification;
 use App\Notifications\UpdateEntretienNotification;
 use App\Notifications\EmployerInvitationNotification;
+use App\Notifications\NotififyWhereUserSelectedForJob;
 
 
 class NotificationService
@@ -62,5 +64,17 @@ class NotificationService
     public function NotifyUserWithInvitation(Enterprise $enterprise, $content, User $user)
     {
         Notification::send($user, new EmployerInvitationNotification($enterprise, $content));
+    }
+
+    public function NotififyWhereUserSelectedForJob(Candidacy $candidacy)
+    {
+
+        Notification::send($candidacy->cv->user, new NotififyWhereUserSelectedForJob($candidacy->job->employer->enterprise, $candidacy)); //prend en parametre entretien et la candidature
+    }
+
+    public function contactUsNotification($enterprise, $subject, $content, User $user)
+    {
+
+        Notification::send(Enterprise::find($enterprise), new ContactUsNotification($subject, $content, $user));
     }
 }

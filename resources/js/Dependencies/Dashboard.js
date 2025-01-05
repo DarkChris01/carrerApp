@@ -4,16 +4,16 @@ const month = ['Janvier', 'Fevrier', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet', 
 
 
 
-export let get_dashboard_data = async () => {
-    const request = await axios.get("/employer/get-dashboard-datas");
+export let get_dashboard_data = async (year=2025) => {
+    const request = await axios.get(`/employer/get-dashboard-datas/${year}`);
     return await request;
 }
 
 
-export async function datas() {
+export async function datas(year) {
     let jobs = [];
     let candidatures = [];
-    const request = await axios.get("/employer/get-dashboard-datas");
+    const request = await axios.get(`/employer/get-dashboard-datas/${year}`);
     if (request.status === 200) {
         const response = await request.data;
 
@@ -83,13 +83,13 @@ export async function datas() {
 
 
 
-export async function open_jobs_graph_datas() {
+export async function open_jobs_graph_datas(year) {
     let job_postes = [];
     let candidats = [];
-    const request = await axios.get("/employer/get-open-jobs-datas");
+    const request = await axios.get(`/employer/get-open-jobs-datas/${year}`);
     if (request.status === 200) {
         const response = await request.data
-        
+
         for (const job of response) {
             job_postes = [...job_postes, job.poste]
             candidats = [...candidats, job.candidacies.length];
@@ -100,6 +100,7 @@ export async function open_jobs_graph_datas() {
             datasets: [
                 {
                     label: 'Candidatures par poste',
+                    indexAxis:"y",
                     data: candidats,
                     backgroundColor: [
                         'rgba(255, 134,159,0.4)',
@@ -109,7 +110,7 @@ export async function open_jobs_graph_datas() {
                         'rgba(170, 128, 252,0.4)',
                         'rgba(255, 177, 101,0.4)',
                     ],
-                    borderWidth: 1.3,
+                    borderWidth: 1,
                     borderColor: [
                         'rgba(255, 134, 159, 1)',
                         'rgba(98,  182, 239, 1)',

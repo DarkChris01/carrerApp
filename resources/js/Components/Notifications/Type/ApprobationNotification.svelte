@@ -16,7 +16,7 @@
                 alt="avatar"
             />
         </div>
-        <div class="text-gray-600">
+        <div>
             {#if notification.type === "App\\Notifications\\NewJobCreatedNotification"}
                 <button>
                     <div
