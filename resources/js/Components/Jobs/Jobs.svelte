@@ -17,7 +17,7 @@
     };
 </script>
 
-<tr>
+<tr class="text-base font-semibold text-gray-700 hover:bg-gray-50">
     <td>
         <div class="p-1">
             {i + 1}
@@ -59,12 +59,12 @@
     </td>
 
     <td>
-        <div class="relative text-sm inline-block text-left text-gray-600">
+        <div class="relative inline-block text-left text-gray-600">
             <div>
                 <button
                     on:click={toggleModal}
                     type="button"
-                    class="inline-flex w-full items-center justify-center gap-x-1.5 rounded-md bg-white p-1 text-xs font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50"
+                    class="inline-flex w-full items-center justify-center gap-x-1.5 rounded-md bg-white p-1 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50"
                     id="menu-button"
                     aria-expanded="true"
                     aria-haspopup="true"

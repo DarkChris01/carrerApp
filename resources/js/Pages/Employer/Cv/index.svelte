@@ -99,14 +99,14 @@
                         </div>
                         <Filter />
                         <table
-                            class="w-full font-light text-sm min-h-48 px-2 mt-16 rounded text-gray-600"
+                            class="w-full font-light text-sm min-h-32 px-2 mt-4 rounded text-gray-600"
                         >
                         <tr class="text-sm lg:text-sm ">
                             <th>#</th>
                             <th>Name</th>
                             <th>Email</th>
                             <th>Domaine</th>
-                            <th>Action</th>
+                            <th></th>
                         </tr>
                             {#each datas.data as cv, i}
                                 <Cvs {cv} {i} />

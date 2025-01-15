@@ -5,16 +5,16 @@
 </script>
 
 <div class=" font-light">
-    <div class="flex justify-start rounded">
-        <div class="me-2 flex w-fit justify-center rounded">
+    <div class="flex w-fit justify-center items-start rounded-full">
+        <div class="me-2 flex w-fit justify-center items-center">
             <img
                 src={notification.data.sender.logo ??
                     "/storage/avatars/default/man.png"}
-                class="size-14 m-1 rounded bg-primary"
+                class="size-14 m-1 rounded"
                 alt="avatar"
             />
         </div>
-        <div class="viistflex-1 text-start ">
+        <div class="flex-1 text-start ">
             <button>
                 <div class="text-gray-700 font-semibold text-start">
                     {notification.data.sender.name}

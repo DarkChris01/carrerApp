@@ -1,11 +1,14 @@
 <script>
     import Job from "@components/jobs/Job.svelte";
     import PaginationNavBar from "@utils/Pagination-Navbar.svelte";
-
+    import Partners from "@components/Enterprise/Partners.svelte";
+    export let enterprises;
     export let jobs;
+    
 </script>
 
-<div class="p-2">
+<Partners {enterprises} />
+<div class="p-2 mt-6">
     {#if jobs.data.length > 0}
         {#each jobs.data as job}
             <Job {job} />
@@ -21,5 +24,3 @@
         </div>
     {/if}
 </div>
- 
-

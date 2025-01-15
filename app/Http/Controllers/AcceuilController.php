@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Enterprise;
 use App\Models\Job;
 use Illuminate\Http\Request;
 
@@ -61,6 +62,6 @@ class AcceuilController extends Controller
             ->paginate()
             ->appends(["domain" => $request->domain]);
 
-        return inertia('Acceuil', ["jobs" => $jobs]);
+        return inertia('Acceuil', ["jobs" => $jobs, "enterprises" => Enterprise::all()]);
     }
 }

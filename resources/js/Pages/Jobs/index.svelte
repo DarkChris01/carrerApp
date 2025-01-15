@@ -151,7 +151,7 @@
 
                 {#if data.data.length > 0}
                     <table
-                        class="w-full font-light min-h-24 text-sm px-2 rounded mt-16"
+                        class="w-full font-light min-h-24 text-sm px-2 rounded mt-8"
                     >
                         <tr class="font-semibold text-gray-700">
                             <td>#</td>

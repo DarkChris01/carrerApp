@@ -5,7 +5,7 @@
     export let i;
 </script>
 
-<tr>
+<tr class="text-base font-semibold text-gray-700 hover:bg-gray-50">
     <td>
         {#if i + 1}
             {i + 1}
@@ -31,18 +31,19 @@
     </td>
     <td>
         <a
-            class="flex justify-center h-full items-center"
+            class="flex justify-center items-center"
             use:inertia
             href="employer/curicculum-vitae/{cv.id}"
         >
-            <button class="hover:scale-110">
+            <button class="flex items-center  btn btn-success h-fit text-white btn-bas p-1 rounded  hover:scale-105">
+                Inspecter
                 <svg
                     xmlns="http://www.w3.org/2000/svg"
                     fill="none"
                     viewBox="0 0 24 24"
                     stroke-width="1.5"
                     stroke="currentColor"
-                    class="size-5 fill-gray-600 stroke-white"
+                    class="size-5 stroke-white ms-1"
                 >
                     <path
                         stroke-linecap="round"

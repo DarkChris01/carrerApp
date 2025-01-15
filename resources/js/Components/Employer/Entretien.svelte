@@ -76,7 +76,7 @@
     };
 </script>
 
-<tr class="rounded text-gray-600">
+<tr class="text-base font-semibold text-gray-700 hover:bg-gray-50">
     <td>{i + 1}</td>
     <td>
         <a

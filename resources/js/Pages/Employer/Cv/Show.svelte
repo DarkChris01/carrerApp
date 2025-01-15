@@ -24,12 +24,38 @@
         <div
             class="md:mb-2 text-gray-700 w-full font-light cursor-pointer mx-auto"
         >
-            <div class="font-light flex items-center justify-end">
-                <div class="p-2">
-                    <div>
+            <div class="font-light flex items-center justify-between">
+                <div class="flex justify-start font-extrabold text-xs">
+                    {#if cv.cv}
+                        <div class="p-2">
+                            <a
+                                href="/download/{cv.id}"
+                                class=" flex items-center-b p-1 rounded hover:text-gray-800 hover:bg-gray-50"
+                            >
+                                <span class="hidden lg:block me-1">
+                                    Telecharger Cv
+                                </span>
+                                <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    fill="none"
+                                    viewBox="0 0 24 24"
+                                    stroke-width="1.5"
+                                    stroke="currentColor"
+                                    class="size-4"
+                                >
+                                    <path
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                        d="M9 3.75H6.912a2.25 2.25 0 0 0-2.15 1.588L2.35 13.177a2.25 2.25 0 0 0-.1.661V18a2.25 2.25 0 0 0 2.25 2.25h15A2.25 2.25 0 0 0 21.75 18v-4.162c0-.224-.034-.447-.1-.661L19.24 5.338a2.25 2.25 0 0 0-2.15-1.588H15M2.25 13.5h3.86a2.25 2.25 0 0 1 2.012 1.244l.256.512a2.25 2.25 0 0 0 2.013 1.244h3.218a2.25 2.25 0 0 0 2.013-1.244l.256-.512a2.25 2.25 0 0 1 2.013-1.244h3.859M12 3v8.25m0 0-3-3m3 3 3-3"
+                                    />
+                                </svg>
+                            </a>
+                        </div>
+                    {/if}
+                    <div class="p-2">
                         <button
                             on:click={toogleNotification}
-                            class="lg:border items-center hover:ring-1 flex p-1 rounded border-gray-300/20 hover:shadow hover:text-gray-600 hover:bg-gray-50"
+                            class=" items-center flex p-1 rounded hover:text-gray-800 hover:bg-gray-50"
                         >
                             <span class="hidden lg:block me-1">
                                 Laissez un message</span
@@ -52,43 +78,13 @@
                         </button>
                     </div>
                 </div>
-                {#if cv.cv}
-                    <div class="p-2">
-                        <div>
-                            <a
-                                href="/download/{cv.id}"
-                                class="lg:border flex items-center hover:ring-1 p-1 rounded border-gray-300/20 hover:shadow hover:text-gray-600 hover:bg-gray-50"
-                            >
-                                <span class="hidden lg:block me-1">
-                                    Telecharger Cv
-                                </span>
-                                <svg
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    fill="none"
-                                    viewBox="0 0 24 24"
-                                    stroke-width="1.5"
-                                    stroke="currentColor"
-                                    class="size-4"
-                                >
-                                    <path
-                                        stroke-linecap="round"
-                                        stroke-linejoin="round"
-                                        d="M9 3.75H6.912a2.25 2.25 0 0 0-2.15 1.588L2.35 13.177a2.25 2.25 0 0 0-.1.661V18a2.25 2.25 0 0 0 2.25 2.25h15A2.25 2.25 0 0 0 21.75 18v-4.162c0-.224-.034-.447-.1-.661L19.24 5.338a2.25 2.25 0 0 0-2.15-1.588H15M2.25 13.5h3.86a2.25 2.25 0 0 1 2.012 1.244l.256.512a2.25 2.25 0 0 0 2.013 1.244h3.218a2.25 2.25 0 0 0 2.013-1.244l.256-.512a2.25 2.25 0 0 1 2.013-1.244h3.859M12 3v8.25m0 0-3-3m3 3 3-3"
-                                    />
-                                </svg>
-                            </a>
-                        </div>
-                    </div>
-                {/if}
 
                 <div class="p-2">
-                    <div>
-                        <button
-                            class="text-sm px-1 bg-red-600 hover:ring-1 ring-red-600 text-white rounded p-0.5 hover:bg-red-500 hover:shadow"
-                        >
-                            Signaler
-                        </button>
-                    </div>
+                    <button
+                        class="text-sm px-1 bg-red-600 hover:ring-1 ring-red-600 text-white rounded p-0.5 hover:bg-red-500 hover:shadow"
+                    >
+                        Signaler
+                    </button>
                 </div>
             </div>
 
@@ -183,7 +179,9 @@
                                 {#if cv.formation}
                                     {#each JSON.parse(cv.formation.formations) as formation}
                                         {#if formation.school}
-                                            <div class="my-4 text-base text-gray-600">
+                                            <div
+                                                class="my-4 text-base text-gray-600"
+                                            >
                                                 <div
                                                     class="my-1 flex justify-between"
                                                 >

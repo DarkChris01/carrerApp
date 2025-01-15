@@ -60,7 +60,7 @@
             </div>
         {/if}
         {#if $entretiens_store.length > 0}
-            <table class="w-full text-sm min-h-24 cursor-pointer p-2">
+            <table class="w-full text-sm min-h-24 mt-8 cursor-pointer p-2">
                 <tr>
                     <th>#</th>
                     <th>candidat</th>

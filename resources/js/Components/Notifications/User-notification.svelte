@@ -37,7 +37,7 @@
 </script>
 
 <button
-    class="my-2 text-sm w-full cursor-pointer hover:bg-gray-50 rounded p-1 text-gray-600 hover:text-gray-800"
+    class="mt-1 text-sm w-full cursor-pointer hover:bg-gray-50 rounded p-1 text-gray-600 hover:text-gray-800"
     class:unread={!notification.read_at}
     on:click={markAsRead}
 >
@@ -62,7 +62,7 @@
 
 <style>
     .unread {
-        background-color: rgb(245, 245, 245);
-        border: 1px solid rgb(206, 206, 206);
+        background-color: rgba(245, 245, 245, 0.171);
+        border: 0.5px solid rgba(240, 240, 240, 0.397);
     }
 </style>

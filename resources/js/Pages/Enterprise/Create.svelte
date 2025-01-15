@@ -11,7 +11,7 @@
     let domains = [];
     let countries;
     let isLoading = true;
-    let ToggleModal = true;
+    let ToggleModal = false;
     let form = useForm({
         name: enterprise ? enterprise.name : null,
         company_name: enterprise ? enterprise.company_name : null,

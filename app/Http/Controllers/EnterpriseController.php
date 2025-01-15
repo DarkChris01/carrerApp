@@ -14,6 +14,7 @@ use App\Services\NotificationService;
 class EnterpriseController extends Controller
 {
     public function __construct(private NotificationService $notificationService) {}
+
     public function create(Request $request)
     {
         $enterprise = Enterprise::where("employer_id", $request->user("employer")->id)->first();
@@ -79,12 +80,12 @@ class EnterpriseController extends Controller
 
     public function retrieve_all_enterprise()
     {
-        return Enterprise::get(["id", "name"]);
+        return response()->json(Enterprise::get(["id", "name"]));
     }
 
     public function show_enterprise(Enterprise $enterprise)
     {
-        return inertia("User/Visit_enterprise", [
+        return inertia("Visit/Presentation-entreprise", [
             "enterprise" => $enterprise->with(["employer" => function ($query) {
                 return $query->with(["jobs" => function ($query) {
                     return $query->where("expired_at", ">", now())

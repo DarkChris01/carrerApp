@@ -32,7 +32,7 @@
 </script>
 
 <tr
-    class="text-standard font-semibold text-sm text-gray-700 hover:bg-gray-50"
+    class="text-base font-semibold text-gray-700 hover:bg-gray-50"
     id={candidacy.cv_id}
 >
     <td>
