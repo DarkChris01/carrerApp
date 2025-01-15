@@ -19,26 +19,23 @@ use App\Services\EntretienService;
 use Carbon\Carbon;
 use Exception;
 
-class EntretienController extends Controller
+class InterviewController extends Controller
 {
     public  function __construct(private NotificationService $notificationService, private EntretienService $entretienService) {}
 
-    public function userInterviews(Request $request)
-    {
-        return $this->entretienService->get_entretiens_for_user($request->user());
-    }
+
 
     public function index(Request $request)
     {
-        $entretiens = Entretien::whereIn("job_id", $request->user('employer')
-            ->jobs()
-            ->get("id"))
+        $jobs = $request->user('employer')->jobs()->get("id");
+
+        $entretiens = Entretien::whereIn("job_id", $jobs)
             ->with(["candidacy" => function ($query) {
                 return $query->with(["cv" => function ($query) {
                     $query->with("user");
                 }]);
             }, "job"])
-            ->whereDate("date",">=",Carbon::now()->day())
+            ->whereDate("date", ">=", Carbon::now()->day())
             ->when($request->entretien, function ($query) use ($request) {
                 return   $query->where("id", $request->entretien);
             })
@@ -71,8 +68,7 @@ class EntretienController extends Controller
             }])
                 ->orderby("date")
                 ->first();
-
-            return $newEntretien;
+            return to_route("entretiens.index");
         } catch (\Throwable $th) {
             return back()->with("error", "Une erreur est survenue !");
         }
@@ -98,12 +94,9 @@ class EntretienController extends Controller
     public function delete(Entretien $entretien)
     {
         try {
-            if ($this->entretienService->destroy($entretien)) {
-                Notification::send($entretien->candidacy->cv->user, new DeleteEntretienNotification($entretien));
-                $entretien->candidacy->update(["status" => "rejected"]);
-            } else {
-                return new Exception("error occured");
-            }
+            $this->entretienService->destroy($entretien);
+            $entretien->candidacy->update(["status" => "rejected"]);
+            Notification::send($entretien->candidacy->cv->user, new DeleteEntretienNotification($entretien));
         } catch (\Throwable $th) {
             throw $th;
         }
@@ -111,7 +104,7 @@ class EntretienController extends Controller
 
     public function deleteAll(Request $request)
     {
-        $this->entretienService->destroyAll($request->user());
+        $this->entretienService->destroyAll($request->user("employer"));
     }
 
     public function accepted(Entretien $entretien)
@@ -122,5 +115,10 @@ class EntretienController extends Controller
     public function rejected(Entretien $entretien)
     {
         $this->entretienService->rejected($entretien);
+    }
+
+    public function userInterviews(Request $request)
+    {
+        return $this->entretienService->get_entretiens_for_user($request->user());
     }
 }

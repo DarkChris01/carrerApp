@@ -1,7 +1,11 @@
 <?php
 
+use App\Models\Domain;
+use App\Models\Metier;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Api\CandidacyController;
+use App\Http\Controllers\Api\InterviewController;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,6 +18,11 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
+Route::get('/db-competences', function () {
+    return response()->json(Metier::all());
 });
+
+Route::get('/db-domains', function () {
+    return response()->json(Domain::all());
+});
+

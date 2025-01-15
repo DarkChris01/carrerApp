@@ -1,21 +1,22 @@
 <script>
     import { useForm } from "@inertiajs/svelte";
     import { onMount, onDestroy } from "svelte";
-    import Spinner from "@utils/Spinner.svelte"
+    import Spinner from "@utils/Spinner.svelte";
+    import { load_domains } from "@dependencies/load.js";
     import axios from "axios";
     import toast from "svelte-french-toast";
+    import CheckBox from "@utils/CheckBox.svelte";
+    import Label from "@utils/Label.svelte";
     export let enterprise;
-
+    let domains = [];
     let countries;
     let isLoading = true;
+    let ToggleModal = true;
     let form = useForm({
         name: enterprise ? enterprise.name : null,
         company_name: enterprise ? enterprise.company_name : null,
         phone: enterprise ? enterprise.phone : null,
-        sector1: enterprise ? enterprise.sector.sector1 : null,
-        sector2: enterprise ? enterprise.sector.sector2 : null,
-        sector3: enterprise ? enterprise.sector.sector3 : null,
-        sector4: enterprise ? enterprise.sector.sector4 : null,
+        sectors: enterprise ? JSON.parse(enterprise.sectors) : [],
         type: enterprise ? enterprise.type : null,
         country: enterprise ? enterprise.country : null,
         region: enterprise ? enterprise.region : null,
@@ -37,29 +38,48 @@
     };
 
     onMount(async () => {
+        const domains_response = await load_domains();
+        if (domains_response.status === 200) {
+            domains = domains_response.data;
+        }
         const response = await axios.get(
             "https://restcountries.com/v3.1/all?fields=name",
             { timeout: 10000 },
         );
         if (response.status === 200) {
-            countries = await response.data;
+            const datas = await response.data;
+            countries = datas.sort((datas, b) => {
+                return datas.name.common.localeCompare(b.name.common);
+            });
             isLoading = false;
         }
     });
+
+    const updateEnterpriseDomains = (event) => {
+        if (event.target.checked) {
+            $form.sectors = [...$form.sectors, event.target.value];
+        } else {
+            $form.sectors = $form.sectors.filter(
+                (domain) => domain !== event.target.value,
+            );
+        }
+    };
 </script>
 
-<main class="bg-white p-4 w-full md:w-1/2 xl:w-3/5 shadow rounded my-8 mx-auto">
+<main
+    class="bg-white p-4 w-full md:w-3/4 2xl:w-2/3 shadow rounded my-8 mx-auto z-0"
+>
     {#if !isLoading}
-    <div class="flex justify-center my-12 text-sm">
-        <div class="w-fit">
-            <h1 class="text-center text-2xl">
-                Entrer les données d'entreprise
-            </h1>
-            <p class="text-center font-thin text-sm">
-                Vous ne pourrez créer qu'une seule entreprise
-            </p>
+        <div class="flex justify-center my-12 text-sm">
+            <div class="w-fit">
+                <h1 class="text-center text-2xl">
+                    Entrer les données d'entreprise
+                </h1>
+                <p class="text-center font-thin text-sm">
+                    Vous ne pourrez créer qu'une seule entreprise
+                </p>
+            </div>
         </div>
-    </div>
         <div>
             <form
                 class="p-6 mx-auto font-thin"
@@ -97,46 +117,64 @@
                         >Raison sociale</label
                     >
                 </div>
-                <div
-                    class="relative z-0 w-full mb-8 group grid grid-cols-2 gap-2 p-1 rounded"
-                >
-                    <input
-                        bind:value={$form.sector1}
-                        type="text"
-                        id="floating_sector"
-                        class="block py-2.5 px-0 w-full text-gray-800 bg-transparent border-0 border-b-2 border-gray-400/80 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-                        placeholder=" "
-                        required
-                    />
-                    <input
-                        bind:value={$form.sector2}
-                        type="text"
-                        id="floating_sector"
-                        class="block py-2.5 px-0 w-full text-gray-800 bg-transparent border-0 border-b-2 border-gray-400/80 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-                        placeholder=" "
-                        required
-                    />
-                    <input
-                        bind:value={$form.sector3}
-                        type="text"
-                        id="floating_sector"
-                        class="block py-2.5 px-0 w-full text-gray-800 bg-transparent border-0 border-b-2 border-gray-400/80 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-                        placeholder=" "
-                        required
-                    />
-                    <input
-                        bind:value={$form.sector4}
-                        type="text"
-                        id="floating_sector"
-                        class="block py-2.5 px-0 w-full text-gray-800 bg-transparent border-0 border-b-2 border-gray-400/80 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-                        placeholder=" "
-                        required
-                    />
-                    <label
-                        for="floating_sector"
-                        class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
-                        >Secteur d'activité (exemple: comptabilite)</label
-                    >
+                <div class="relative w-full text-sm 2xl:text-base mb-8 group">
+                    <button
+                        type="button"
+                        class="btn-base flex items-center text-white bg-blue-700 p-1 rounded px-2"
+                        on:click={() => (ToggleModal = !ToggleModal)}
+                        >Choisissez vos secteurs d'activités
+                        <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke-width="1.5"
+                            stroke="currentColor"
+                            class="size-4 ms-2"
+                        >
+                            <path
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                d="m19.5 8.25-7.5 7.5-7.5-7.5"
+                            />
+                        </svg>
+                    </button>
+
+                    {#if ToggleModal}
+                        <div
+                            class="absolute overflow-y-auto h-[20rem] 2xl:h-[32rem] scrollable top-100 left-0 mt-1 z-10 bg-white shadow-md border p-3 rounded"
+                        >
+                            <div>
+                                {#each domains as domain}
+                                    <div>
+                                        <CheckBox
+                                            checked={$form.sectors.find(
+                                                (element) =>
+                                                    element === domain.id,
+                                            )}
+                                            value={domain.id}
+                                            on:change={(e) =>
+                                                updateEnterpriseDomains(e)}
+                                        />
+                                        <Label
+                                            reason="sectors"
+                                            style="ms-1 text-gray-800"
+                                            >{domain.intitules}</Label
+                                        >
+                                    </div>
+                                {/each}
+                            </div>
+                        </div>
+                    {/if}
+                    <div class="flex items-center flex-wrap">
+                        {#each $form.sectors as sector}
+                            <div
+                                class="p-1 bg-gray-800 text-sm mx-1 mt-2 rounded px-2 text-white"
+                            >
+                                {domains.find((domain) => domain.id === sector)
+                                    .intitules}
+                            </div>
+                        {/each}
+                    </div>
                 </div>
                 <div class="relative z-0 w-full mb-8 group">
                     <select
@@ -198,6 +236,11 @@
                                 >{country.name.common}</option
                             >
                         {/each}
+                        <label
+                            for="floating_type"
+                            class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
+                            >Pays</label
+                        >
                     </select>
                 </div>
                 <div class="relative z-0 w-full mb-8 group">
@@ -361,6 +404,7 @@
                 <div>
                     <div class="my-6 flex justify-end">
                         <button
+                            disabled={$form.isProcessing}
                             type="submit"
                             class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded w-full sm:w-auto p-1 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
                             >Enregistrer</button
@@ -371,7 +415,7 @@
         </div>
     {:else}
         <div class="h-screen flex justify-center items-center text-gray-600">
-           <Spinner/>
+            <Spinner />
         </div>
     {/if}
 </main>

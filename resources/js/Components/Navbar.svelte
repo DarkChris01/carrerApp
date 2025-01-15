@@ -101,7 +101,7 @@
                 <div class="relative">
                     <button
                         on:click|self={toggleEntretien}
-                        class="text-nowrap btn hidden btn-xs 2xl:text-sm text-xs mx-2 lg:flex items-center hover:bg-gray-300 rounded"
+                        class="text-nowrap btn hidden btn-sm 2xl:text-sm text-xs mx-2 lg:flex items-center hover:bg-gray-300 rounded"
                     >
                         Entretiens
                         <span class="text-red-600 bg-white  w-5 h-5 flex justify-center items-center p-1 rounded-full"
@@ -120,7 +120,7 @@
                 <div class="relative">
                     <button
                         on:click|self={toggleCandidature}
-                        class="text-nowrap btn btn-xs hidden lg:flex 2xl:text-sm text-xs mx-2 items-center hover:bg-gray-300 rounded"
+                        class="text-nowrap btn btn-sm hidden lg:flex 2xl:text-sm text-xs mx-2 items-center hover:bg-gray-300 rounded"
                     >
                         candidatures
                         <span class="text-red-600 bg-white p-1 w-5 h-5 flex justify-center items-center rounded-full"

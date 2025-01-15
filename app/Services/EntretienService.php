@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Models\Employer;
 use App\Models\Job;
 use App\Models\User;
 use App\Models\Entretien;
@@ -27,11 +28,10 @@ class EntretienService
         $entretien->delete();
     }
 
-    public function destroyAll(User $user)
+    public function destroyAll(Employer $employer)
     {
-        Entretien::whereIn("", $user->jobs()->get("id"))
-            ->where("status", "!==", "accepted")
-            ->delete();
+        // dd($employer->jobs->select("id"));
+        Entretien::whereIn("job_id", $employer->jobs->select("id"))->delete();
     }
 
 
@@ -44,9 +44,12 @@ class EntretienService
 
     public function rejected(Entretien $entretien)
     {
+        dd($entretien->candidacy);
         $entretien->update([
             "status" => "rejected"
         ]);
+
+        $entretien->candidacy->update(['status' => 'rejected']);
     }
 
     public function get_entretiens_for_user(User $user)
@@ -58,11 +61,14 @@ class EntretienService
 
         if ($candidacies) {
             foreach ($candidacies as $candidacy) {
-                $response[] = $candidacy->entretien->with(["job" => function ($query) {
-                    return $query->with("enterprise");
-                }])->first();
+                if ($candidacy->entretien) {
+                    $response[] = $candidacy->entretien()->with(["job" => function ($query) {
+                        return $query->with("enterprise");
+                        dump($response);
+                    }])->first();
+                }
             }
         }
-        return $response;
+        return response()->json($response);
     }
 }

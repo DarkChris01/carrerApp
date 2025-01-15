@@ -1,18 +1,31 @@
 <script>
     import { inertia } from "@inertiajs/svelte";
     import DeleteEnterpriseForm from "@forms/Enterprise/Delete-enterprise-form.svelte";
+    import Spinner from "@utils/Spinner.svelte";
+    import { onMount } from "svelte";
+    import { load_domains } from "@dependencies/load";
     export let enterprise;
     let show_create_form_enterprise = false;
     let delete_enterprise_form = false;
+    let domains = [];
+    let isLoading = true;
     const show_enterprise_form = () => {
         show_create_form_enterprise = !show_create_form_enterprise;
     };
+
+    onMount(async () => {
+        const response = await load_domains();
+        if (response.status === 200) {
+            domains = response.data;
+            isLoading = false;
+        }
+    });
 </script>
 
 <main class="lg:my-4">
     <div>
         <div
-            class=" p-4 md:px-8 w-full lg:w-2/3 2xl:w-1/2 mx-auto bg-white cursor-pointer"
+            class=" p-4 md:px-8 w-full lg:w-3/4 2xl:w-2/3 mx-auto bg-white cursor-pointer"
         >
             <div class="text-gray-300">
                 <h1 class="md:text-xl text-center md:text-start">Entreprise</h1>
@@ -111,28 +124,23 @@
                     class="p-2 text-sm rounded my-2 duration-300 text-gray-700 hover:text-black ease-in-out transition"
                 >
                     <div class="me-4 border-b font-thin my-1">Secteur</div>
-                    <div class="flex flex-wrap justify-start">
-                        <span
-                            class="me-2 border p-0.5 px-2 rounded bg-blue-600 text-white capitalize"
-                        >
-                            {enterprise.sector.sector1}
-                        </span>
-                        <span
-                            class="me-2 border p-0.5 px-2 rounded bg-blue-600 text-white capitalize"
-                        >
-                            {enterprise.sector.sector2}
-                        </span>
-                        <span
-                            class="me-2 border p-0.5 px-2 rounded bg-blue-600 text-white capitalize"
-                        >
-                            {enterprise.sector.sector3}
-                        </span>
-                        <span
-                            class="me-2 border p-0.5 px-2 rounded bg-blue-600 text-white capitalize"
-                        >
-                            {enterprise.sector.sector4}
-                        </span>
-                    </div>
+
+                    {#if !isLoading}
+                        <div class="flex flex-wrap justify-start">
+                            {#each JSON.parse(enterprise.sectors) as sector}
+                                <!-- content here -->
+                                <span
+                                    class="me-2 border p-0.5 px-2 rounded bg-gray-800 text-white capitalize"
+                                >
+                                    {domains.find(
+                                        (domain) => domain.id === sector,
+                                    ).intitules}
+                                </span>
+                            {/each}
+                        </div>
+                    {:else}
+                    <div class="flex justify-end"><Spinner w="w-6" h="h-6"/></div>
+                    {/if}
                 </div>
                 <div
                     class="p-2 text-sm rounded my-2 duration-300 text-gray-700 hover:text-black ease-in-out transition"

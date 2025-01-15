@@ -166,6 +166,6 @@ class CandidacyController extends Controller
         Entretien::find($entretien->id)->update(["status" => "OK"]);
         Candidacy::find($entretien->candidacy->id)->update(["status" => "recruited"]);
 
-        $this->notificationService->notififyWhereUserSelectedForJob($entretien->candidacy);
+        $this->notificationService->NotifyWhereUserSelectedForJob($entretien->candidacy);
     }
 }

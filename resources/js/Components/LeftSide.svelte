@@ -45,7 +45,7 @@
             </p>
         </div>
     </div>
-    <ul class="font-light text-gray-300 py-2 px-1 rounded text-sm">
+    <ul class="font-light text-gray-300 py-2 px-1 mt-10 rounded text-sm">
         <li
             class="p-2 my-1 font-light text-gray-300 hover:bg-gray-700 rounded hover:text-white"
         >

@@ -2,12 +2,14 @@
 
 namespace App\Services;
 
-use App\Models\Candidacy;
 use App\Models\Cv;
 use Carbon\Carbon;
 use App\Models\Job;
 use App\Models\User;
+use App\Models\Domain;
+use App\Models\Metier;
 use App\Models\Employer;
+use App\Models\Candidacy;
 use App\Models\Enterprise;
 use Illuminate\Http\Request;
 use App\Services\StringAnalyser;
@@ -20,7 +22,6 @@ class CandidacyService
     public  function get(Employer $employer)
     {
         $jobs = $employer->jobs ?? [];
-
 
         if ($jobs) {
             foreach ($jobs as $job) {
@@ -45,6 +46,17 @@ class CandidacyService
                                 $query->with("competence");
                             }]);
                     }])
+                    ->when(
+                        $this->request->has("poste"),
+                        function ($query) {
+                            $query->where(function ($query) {
+                                foreach ($this->request->poste as $value) {
+                                    $query->orwhere('poste', $value);
+                                };
+                            });
+                        }
+                    )
+                    ->where("employer_id", $employer->id)
                     ->get();
             }
         }

@@ -15,8 +15,8 @@ class DashboardController extends Controller
             ->join("employers", "employers.id", "jobs.employer_id")
             ->join("cvs", "cvs.id", "candidacies.cv_id")
             ->where("employers.id", $request->user("employer")->id)
-            ->select("candidacies.id as candidature_id", "candidacies.*", "cvs.firstName", "cvs.profession", "cvs.picture", "jobs.poste")
             ->where("candidacies.status", "pending")
+            // ->select("candidacies.id as candidature_id", "candidacies.*", "cvs.firstName", "cvs.profession", "cvs.picture", "jobs.poste")
             ->get();
 
         return inertia("Employer/Dashboard", [

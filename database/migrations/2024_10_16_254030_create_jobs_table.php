@@ -15,7 +15,7 @@ return new class extends Migration
             $table->uuid("id")->primary();
             $table->foreignUuid('enterprise_id')->constrained()->onDelete("cascade")->onUpdate("cascade");
             $table->foreignUuid('employer_id')->constrained()->onDelete("cascade")->onUpdate("cascade");
-            $table->foreignUuid('domain_id')->constrained();
+            $table->foreignId('domain_id')->constrained()->onDelete("cascade")->onUpdate("cascade");
             $table->text('poste');
             $table->text('type');
             $table->integer('salary');

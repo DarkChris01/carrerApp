@@ -68,7 +68,7 @@
 </script>
 
 <main>
-    <div class="flex items-center">
+    <div class="flex items-center font-medium">
         <button
             on:click={()=>redirectTo("?toutesmescandidatures")}
             class="btn btn-xs btn-primary rounded me-1 text-white"

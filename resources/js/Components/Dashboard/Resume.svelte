@@ -41,9 +41,10 @@
     let isLoadingDiagramme = true;
     let isLoadingOpen_jobs = true;
     let diagramme;
-    let period = new Date().getFullYear();
+    let period;
 
     onMount(async () => {
+        period = currentYear();
         diagramme = await open_jobs_graph_datas(period);
         data = await datas(period);
 
@@ -53,14 +54,16 @@
             jobs = dashboard__datas.data.jobs;
             candidates = dashboard__datas.data.candidatures;
             open_jobs = jobs.filter((res) => {
-                return compareDate(res.expired_at)>0;
+                return compareDate(res.expired_at) > 0;
             });
             render_counter_value(candidates, jobs, open_jobs);
             isLoadingDiagramme = false;
             isLoadingOpen_jobs = false;
         }
     });
-
+    const currentYear = () => {
+        return new Date().getFullYear();
+    };
     const updateDashboard = async (year) => {
         isLoadingDiagramme = true;
         data = await datas(year);
@@ -80,8 +83,6 @@
     };
 
     function render_counter_value(candidates, jobs, open_jobs) {
-      
-
         counter(jobs.length, (value) => {
             total_jobs = value;
         });
@@ -103,11 +104,11 @@
                 class="rounded text-xs py-1"
                 on:change={(e) => updateDashboard(e.target.value)}
             >
-                <option value="2021">2021</option>
-                <option value="2022">2022</option>
-                <option value="2023">2023</option>
-                <option value="2024">2024</option>
-                <option selected value="2025">2025</option>
+                <option value={period - 4}>{period - 4}</option>
+                <option value={period - 3}>{period - 3}</option>
+                <option value={period - 2}>{period - 2}</option>
+                <option value={period - 1}>{period - 1}</option>
+                <option selected value={period}>{period}</option>
             </select>
         </div>
         {#if !isLoadingDiagramme}

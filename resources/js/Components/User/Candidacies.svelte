@@ -61,7 +61,7 @@
             {#each $candidacies_store as candidacy}
                 <div class="p-1 my-4 border rounded">
                     <div class="flex text-start items-start">
-                        <div class="bg-blue-600 w-fit me-2 p-2 rounded">
+                        <div class="w-fit me-2 p-1 rounded">
                             <img
                                 src={candidacy.job.enterprise.logo}
                                 class="w-14 h-14"
@@ -69,7 +69,7 @@
                             />
                         </div>
                         <div>
-                            <div class="font-bold">
+                            <div class="font-bold text-gray-500">
                                 {candidacy.job.enterprise.name}
                             </div>
 
@@ -79,7 +79,7 @@
                         </div>
                     </div>
                     <div class="flex mt-1 capitalize justify-between items-end">
-                        <div class="font-bold text-sm block">
+                        <div class="font-medium text-sm block">
                             {candidacy.status === "pending"
                                 ? "En attente"
                                 : candidacy.status === "rejected"
@@ -90,7 +90,7 @@
                         </div>
                         <div class="flex capitalize">
                             <button
-                                class="me-2 btn text-white btn-success btn-xs xl:btn-xs rounded"
+                                class="me-2 btn text-white btn-success btn-xs rounded"
                             >
                                 <a
                                     use:inertia
@@ -103,7 +103,7 @@
                             {#if candidacy.status == "pending"}
                                 <button
                                     type="button"
-                                    class="me-2 btn text-white btn-error btn-xs xl:btn-xs rounded"
+                                    class="me-2 btn text-white btn-error btn-xs rounded"
                                 >
                                     <a
                                         use:inertia={{ method: "delete" }}
@@ -121,7 +121,7 @@
                                     <button
                                         disabled={isProgress}
                                         type="sumbit"
-                                        class="me-2 btn text-white btn-info btn-xs xl:btn-xs rounded"
+                                        class="me-2 btn text-white btn-info btn-xs rounded"
                                     >
                                         archiver
                                     </button>

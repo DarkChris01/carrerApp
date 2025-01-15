@@ -70,14 +70,14 @@
                     <Cv {cv} />
                 </div>
             {:else}
-                <div class="h-96 flex justify-center items-center text-xl">
+                <div class="h-96 flex justify-center items-center text-base">
                     <div>Commencer à créer votre Curriculum vitae</div>
                     <div>
                         <button
-                            class="text-xl ms-2 p-0.5 bg-orange-600 hover:bg-transparent border border-orange-500 hover:text-orange-600 transition duration-300 ease-out w-full text-white rounded"
+                            class="text-base ms-2 px-3 bg-blue-600 hover:bg-transparent border border-blue-500 hover:text-blue-600 transition duration-300 ease-out w-full text-white rounded"
                         >
                             <a use:inertia href="/cv/personal-informations">
-                                Créer un Cv!
+                                Créer un Cv
                             </a>
                         </button>
                     </div>

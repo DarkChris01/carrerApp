@@ -10,15 +10,15 @@
     let loading = true;
 </script>
 
-<div class="md:mb-2 text-gray-700 w-full cursor-pointer">
-        <div class="md:flex w-full">
+<div class="md:mb-2 text-gray-700 w-full cursor-pointer font-medium">
+    <div class="md:flex w-full">
         <div
             class="text-[15px] md:w-1/3 md:mx-1 xl:text-sm transition duration-300 ease-in-out md:rounded bg-white border p-2 md:p-2"
         >
             <div>
                 <div class="flex justify-center rounded p-2">
                     <img
-                        class="w-32 h-32 rounded-full"
+                        class="w-24 h-24 rounded-full"
                         src={cv.picture
                             ? cv.picture
                             : "/storage/avatars/default/man.png"}
@@ -36,6 +36,36 @@
                     >
                         {cv?.profession}
                     </div>
+                </div>
+            </div>
+            <div class="text-center pb-4">
+                <div class="mt-4">
+                    <p>
+                        <span class="font-medium">Email:</span>{cv.email}
+                    </p>
+                    <p>
+                        <span class="font-medium">Téléphone:</span>
+                        {cv.phone}
+                    </p>
+                    {#if cv.monportfolio}
+                        <p>
+                            <span class="font-medium">Portfolio:</span>
+                            <a
+                                href={cv.monportfolio}
+                                class="text-blue-500 underline"
+                                >{cv.monportfolio}</a
+                            >
+                        </p>
+                    {/if}
+                    {#if cv.github}
+                        <p>
+                            <span class="font-medium">GitHub:</span>
+                            <a
+                                href={cv.email}
+                                class="text-blue-500 underline">{cv.email}</a
+                            >
+                        </p>
+                    {/if}
                 </div>
             </div>
             <div class="flex w-full px-2 justify-end">
@@ -66,7 +96,7 @@
                 >
                     Competences
                 </div>
-                <div class="">
+                <div class="mt-6">
                     {#if cv.competence && cv}
                         <Competence competence={cv.competence} />
                     {:else}

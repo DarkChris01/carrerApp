@@ -1,31 +1,22 @@
 <script>
-    import { Link } from "@inertiajs/svelte";
+    import countries from "@dependencies/helpers/countries.json";
     import { PrevisualiseUploadedFile } from "@dependencies/utilities";
-    import { page } from "@dependencies/Stores/Store";
+    // import { page } from "@dependencies/Stores/Store";
     import { inertia, useForm } from "@inertiajs/svelte";
     import { onMount } from "svelte";
-      import Spinner from "@utils/Spinner.svelte"
+    import Spinner from "@utils/Spinner.svelte";
     import axios from "axios";
     import toast from "svelte-french-toast";
-    import { load_country, get_user_cv_information } from "@dependencies/load";
+    import { get_user_cv_information } from "@dependencies/load";
     let datas;
-    let countries = [];
     let loading = true;
     let formular;
 
     onMount(async () => {
-        const response = await load_country();
         const response_ = await get_user_cv_information();
-
-        if (response.status === 200) {
-            if (response.status === 200) {
-                const result = await response.data;
-                countries = result.sort((a, b) => {
-                    return a.name.common.localeCompare(b.name.common);
-                });
-                datas = await response_.data;
-                loading = false;
-            }
+        if ((response_.status = 200)) {
+            datas = await response_.data;
+            loading = false;
         }
     });
 
@@ -45,7 +36,7 @@
     const HandlerSubmit = () => {
         $form.post("/cv/information", {
             onSuccess: () => {
-                toast.success("ETAPE 1 VALIDE !");
+                toast.success("Etape Suivant !");
             },
             onError: (error) => {
                 toast.error(error);
@@ -66,9 +57,7 @@
         </p>
     </div>
     {#if !loading}
-        <div
-            class="w-full justify-center items-center text-sm lg:text-sm p-4"
-        >
+        <div class="w-full justify-center items-center text-sm lg:text-sm p-4">
             <form
                 on:submit|preventDefault={HandlerSubmit}
                 class="w-full"
@@ -191,13 +180,12 @@
                             bind:value={$form.country}
                             class="scrollable border-0 w-full min-w-40 p-2 text-gray-700 ring-1 focus:ring-orange-600 text-sm lg:text-sm placeholder:text-gray-400 placeholder:text-sm rounded"
                         >
-                            {#each countries as country}
+                            {#each countries.world as country}
                                 <option
-                                    value={country.name.common}
-                                    selected={country.name.common ===
-                                        $form.country}
+                                    value={country}
+                                    selected={country === $form.country}
                                 >
-                                    {country.name.common}</option
+                                    {country}</option
                                 >
                             {/each}
                         </select>
@@ -220,7 +208,9 @@
                     <div class="mt-8">
                         <label
                             class="block mt-2 text-gray-700 dark:text-white"
-                            for="large_size">cette image apparaitra sur le cvet sera visible pour les recruteurs</label
+                            for="large_size"
+                            >cette image apparaitra sur le cvet sera visible
+                            pour les recruteurs</label
                         >
                         <input
                             on:input={(e) => {
@@ -257,13 +247,13 @@
                             href="/cv"
                             as="button"
                             class="bg-red-600 rounded p-1 hover:bg-red-500 text-white me-2"
-                            >annuler
+                            >Retourner vers mon cv
                         </a>
 
                         <button
                             type="submit"
-                            class="btn btn-primary rounded p-1 btn-xs text-white"
-                            >suivant</button
+                            class="btn btn-primary rounded p-1 btn-sm text-white"
+                            >Suivant</button
                         >
                     </div>
                 </div>
@@ -273,7 +263,7 @@
         <div
             class="flex justify-center items-center h-96 w-full text-gray-700 text-xl font-semibold"
         >
-           <Spinner/>
+            <Spinner />
         </div>
     {/if}
 </div>

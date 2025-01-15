@@ -11,9 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('domains', function (Blueprint $table) {
+        Schema::create('metiers', function (Blueprint $table) {
             $table->id();
-            $table->string("intitules");
+            $table->foreignId("domain_id")->constrained()->onDelete("cascade")->onUpdate("cascade");
+            $table->text("name");
         });
     }
 
@@ -22,6 +23,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('competences');
+        Schema::dropIfExists('metiers');
     }
 };

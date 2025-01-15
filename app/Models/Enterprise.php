@@ -24,17 +24,13 @@ class Enterprise extends Model
         "type",
         "postal",
         "logo",
-        "address"
+        "address",
+        "sectors"
     ];
 
 
 
     use HasFactory, SoftDeletes, HasUuids, Notifiable;
-
-    public function sector()
-    {
-        return $this->hasOne(Sector::class);
-    }
 
     public function employer()
     {

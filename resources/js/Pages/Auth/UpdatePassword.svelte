@@ -93,7 +93,7 @@
                 <button
                     type="submit"
                     disabled={$form.processing || !$form.isDirty}
-                    class="btn rounded btn-xs btn-warning"
+                    class="btn rounded btn-sm btn-warning"
                 >
                    Modifier
                 </button>

@@ -1,8 +1,7 @@
 <script>
     import CandidateProfile from "@modals/Candidat-profile-modal.svelte";
-    import { router,inertia } from "@inertiajs/svelte";
+    import { router, inertia } from "@inertiajs/svelte";
     export let candidat;
-    export let i;
     let show = false;
     let isLoading = false;
     const showCandidateProfile = () => {
@@ -30,29 +29,31 @@
 </script>
 
 <tr>
-    <td>{i + 1}</td>
-    <td class=" flex justify-start items-center"
-        ><img
-            src={candidat.picture}
-            class="w-8 h-8 rounded-full me-2"
-            alt="pictue"
-        />
-        {candidat.firstName}
+    <td></td>
+    <td>
+        <div class="flex justify-start items-center">
+            <img
+                src={candidat.picture}
+                class="w-8 h-8 rounded-full me-2"
+                alt="picture_"
+            />
+            {candidat.firstName}
+        </div>
     </td>
     <td>{candidat.profession} </td>
     <td>{candidat.poste}</td>
 
     <td>
         <div class="flex justify-start">
-            <a use:inertia
-            href="/employer/curicculum-vitae/{candidat.cv_id}">
+            <a use:inertia href="/employer/curicculum-vitae/{candidat.cv_id}" class="flex items-center bg-green-600 text-white rounded p-1 px-3">
+                Inspecter
                 <svg
                     xmlns="http://www.w3.org/2000/svg"
                     fill="none"
                     viewBox="0 0 24 24"
                     stroke-width="1.5"
                     stroke="currentColor"
-                    class="size-5 stroke-1 fill-gray-600 stroke-white"
+                    class="size-4 stroke-1 stroke-white ms-1"
                 >
                     <path
                         stroke-linecap="round"
@@ -69,10 +70,3 @@
         </div>
     </td>
 </tr>
-
-{#if show}
-    <CandidateProfile
-        candidat_id={candidat.candidature_id}
-        on:click={() => (show = false)}
-    />
-{/if}

@@ -1,10 +1,11 @@
 <script>
     import { onMount } from "svelte";
     import { router, page, inertia } from "@inertiajs/svelte";
-    import { load_country, get_all_enterprises } from "@dependencies/load";
+    import { get_all_enterprises } from "@dependencies/load";
     import AutoComplete from "@utils/AutoComplete.svelte";
     import { autocomplete } from "@dependencies/utilities";
     import Tooltip from "@utils/Tooltip.svelte";
+    import countries from "@dependencies/helpers/countries.json";
     import {
         leftSideBarComponent,
         entretienModalComponent,
@@ -14,7 +15,6 @@
     } from "@dependencies/Stores/Modal";
     import LeftSideBar from "./Left-side-bar.svelte";
     import LoadingSpinner from "@/Utils/Loading-spinner.svelte";
-    let countries = [];
     let enterprises = [];
     let isLoading = true;
     let country_params;
@@ -37,20 +37,14 @@
     }
 
     onMount(async () => {
-        const response = await load_country();
         const _response = await get_all_enterprises();
-        if (response.status === 200) {
-            const result = await response.data;
-            countries = result.sort((a, b) => {
-                return a.name.common.localeCompare(b.name.common);
-            });
-            isLoading = false;
-        }
+
         if (_response.status === 200) {
             const __result = await _response.data;
             enterprises = __result.sort((a, b) => {
                 return a.name.localeCompare(b.name);
             });
+            isLoading = false;
         }
     });
     const select_by_country = (target) => {
@@ -180,7 +174,7 @@
             {#if !isLoading}
                 <select
                     on:change={(e) => select_by_enterprise(e.target.value)}
-                    class="rounded m-2 py-1 text-sm text-gray-600  scrollable ring-1 ring-gray-200 hover:ring-orange-500 border-0"
+                    class="rounded m-2 py-1 text-sm text-gray-600 scrollable ring-1 ring-gray-200 hover:ring-orange-500 border-0"
                 >
                     <option value="">Choisissez une entreprise</option>
                     {#each enterprises as enterprise}
@@ -199,15 +193,14 @@
                     class=" rounded m-2 py-1 text-sm text-gray-600 ring-gray-200 scrollable ring-1 hover:ring-orange-500 border-0"
                 >
                     <option value="">Choisissez un pays</option>
-                    {#each countries as country}
+                    {#each countries.world as country}
                         <option
                             selected={country_params
-                                ? country_params ==
-                                  country.name.common.toLowerCase()
+                                ? country_params == country.toLowerCase()
                                 : false}
-                            value={country.name.common}
+                            value={country}
                         >
-                            {country.name.common.substr(0,12)}</option
+                            {country}</option
                         >
                     {/each}
                 </select>

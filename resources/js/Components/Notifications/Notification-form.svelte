@@ -72,7 +72,7 @@
                 <button
                     disabled={isLoading}
                     type="submit"
-                    class=" btn btn-success btn-xs p-0.5 px-2 rounded text-white"
+                    class=" btn btn-success btn-sm p-0.5 px-2 rounded text-white"
                     >ENVOYER</button
                 >
             </div>

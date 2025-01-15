@@ -21,6 +21,7 @@ return new class extends Migration
             $table->string('country');
             $table->string('region');
             $table->string("type");
+            $table->json("sectors");
             $table->string("email")->unique();
             $table->string("facebook")->unique()->nullable();
             $table->string("linkedin")->unique()->nullable();

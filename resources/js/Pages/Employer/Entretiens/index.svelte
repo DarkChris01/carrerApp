@@ -41,7 +41,7 @@
             <div class="flex justify-end mb-2">
                 <button
                     on:click={delete_all}
-                    class="p-1 ms-3 flex btn btn-xs btn-error items-centert text-white rounded"
+                    class="p-1 ms-3 flex btn btn-sm btn-error items-centert text-white rounded"
                     >Tout supprimer <svg
                         xmlns="http://www.w3.org/2000/svg"
                         fill="none"
@@ -68,7 +68,7 @@
                     <th>date</th>
                     <th>heure</th>
                     <th>status</th>
-                    <th>actions</th>
+                    <th></th>
                 </tr>
                 {#each $entretiens_store as entretien, i}
                     {#if entretien.status !== "OK"}

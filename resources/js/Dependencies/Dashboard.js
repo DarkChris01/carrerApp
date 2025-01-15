@@ -57,9 +57,9 @@ export async function datas(year) {
             },
             {
                 label: 'Candidatures',
-                fill: true,
+                stroke: false,
                 borderWidth: 1.3,
-                lineTension: 0.2,
+                lineTension: 0.5,
                 backgroundColor: 'rgba(184, 185, 210, .3)',
                 borderColor: 'rgb(35, 26, 136)',
                 borderCapStyle: 'butt',
@@ -99,7 +99,7 @@ export async function open_jobs_graph_datas(year) {
             labels: job_postes,
             datasets: [
                 {
-                    label: 'Candidatures par poste',
+                    label: 'Impact des 5 dernieres offres',
                     indexAxis:"y",
                     data: candidats,
                     backgroundColor: [

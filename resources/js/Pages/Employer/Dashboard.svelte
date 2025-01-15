@@ -2,14 +2,8 @@
     import { page, inertia } from "@inertiajs/svelte";
     import Spinner from "@utils/Spinner.svelte";
     import Resume from "@components/Dashboard/Resume.svelte";
-    import CandidatesTab from "@/Components/Candidates/Candidates-tab.svelte";
-    import Jobs from "@components/Jobs/Jobs.svelte";
-    import Cvs from "@components/Cv/Cvs.svelte";
-    import axios from "axios";
+    import CandidatesTab from "@components/Candidates/Candidates-tab.svelte";
     export let candidates;
-
-    let candidats = [];
-    let isLoading = true;
 </script>
 
 <div>
@@ -45,23 +39,24 @@
                                     </svg>
                                     Candidatures recentes
                                 </h1>
-                                <div class="p-1 rounded">
+                                <div class="p-1 mt-10 rounded">
                                     <ul>
                                         <table
-                                            class="w-full text-base text-gray-600"
+                                            class="w-full text-sm min-h-24 text-gray-600"
                                         >
                                             <tr
                                                 class="font-semibold text-gray-700"
                                             >
                                                 <td></td>
                                                 <td>candidat</td>
+
                                                 <td>specialité</td>
                                                 <td>poste convoité</td>
-                                                <td>action</td>
+                                                <td></td>
                                             </tr>
 
-                                            {#each candidates as candidat, i}
-                                                <CandidatesTab {candidat} {i} />
+                                            {#each candidates as candidat}
+                                                <CandidatesTab {candidat} />
                                             {/each}
                                         </table>
                                     </ul>

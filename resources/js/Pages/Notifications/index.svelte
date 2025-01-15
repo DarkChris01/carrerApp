@@ -44,11 +44,11 @@
                 Notifications
             </h1>
         </div>
-        <div class="flex justify-end text-sm">
+        <div class="flex border-b justify-end text-sm">
             {#if $notifications_store.some((notification) => notification.read_at === null)}
                 <button
                     on:click={mark_all_as_read}
-                    class="p-1 bg-orange-600 text-white text-sm rounded hover:bg-orange-500 shadow hover:shadow-gray-200/80 shadow-400/80"
+                    class="p-1 hover:bg-gray-100 text-gray-600 rounded"
                     >Tout marquer comme lu</button
                 >
             {/if}
@@ -56,7 +56,7 @@
             {#if $notifications_store.length > 0}
                 <button
                     on:click={delete_all}
-                    class="p-1 ms-3 flex items-center bg-red-600 text-white text-sm rounded hover:bg-red-500 shadow hover:shadow-gray-200/80 shadow-400/80"
+                    class="p-1 ms-3 flex items-center hover:bg-gray-100 text-gray-600"
                     >Tout supprimer <svg
                         xmlns="http://www.w3.org/2000/svg"
                         fill="none"
@@ -74,12 +74,12 @@
                 </button>
             {/if}
         </div>
-        <div class="text-gray-600 text-sm">
+        <div class="text-gray-600 px-4 text-sm">
             {#each $notifications_store as notification}
                 <Notification {notification} />
             {:else}
                 <div
-                    class="text-center justify-center h-[18rem] text-sm items-center flex"
+                    class="text-center justify-center h-[32rem] text-lg text-gray-300 items-center flex"
                 >
                     Aucune notification
                 </div>

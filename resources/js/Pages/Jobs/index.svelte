@@ -7,7 +7,7 @@
     import { beforeUpdate } from "svelte";
     let has_Enterprise = $page.props.enterprise !== null;
     export let data;
- 
+
     let slide;
     let slidebar;
     let hasSlide = false;
@@ -102,14 +102,27 @@
                         {:else}
                             <div class="flex items-center">
                                 <button
-                                    class="ms-2 btn btn-info btn-xs rounded text-white p-1"
+                                    class="ms-2 btn btn-primary shadow btn-base rounded text-white "
                                     ><a
-                                        use:inertia
+                                        use:inertia class="flex items-center"
                                         href="/my-enterprise/creer-une-entreprise"
                                     >
-                                        Configurer votre entreprise avant
-                                        d'ajouter des offres !</a
-                                    ></button
+                                        Vous devez créer votre entreprise
+                                        <svg
+                                            xmlns="http://www.w3.org/2000/svg"
+                                            fill="none"
+                                            viewBox="0 0 24 24"
+                                            stroke-width="1.5"
+                                            stroke="currentColor"
+                                            class="size-6 ms-1"
+                                        >
+                                            <path
+                                                stroke-linecap="round"
+                                                stroke-linejoin="round"
+                                                d="M12 9v3.75m9-.75a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9 3.75h.008v.008H12v-.008Z"
+                                            />
+                                        </svg>
+                                    </a></button
                                 >
                             </div>
                         {/if}
@@ -135,16 +148,18 @@
                     Toutes les offres d'emploi
                 </div>
                 <Filter />
-         
+
                 {#if data.data.length > 0}
-                    <table class="w-full font-light min-h-48 text-sm px-2 rounded mt-16">
+                    <table
+                        class="w-full font-light min-h-24 text-sm px-2 rounded mt-16"
+                    >
                         <tr class="font-semibold text-gray-700">
                             <td>#</td>
-                            <td>Poste</td>
-                            <td>Effectif</td>
-                            <td>Pays</td>
-                            <td>Date limite</td>
-                            <td>Action</td>
+                            <td>poste</td>
+                            <td>effectif</td>
+                            <td>pays</td>
+                            <td>date limite</td>
+                            <td>actions</td>
                         </tr>
                         {#each data.data as job, i}
                             <Jobs {job} {i} />
@@ -162,4 +177,3 @@
         </div>
     </div>
 </main>
-

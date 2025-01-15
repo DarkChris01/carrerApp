@@ -18,7 +18,7 @@ export default defineConfig({
             '@dependencies': path.resolve(__dirname, './resources/js/Dependencies'),
             '@modals': path.resolve(__dirname, './resources/js/Modals'),
             '@forms': path.resolve(__dirname, './resources/js/Forms'),
-            
-        }
+
+        },
     }
 });

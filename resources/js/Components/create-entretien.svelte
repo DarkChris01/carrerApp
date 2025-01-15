@@ -2,6 +2,7 @@
     import toast from "svelte-french-toast";
     import { onMount, onDestroy } from "svelte";
     import { entretiens_store } from "@dependencies/Stores/Store";
+    import { router } from "@inertiajs/svelte";
     import axios from "axios";
     import Spinner from "@utils/Spinner.svelte";
     import {
@@ -43,32 +44,15 @@
 
     const submit = async () => {
         isLoading = true;
-        const request = await axios.post(url, form);
-        if (request.status === 201 || 200) {
-            toast.success("Le candidat a bien été notifié !");
-            if (entretien) {
-                entretiens_store.update((entretiens) => {
-                    const index = entretiens.findIndex((value) => {
-                        return value.id === entretien.id;
-                    });
-                    entretiens[index].time = form.time;
-                    entretiens[index].date = form.date;
-                    entretiens[index].lieu = form.lieu;
-                    return entretiens;
-                });
+        const request = await router.post(url, form, {
+            onSuccess: () => {
+                toast.success("Le candidat a bien été notifié !");
+            },
+            onError: (errors) => {
                 isLoading = false;
-            } else {
-                entretiens_store.update((entretiens) => {
-                    const value = [request.data, ...entretiens];
-
-                    return value;
-                });
-            }
-            close.click();
-        } else {
-            isLoading = false;
-            toast.error(errors);
-        }
+                toast.error(errors);
+            },
+        });
         isLoading = false;
     };
 </script>

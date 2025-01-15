@@ -23,9 +23,9 @@ return new class extends Migration
             $table->string("email");
             $table->string("country");
             $table->string("sexe");
-            $table->text("picture");
+            $table->text("picture")->nullable();
             $table->text("profession");
-            $table->text("cv");
+            $table->text("cv")->nullable();
             $table->timestamps();
         });
     }

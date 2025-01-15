@@ -5,7 +5,7 @@
     import { onMount, onDestroy } from "svelte";
     import { router } from "@inertiajs/svelte";
     import toast from "svelte-french-toast";
-    import { load_country } from "@dependencies/load";
+    import countries from "@dependencies/helpers/countries.json"
     import {
         AutoCompleteStoreComponent,
         candidaciesFilterComponent,
@@ -15,16 +15,14 @@
     import PrimaryButton from "@utils/PrimaryButton.svelte";
     import Checkbox from "@utils/Checkbox.svelte";
     let domains = [];
-    let countries = [];
-    let words = [];
+       let words = [];
     let form;
     let searched_word;
     let isLoading_domain = true;
     let isLoading_country = true;
     let showDomainCheckbox = false;
     let showCountryCheckbox = false;
-    let domainFilter = [],
-        countryFilter = [];
+    let domainFilter = [];
 
     searched_word = new URLSearchParams(window.location.search).get("search");
 
@@ -38,16 +36,6 @@
             });
             isLoading_domain = false;
         }
-
-        const response_countries = await load_country();
-        if (response_countries.status === 200) {
-            const datas = response_countries.data;
-            countries = datas.sort((a, b) => {
-                return a.name.common.localeCompare(b.name.common);
-            });
-            isLoading_country = false;
-        }
-
         (() => {
             let activeFilter;
             const url = new URLSearchParams(window.location.search);
@@ -208,7 +196,7 @@
                 <div class="flex items-center">
                     <div class="me-2 text-gray-700 rounded">
                         <button
-                            class="btn btn-ghost btn-xs 2xl:btn-sm rounded ring-1 ring-gray-600 flex items-center"
+                            class="btn btn-ghost btn-sm 2xl:btn-sm rounded ring-1 ring-gray-600 flex items-center"
                             on:click={reset_filter}>Aucun</button
                         >
                     </div>
@@ -296,25 +284,25 @@
                                 >
                                     Pays
                                 </h1>
-                                {#each countries as country}
+                                {#each countries.word as country}
                                     <div class="flex text-sm">
                                         <div>
                                             <Checkbox
                                                 on:change={(event) =>
                                                     filterBycountry(event)}
-                                                value={country.name.common}
+                                                value={country}
                                                 checked={window.location.href.includes(
-                                                    country.name.common.replace(
+                                                    country.replace(
                                                         " ",
                                                         "%20",
                                                     ),
                                                 )}
                                             >
-                                                {country.name.common}
+                                                {country}
                                             </Checkbox>
                                         </div>
                                         <Label reason="country" style="ms-1">
-                                            {country.name.common}
+                                            {country}
                                         </Label>
                                     </div>
                                 {/each}

@@ -11,9 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('domains', function (Blueprint $table) {
-            $table->id();
-            $table->string("intitules");
+        Schema::table('sectors', function (Blueprint $table) {
+            $table->json("sectors")->change();
         });
     }
 
@@ -22,6 +21,9 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('competences');
+        Schema::table('sectors', function (Blueprint $table) {
+            $table->text("sectors")->change();
+            //
+        });
     }
 };

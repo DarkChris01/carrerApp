@@ -1,6 +1,5 @@
 <script>
     import NewCandidatureNotification from "@components/Notifications/Type/NewCandidatureNotification.svelte";
-    import axios from "axios";
     export let notification;
 </script>
 

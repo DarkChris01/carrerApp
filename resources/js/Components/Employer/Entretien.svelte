@@ -6,12 +6,13 @@
     import Tooltip from "@utils/Tooltip.svelte";
     import CreateEntretien from "@components/Create-entretien.svelte";
     import { entretiens_store } from "@dependencies/Stores/Store";
-    import { useForm, inertia } from "@inertiajs/svelte";
+    import { useForm, inertia, page } from "@inertiajs/svelte";
     import axios from "axios";
     import toast from "svelte-french-toast";
     export let entretien;
     export let i;
     let status;
+    let show = false;
 
     if (entretien.status === "pending") {
         status = "En attente";
@@ -20,7 +21,9 @@
     } else {
         status = "rejeté";
     }
-
+    $: if ($page.props) {
+        show = false;
+    }
     let tooltip = false;
     let showEntretien = false;
     let timeout;
@@ -67,9 +70,13 @@
             },
         });
     };
+
+    const toggleModal = () => {
+        show = !show;
+    };
 </script>
 
-<tr class="rounded text-gray-600 hover:text-gray-700">
+<tr class="rounded text-gray-600">
     <td>{i + 1}</td>
     <td>
         <a
@@ -79,7 +86,7 @@
         >
             <img
                 class="w-8 h-8 border rounded-full me-2"
-                src={entretien.candidacy.cv.user.avatars ??
+                src={entretien.candidacy.cv.picture ??
                     `/storage/avatars/default/${entretien.candidacy.cv.sexe}.png`}
                 alt="avatar"
             />
@@ -128,41 +135,91 @@
         </div>
     </td>
     <td>
-        <div class="flex items-center justify-start">
-            {#if entretien.status !== "rejected"}
-                <button
-                    on:mouseenter={showTooltip}
-                    on:mouseleave={hideTooltip}
-                    on:click={() => (showEntretien = true)}
-                    class="relative btn btn-xs btn-primary flex items-center text-white rounded mx-1"
-                >
-                    modifier
-                    {#if tooltip}
-                        <!-- content here -->
-                        <Tooltip
-                            x="right-[100%]"
-                            y="-bottom-6"
-                            size="text-xs"
-                            message="Modifier la date ou l'heure"
-                        />
-                    {/if}
-                </button>
-            {/if}
-            {#if entretien.status === "process"}
-                <button
-                    disabled={$form.isProcess}
-                    on:click={retenu}
-                    class="relative btn btn-xs btn-success flex items-center text-white rounded mx-1"
-                    >recruter</button
-                >
-            {/if}
-
+        <div class="relative inline-block text-left">
             <button
+                on:click={toggleModal}
                 type="button"
-                class="btn btn-xs btn-error rounded mx-1 text-white flex items-center"
-                on:click={handleDelete}
-                >rejeter
+                class="inline-flex w-full justify-center gap-x-1.5 rounded-md bg-white p-1 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50"
+                id="menu-button"
+                aria-expanded="true"
+                aria-haspopup="true"
+            >
+                actions
+                <svg
+                    class="-mr-1 size-5 text-gray-400"
+                    viewBox="0 0 20 20"
+                    fill="currentColor"
+                    aria-hidden="true"
+                    data-slot="icon"
+                >
+                    <path
+                        fill-rule="evenodd"
+                        d="M5.22 8.22a.75.75 0 0 1 1.06 0L10 11.94l3.72-3.72a.75.75 0 1 1 1.06 1.06l-4.25 4.25a.75.75 0 0 1-1.06 0L5.22 9.28a.75.75 0 0 1 0-1.06Z"
+                        clip-rule="evenodd"
+                    />
+                </svg>
             </button>
+            {#if show}
+                <!-- content here -->
+                <div
+                    class="absolute right-0 z-10 mt-1 px-2 p-1 min-w-56 origin-top-right rounded-md bg-white border shadow-lg ring-1 ring-black/5 focus:outline-none"
+                    role="menu"
+                    aria-orientation="vertical"
+                    aria-labelledby="menu-button"
+                    tabindex="-1"
+                >
+                    <div role="none" class="py-1 text-gray-500">
+                        <div>
+                            {#if entretien.status !== "rejected"}
+                                <div
+                                    class="w-full p-1 hover:bg-gray-100 hover:text-gray-900"
+                                >
+                                    <button
+                                        on:mouseenter={showTooltip}
+                                        on:mouseleave={hideTooltip}
+                                        on:click={() => (showEntretien = true)}
+                                        class="w-full text-start"
+                                    >
+                                        Modifier
+                                        {#if tooltip}
+                                            <!-- content here -->
+                                            <Tooltip
+                                                x="right-[100%]"
+                                                y="-bottom-6"
+                                                size="text-xs"
+                                                message="Modifier la date ou l'heure"
+                                            />
+                                        {/if}
+                                    </button>
+                                </div>
+                            {/if}
+                            {#if entretien.status === "process"}
+                                <div
+                                    class="w-full p-1 hover:bg-gray-100 hover:text-gray-900"
+                                >
+                                    <button
+                                        disabled={$form.isProcess}
+                                        on:click={retenu}
+                                        class="w-full text-start"
+                                        >Recruter</button
+                                    >
+                                </div>
+                            {/if}
+
+                            <div
+                                class="w-full p-1 hover:bg-gray-100 hover:text-gray-900"
+                            >
+                                <button
+                                    type="button"
+                                    class="w-full text-start"
+                                    on:click={handleDelete}
+                                    >Rejeter
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {/if}
         </div>
     </td>
 </tr>

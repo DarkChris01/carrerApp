@@ -4,6 +4,8 @@
     import Candidacy from "@components/Candidates/Candidacy.svelte";
     import CandidaciesFilter from "@components/Candidates/CandidaciesFilter.svelte";
     import { jobs_store } from "@dependencies/Stores/Store";
+    import { entretiens_store } from "@dependencies/Stores/Store";
+
     import { page } from "@inertiajs/svelte";
     import { candidaciesFilterComponent } from "@dependencies/Stores/Modal";
     export let jobs;
@@ -64,7 +66,7 @@
                                     <th>poste</th>
                                     <th>expire</th>
                                     <th>status</th>
-                                    <th>action</th>
+                                    <th></th>
                                 </tr>
                                 {#each $jobs_store as job}
                                     {#each job.candidacies as candidacy, index}

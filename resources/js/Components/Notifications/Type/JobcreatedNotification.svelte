@@ -15,12 +15,12 @@
         <!-- svelte-ignore a11y-click-events-have-key-events -->
         <div
             on:click
-            class="me-2 border flex w-fit justify-center items-center bg-gray-100 rounded-full"
+            class="me-2 flex w-fit justify-center items-center bg-gray-100"
         >
             <img
                 src={notification.data.sender.logo ??
                     "/storage/avatars/default/man.png"}
-               class="size-14 m-1 rounded bg-primary"
+               class="size-14 rounded bg-primary"
                 alt="avatar"
             />
         </div>

@@ -16,8 +16,8 @@
             {experience.enterprise}
         </div>
     </div>
-    <div class="my-1">
-        <div class="text-gray-600">
+    <div class="my-1 mt-4 font-medium">
+        <div class="text-gray-500">
             {experience.mission}
         </div>
     </div>

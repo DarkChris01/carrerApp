@@ -17,7 +17,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\EmployerController;
 use App\Http\Controllers\CandidacyController;
 use App\Http\Controllers\DashboardController;
-use App\Http\Controllers\EntretienController;
+use App\Http\Controllers\InterviewController;
 use App\Http\Controllers\FormationController;
 use App\Http\Controllers\CompetenceController;
 
@@ -59,17 +59,17 @@ Route::middleware('auth')->group(function () {
     });
 
     Route::group(['prefix' => 'entretien'], function () {
-        Route::get("/", [EntretienController::class, "userInterviews"])->name("get.user.interviews");
-        Route::patch("/agree/{entretien}", [EntretienController::class, "accepted"])->name("accepted.entretien");
-        Route::patch("/disgree/{entretien}", [EntretienController::class, "rejected"])->name("rejected.entretien");
+        Route::get("/", [InterviewController::class, "userInterviews"])->name("user.interviews");
+        Route::patch("/agree/{entretien}", [InterviewController::class, "accepted"])->name("accepted.entretien");
+        Route::patch("/disgree/{entretien}", [InterviewController::class, "rejected"])->name("rejected.entretien");
     });
 
 
     Route::group(['prefix' => "candidature"], function () {
         Route::post("/postulez", [CandidacyController::class, "store"])->middleware("cv");
-        Route::get('/', [CandidacyController::class, 'get_user_candidacies']);
         Route::patch('/masquer/{candidacy}', [CandidacyController::class, 'destroy']);
         Route::delete('/{candidacy}', [CandidacyController::class, 'destroy']);
+        Route::get('/', [CandidacyController::class, 'get_user_candidacies'])->name("user.candidacies");
     });
     Route::group(['prefix' => "archive"], function () {
         Route::post("/", [ArchiveController::class, "store"]);
@@ -152,11 +152,11 @@ Route::middleware("employer")->group(function () {
     });
 
     Route::group(["prefix" => "mes-entretiens"], function () {
-        Route::post("/store", [EntretienController::class, "store"]);
-        Route::post("/update/{entretien}", [EntretienController::class, "update"]);
-        Route::get("/", [EntretienController::class, "index"]);
-        Route::delete("/{entretien}", [EntretienController::class, "delete"]);
-        Route::delete("/", [EntretienController::class, "deleteAll"]);
+        Route::post("/store", [InterviewController::class, "store"]);
+        Route::post("/update/{entretien}", [InterviewController::class, "update"]);
+        Route::get("/", [InterviewController::class, "index"])->name("entretiens.index");
+        Route::delete("/{entretien}", [InterviewController::class, "delete"]);
+        Route::delete("/", [InterviewController::class, "deleteAll"]);
     });
     Route::get("/cvtheque", [CvController::class, "index"])->name("cv.index");
 
@@ -173,9 +173,7 @@ Route::get("/load-enterprise", function () {
     return Enterprise::all(["name", "id"]);
 });
 
-Route::get("/load-domains", function () {
-    return Domain::get(['id', 'intitules']);
-});
+
 
 Route::post("/domain/autocompletion", function (Request $request) {
     $request->validate([

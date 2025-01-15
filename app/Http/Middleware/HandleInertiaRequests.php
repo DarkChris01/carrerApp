@@ -39,9 +39,11 @@ class HandleInertiaRequests extends Middleware
 
         if ($request->user("employer")) {
             if ($request->user("employer")->enterprise) {
-                $enterprise = $request->user("employer")->enterprise->with("sector")->first();
+                $enterprise = $request->user("employer")->enterprise->first();
 
                 $entretiens = Entretien::whereIn("job_id", $request->user('employer')->jobs()->get("id"))
+
+
                     ->with(["candidacy" => function ($query) {
                         $query->with(["cv" => function ($query) {
                             $query->with("user");
@@ -56,6 +58,9 @@ class HandleInertiaRequests extends Middleware
                     ->with(["notifiable"])
                     ->orderby("created_at", "DESC")
                     ->get();
+            } else {
+                $entretiens = [];
+                $notifications = [];
             }
         } else if ($request->user()) {
             $archived = $request->user()->archives()->get("archivable_id");
@@ -69,6 +74,7 @@ class HandleInertiaRequests extends Middleware
                 $candidatures = 0;
                 $entretiens = 0;
             }
+            
             $notifications = $request->user()
                 ->notifications()
                 ->with(["notifiable"])

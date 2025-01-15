@@ -168,7 +168,7 @@
         </button>
         <div>
             <button
-                class="text-white btn btn-primary btn-xs rounded"
+                class="text-white btn btn-primary btn-sm rounded"
                 on:click={() => {
                     contractFilter = null;
                     domainsFilter = null;
@@ -180,10 +180,10 @@
         </div>
     </div>
 
-    <div class="p-1 text-xs w-full">
+    <div class="p-1 text-sm  w-full">
         <div class="border-b text-gray-300 my-3">Domaine</div>
 
-        <div class="h-96 scrollable text-xs w-full overflow-y-auto p-1">
+        <div class="h-96 scrollable text-sm w-full overflow-y-auto">
             {#if !isLoading}
                 {#each domains as domain}
                     <div class="my-1 capitalize">
@@ -198,8 +198,7 @@
                         />
 
                         <Label reason="domain" style="ms-1"
-                            >{domain.intitules.substr(0, 25)}
-                            {domain.intitules.length > 25 ? "..." : ""}</Label
+                            >{domain.intitules.substr(0, 30)}</Label
                         >
                     </div>
                 {/each}
@@ -211,7 +210,7 @@
         </div>
     </div>
 
-    <div class="p-1 text-xs mt-10 min-h-48">
+    <div class="p-1 text-sm mt-10 min-h-48">
         <div class="border-b text-gray-300 mb-3">Type</div>
         {#if !isLoading}
             <div class="my-1 capitalize">
@@ -318,12 +317,12 @@
         {/if}
     </div>
 
-    <div class="p-1 min-h-56 text-xs my-8">
+    <div class="p-1 min-h-56 text-sm my-8">
         <div class="border-b text-gray-300 mb-3">
             Pretentions salariales (xfa)
         </div>
         {#if !isLoading}
-            <div class="p-1 mb-4 text-xs">
+            <div class="p-1 mb-4 text-sm">
                 <div class="my-1">
                     <input
                         type="checkbox"
@@ -404,7 +403,7 @@
                     </div>
                     <div class="my-2">
                         <button
-                            class="btn btn-success btn-xs rounded text-white"
+                            class="btn btn-success btn-sm rounded text-white"
                             on:click={handleMinMax}>Rechercher</button
                         >
                     </div>
@@ -420,7 +419,7 @@
 
 <div class="z-50 pb-6 pr-6 fixed bottom-0 right-0">
     <button
-        class="lg:hidden btn btn-primary flex justify-center items-center btn-xs rounded-full w-10 h-10"
+        class="lg:hidden btn btn-primary flex justify-center items-center btn-sm rounded-full w-10 h-10"
         type="button"
         on:click={() => leftSideBarComponent.set(false)}
     >

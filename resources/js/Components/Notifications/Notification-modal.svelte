@@ -66,7 +66,7 @@
                         )}
                     on:click={MarkAllAsRead}
                     type="button"
-                    class="btn btn-error btn-xs shadow p-0.5 rounded text-white"
+                    class="btn btn-error btn-sm shadow p-0.5 rounded text-white"
                     >Tout marquer comme lu !</button
                 >
             </div>

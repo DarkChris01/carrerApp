@@ -7,7 +7,7 @@
 </script>
 
 <div class="flex justify-center my-2">
-    <div class="w-full lg:w-3/4">
+    <div class="w-full lg:w-[80%]">
             <Navbar />
         <div>
             <div class="flex w-full items-end justify-center">

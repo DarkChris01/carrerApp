@@ -219,13 +219,13 @@
                             href="/cv"
                             as="button"
                             class="bg-red-600 rounded p-1 hover:bg-red-500 text-white me-2"
-                            >annuler
+                            >Retourner vers mon cv
                         </a>
 
                         <button
                                 type="submit"
-                                class="btn btn-primary rounded p-1 btn-xs text-white"
-                                >suivant</button
+                                class="btn btn-primary rounded p-1 btn-sm text-white"
+                                >Suivant</button
                             >
                     </div>
                 </div>

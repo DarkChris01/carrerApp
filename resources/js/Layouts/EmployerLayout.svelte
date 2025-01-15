@@ -13,12 +13,12 @@
         <div>
             <div class="lg:flex">
                 <div
-                    class="w-1/5 hidden lg:block bg-gray-800 sticky top-0 me-1 h-screen overflow-y-auto scrollable"
+                    class="w-1/6 hidden lg:block bg-gray-800 sticky top-0 me-1 h-screen overflow-y-auto scrollable"
                 >
                     <!-- Left Side -->
                     <LeftSide />
                 </div>
-                <div class="w-full lg:w-4/5 rounded-l- rounded-t">
+                <div class="w-full lg:w-5/6 rounded-l- rounded-t">
                     <div>
                         <div>
                             <slot />

@@ -1,12 +1,11 @@
 <script>
-    import { load_domains } from "@dependencies/load";
+    import { get_competences } from "@dependencies/load";
     import { cv_Store } from "@dependencies/Stores/store";
     import toast from "svelte-french-toast";
     import { onMount } from "svelte";
     import Spinner from "@utils/Spinner.svelte";
     import { inertia, useForm } from "@inertiajs/svelte";
     export let competences;
-  
 
     let competence3 = false;
     let competence4 = false;
@@ -16,6 +15,7 @@
     const technical = competences
         ? JSON.parse(competences.technical_competences)
         : null;
+
     const no_technical = competences
         ? JSON.parse(competences.no_technical_competences)
         : null;
@@ -32,11 +32,12 @@
     });
 
     onMount(async () => {
-        let response = await load_domains();
+        let response = await get_competences();
+
         if (response.status === 200) {
             const datas = await response.data;
             competences = datas.sort((a, b) => {
-                return a.intitules.localeCompare(b.intitules);
+                return a.name.localeCompare(b.name);
             });
             loading = false;
         }
@@ -135,10 +136,10 @@
                                 {#each competences as competence}
                                     <option
                                         selected={$form.competence1 ==
-                                            competence.intitules}
+                                            competence.name}
                                         class="capitalize text-sm"
-                                        value={competence.intitules}
-                                        >{competence.intitules}</option
+                                        value={competence.name}
+                                        >{competence.name}</option
                                     >
                                 {/each}
                             </select>
@@ -154,10 +155,10 @@
                                 {#each competences as competence}
                                     <option
                                         selected={$form.competence2 ==
-                                            competence.intitules}
+                                            competence.name}
                                         class="capitalize text-sm"
-                                        value={competence.intitules}
-                                        >{competence.intitules}</option
+                                        value={competence.name}
+                                        >{competence.name}</option
                                     >
                                 {/each}
                             </select>
@@ -174,10 +175,10 @@
                                 {#each competences as competence}
                                     <option
                                         selected={$form.competence3 ==
-                                            competence.intitules}
+                                            competence.name}
                                         class="capitalize text-sm"
-                                        value={competence.intitules}
-                                        >{competence.intitules}</option
+                                        value={competence.name}
+                                        >{competence.name}</option
                                     >
                                 {/each}
                             </select>
@@ -246,12 +247,12 @@
                             href="/cv"
                             as="button"
                             class="bg-red-600 rounded p-1 hover:bg-red-500 text-white me-2"
-                            >annuler
+                            >Retourner vers mon cv
                         </a>
 
                         <button
                             type="submit"
-                            class="btn btn-primary rounded p-1 btn-xs text-white"
+                            class="btn btn-primary rounded p-1 btn-sm text-white"
                             >Terminer</button
                         >
                     </div>

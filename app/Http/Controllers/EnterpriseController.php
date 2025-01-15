@@ -13,14 +13,10 @@ use App\Services\NotificationService;
 
 class EnterpriseController extends Controller
 {
-    public function __construct(private NotificationService $notificationService)
-    {
-        
-    }
+    public function __construct(private NotificationService $notificationService) {}
     public function create(Request $request)
     {
-        $enterprise = Enterprise::where("employer_id", $request->user("employer")->id)
-            ->with("sector")->first();
+        $enterprise = Enterprise::where("employer_id", $request->user("employer")->id)->first();
 
         return inertia("Enterprise/Create", ['enterprise' => $enterprise]);
     }
@@ -29,7 +25,7 @@ class EnterpriseController extends Controller
     {
         $request->authorize();
 
-        //  verification et initialisatio d'une instance du model enterprise 
+        //  verification et initialisation d'une instance du model enterprise 
         //  si l'entreprise existe deja elle est recuperé , sinon elle est crée de zero
         $enterprise = $request->user('employer')->enterprise ?? new Enterprise();
         // 
@@ -45,41 +41,28 @@ class EnterpriseController extends Controller
         $enterprise->email = $request->email;
         $enterprise->type = $request->type;
         $enterprise->postal = $request->postal;
+        $enterprise->twitter = $request->twitter;
         $enterprise->address = $request->address;
+        $enterprise->sectors = json_encode($request->sectors);
 
         if ($request->logo) {
             $path = Storage::disk("public")->put("logo", $request->logo);
             $enterprise->logo = "/storage/" . $path;
         }
-
+        //enregistrement du model enterprise
         $enterprise->save();
-
-        if ($enterprise) {
-            if ($enterprise->sector) {
-                $sector = $enterprise->sector;
-            } else {
-                $sector = new Sector();
-                $sector->enterprise_id = $enterprise->id;
-            }
-        } else {
-            $sector = new Sector();
-            $sector->enterprise_id = $enterprise->id;
-        }
-
-        $sector->sector1 = strtolower($request->sector1);
-        $sector->sector2 = strtolower($request->sector2);
-        $sector->sector3 = strtolower($request->sector3);
-        $sector->sector4 = strtolower($request->sector4);
-        $sector->save();
-
         return to_route("entreprise.show");
     }
 
+
+
     public function show(Request $request)
     {
-        return inertia("Enterprise/Index", ['enterprise' => $request->user("employer")
-            ->enterprise->with("sector")
-            ->first()]);
+        return inertia("Enterprise/Index", [
+            'enterprise' => $request->user("employer")
+                ->enterprise
+                ->first()
+        ]);
     }
 
     public function delete(Request $request)
@@ -102,7 +85,7 @@ class EnterpriseController extends Controller
     public function show_enterprise(Enterprise $enterprise)
     {
         return inertia("User/Visit_enterprise", [
-            "enterprise" => $enterprise->with(["sector", "employer" => function ($query) {
+            "enterprise" => $enterprise->with(["employer" => function ($query) {
                 return $query->with(["jobs" => function ($query) {
                     return $query->where("expired_at", ">", now())
                         ->with(["enterprise", "competence"]);
@@ -119,6 +102,6 @@ class EnterpriseController extends Controller
             "subject" => ["required", "string"]
         ]);
 
-     $this->notificationService->contactUsNotification(Enterprise::find($request->enterprise),$request->subject,$request->message,$request->user());
+        $this->notificationService->contactUsNotification(Enterprise::find($request->enterprise), $request->subject, $request->message, $request->user());
     }
 }

@@ -18,11 +18,11 @@
 </script>
 
 <main
-    class="fixed lg:absolute overflow-y-auto scrollable bg-white select-none w-full h-screen lg:w-[30rem] 2xl:w-[35rem] lg:h-[30rem] 2xl:h-[50rem] border border-gray-400/20 rounded z-10 flex shadow right-0 lg:right-2 top-0 lg:top-full"
+    class="fixed lg:absolute overflow-y-auto scrollable bg-white select-none w-full h-screen lg:w-[30rem] 2xl:w-[35rem] lg:h-[35rem] 2xl:h-[50rem] border border-gray-400/20 rounded z-10 flex shadow right-0 lg:right-2 top-0 lg:top-full"
 >
-    <div class="text-sm lg:text-sm w-full p-2 lg:p-2 text-gray-600">
+    <div class="text-sm lg:text-sm w-full p-2 text-gray-600">
         {#if !isLoading}
-            <div class="flex justify-between mt-2 mb-4">
+            <div class="flex justify-between">
                 <button
                     class="lg:hidden"
                     on:click={() => {
@@ -46,7 +46,7 @@
                 </button>
             </div>
             {#each entretiens as entretien}
-                <div class="my-2 border-b">
+                <div class="my-6 p-2">
                     <div class="flex text-start items-start">
                         <div class="bg-blue-600 w-fit me-2 p-2 rounded">
                             <img
@@ -56,7 +56,7 @@
                             />
                         </div>
                         <div>
-                            <div class="font-semibold text-sm">
+                            <div class="font-bold text-gray-500 text-sm">
                                 {entretien.job.enterprise.name}
                             </div>
 
@@ -79,7 +79,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="flex items-end justify-between mt-2">
+                    <div class="flex items-center justify-between mt-2">
                         <div class="flex justify-end items-center">
                             <div>
                                 <span class=" font-semibold text-gray-700"
@@ -108,7 +108,7 @@
                                         }}
                                         href="/entretien/agree/{entretien.id}"
                                     >
-                                        accepter</a
+                                        Accepter</a
                                     ></button
                                 >
 
@@ -123,7 +123,7 @@
                                         }}
                                         href="/entretien/disgree/{entretien.id}"
                                     >
-                                        refuser
+                                        Refuser
                                     </a>
                                 </button>
                             {/if}
@@ -131,10 +131,10 @@
                     </div>
                 </div>
             {:else}
-                <div
-                    class="flex h-48 font-bold text-sm text-gray-400/80 justify-center items-center"
-                >
+             
+                <div class="h-full font-light flex justify-center items-center">
                     Vous n'avez pas d'entretien
+                    
                 </div>
             {/each}
         {:else}

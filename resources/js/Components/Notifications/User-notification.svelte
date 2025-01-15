@@ -11,7 +11,7 @@
     import InvitationNotification from "@components/Notifications/Type/InvitationNotification.svelte";
     import DeleteEntretienNotification from "@components/Notifications/Type/DeleteEntretienNotification.svelte";
     import UpdateEntretienNotification from "@components/Notifications/Type/UpdateEntretienNotification.svelte";
-    import NotififyWhereUserSelectedForJob from "@components/Notifications/Type/NotififyWhereUserSelectedForJob.svelte";
+    import NotifyWhereUserSelectedForJob from "@components/Notifications/Type/NotifyWhereUserSelectedForJob.svelte";
     import axios from "axios";
     import { inertia, router } from "@inertiajs/svelte";
     export let notification;
@@ -37,7 +37,7 @@
 </script>
 
 <button
-    class="my-2 text-sm cursor-pointer hover:bg-gray-50 rounded p-1 text-gray-600 hover:text-gray-800"
+    class="my-2 text-sm w-full cursor-pointer hover:bg-gray-50 rounded p-1 text-gray-600 hover:text-gray-800"
     class:unread={!notification.read_at}
     on:click={markAsRead}
 >
@@ -55,8 +55,8 @@
         <UpdateEntretienNotification {notification} />
     {:else if notification.type === "App\\Notifications\\DeleteEntretienNotification"}
         <DeleteEntretienNotification {notification} />
-    {:else if notification.type === "App\\Notifications\\NotififyWhereUserSelectedForJob"}
-        <NotififyWhereUserSelectedForJob {notification} />
+    {:else if notification.type === "App\\Notifications\\NotifyWhereUserSelectedForJob"}
+        <NotifyWhereUserSelectedForJob {notification} />
     {/if}
 </button>
 

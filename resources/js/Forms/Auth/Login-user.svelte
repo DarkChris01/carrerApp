@@ -64,7 +64,7 @@
             <div class="text-end font-semibold text-gray-600 p-1">
                 <a use:inertia href="/forgot-password">
                     <button
-                        class="text-center w-fit btn-xs rounded text-indigo-600"
+                        class="text-center w-fit btn-sm rounded text-indigo-600"
                     >
                         Mot de passe oublié
                     </button>

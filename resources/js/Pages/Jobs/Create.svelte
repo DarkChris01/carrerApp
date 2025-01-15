@@ -1,10 +1,11 @@
 <script>
     import { fadeIn } from "@dependencies/utilities";
-    import { load_domains, load_country } from "@dependencies/load";
+    import countries from "@dependencies/helpers/countries.json";
+    import { load_domains, get_competences } from "@dependencies/load";
     import { useForm } from "@inertiajs/svelte";
     import { onMount, onDestroy } from "svelte";
     import toast from "svelte-french-toast";
-    import Spinner from "@utils/Spinner.svelte"
+    import Spinner from "@utils/Spinner.svelte";
     import axios from "axios";
     let add_competence5 = false;
     let add_competence6 = false;
@@ -13,26 +14,27 @@
     let btn_reset_competence5 = false;
     let btn_reset_competence6 = false;
     let domains = [];
-    let loading = true;
-    let countries;
+    let isLoading = true;
+    let requirements = [];
 
     onMount(async () => {
-        const response = await load_country();
-        if (response.status === 200) {
-            const datas = await response.data;
-            countries = datas.sort((a, b) => {
-                return a.name.common.localeCompare(b.name.common);
-            });
-        }
-
         const response_ = await load_domains();
-
         if (response_.status === 200) {
-            const datas = await response_.data;
+            const datas = response_.data;
             domains = datas.sort((a, b) => {
                 return a.intitules.localeCompare(b.intitules);
             });
-            loading = false;
+        }
+
+        const requirement_response = await get_competences();
+
+        if (requirement_response.status === 200) {
+            const datas = requirement_response.data;
+            requirements = datas.sort((a, b) => {
+                return a.name.localeCompare(b.intitules);
+            });
+
+            isLoading = false;
         }
     });
 
@@ -79,9 +81,9 @@
 <!-- svelte-ignore a11y-no-noninteractive-element-interactions -->
 <main class="flex font-light justify-center my-8">
     <div
-        class=" md:mx-0 min-w-[45rem] p-2 md:p-6 text-[13px] xl:text-sm 2xl:text-sm bg-white"
+        class=" md:mx-0 md:w-3/4 2xl:w-2/3 p-2 md:p-6 text-[13px] xl:text-sm 2xl:text-sm bg-white"
     >
-        {#if !loading}
+        {#if !isLoading}
             <div class="my-10">
                 <h1 class="text-sm md:text-xl font-bold text-center">
                     Créer une nouvelle offre
@@ -153,12 +155,12 @@
                                 </select>
                             </div>
                         </div>
-                        <section class="competences">
+                        <section class="requirements">
                             <div class="my-3">
                                 <label
                                     for="small-input"
                                     class="block mb-1 text-sm lg:text-sm text-gray-600 dark:text-white"
-                                    >Competences</label
+                                    >competences</label
                                 >
                                 <div
                                     class="grid md:grid-cols-2 grid-cols-1 gap-2"
@@ -171,11 +173,11 @@
                                             type="text"
                                             class="block w-full text-gray-800 border placeholder:text-gray-400 border-gray-300 rounded-lg scrollable bg-gray-50 text-sm md:text-[13px] xl:text-sm focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                         >
-                                            {#each domains as domain}
+                                            {#each requirements as domain}
                                                 <option
                                                     class="text-sm capitalize"
-                                                    value={domain.intitules}
-                                                    >{domain.intitules}</option
+                                                    value={domain.name}
+                                                    >{domain.name}</option
                                                 >
                                             {/each}
                                         </select>
@@ -187,11 +189,11 @@
                                             type="text"
                                             class="block w-full text-gray-800 border placeholder:text-gray-400 border-gray-300 rounded-lg scrollable bg-gray-50 text-sm md:text-[13px] xl:text-sm focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                         >
-                                            {#each domains as domain}
+                                            {#each requirements as domain}
                                                 <option
                                                     class="text-sm capitalize"
-                                                    value={domain.intitules}
-                                                    >{domain.intitules}</option
+                                                    value={domain.name}
+                                                    >{domain.name}</option
                                                 >
                                             {/each}
                                         </select>
@@ -203,11 +205,11 @@
                                             type="text"
                                             class="block w-full text-gray-800 border placeholder:text-gray-400 border-gray-300 rounded-lg scrollable bg-gray-50 text-sm md:text-[13px] xl:text-sm focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                         >
-                                            {#each domains as domain}
+                                            {#each requirements as domain}
                                                 <option
                                                     class="text-sm capitalize"
-                                                    value={domain.intitules}
-                                                    >{domain.intitules}</option
+                                                    value={domain.name}
+                                                    >{domain.name}</option
                                                 >
                                             {/each}
                                         </select>
@@ -219,11 +221,11 @@
                                             type="text"
                                             class="block w-full text-gray-800 border placeholder:text-gray-400 border-gray-300 rounded-lg scrollable bg-gray-50 text-sm md:text-[13px] xl:text-sm focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                         >
-                                            {#each domains as domain}
+                                            {#each requirements as domain}
                                                 <option
                                                     class="text-gray-700 text-sm capitalize"
-                                                    value={domain.intitules}
-                                                    >{domain.intitules}</option
+                                                    value={domain.name}
+                                                    >{domain.name}</option
                                                 >
                                             {/each}
                                         </select>
@@ -405,10 +407,8 @@
                                 placeholder="Douala"
                                 class="block w-fit p-1 text-gray-800 border placeholder:text-gray-400 border-gray-300 rounded-lg bg-gray-50 text-sm md:text-[13px] xl:text-sm focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                             >
-                                {#each countries as country}
-                                    <option value={country.name.common}
-                                        >{country.name.common}</option
-                                    >
+                                {#each countries.world as country}
+                                    <option value={country}>{country}</option>
                                 {/each}
                             </select>
                         </div>

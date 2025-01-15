@@ -22,7 +22,7 @@ use App\Notifications\NewCandidatureNotification;
 use App\Notifications\DeleteEntretienNotification;
 use App\Notifications\UpdateEntretienNotification;
 use App\Notifications\EmployerInvitationNotification;
-use App\Notifications\NotififyWhereUserSelectedForJob;
+use App\Notifications\NotifyWhereUserSelectedForJob;
 
 
 class NotificationService
@@ -66,10 +66,10 @@ class NotificationService
         Notification::send($user, new EmployerInvitationNotification($enterprise, $content));
     }
 
-    public function NotififyWhereUserSelectedForJob(Candidacy $candidacy)
+    public function NotifyWhereUserSelectedForJob(Candidacy $candidacy)
     {
 
-        Notification::send($candidacy->cv->user, new NotififyWhereUserSelectedForJob($candidacy->job->employer->enterprise, $candidacy)); //prend en parametre entretien et la candidature
+        Notification::send($candidacy->cv->user, new NotifyWhereUserSelectedForJob($candidacy->job->employer->enterprise, $candidacy)); //prend en parametre entretien et la candidature
     }
 
     public function contactUsNotification($enterprise, $subject, $content, User $user)
