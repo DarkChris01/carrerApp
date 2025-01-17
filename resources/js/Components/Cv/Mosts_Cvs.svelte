@@ -1,5 +1,6 @@
 <script>
     import { onMount } from "svelte";
+    import { inertia } from "@inertiajs/svelte";
     import Cvs from "@components/Cv/Cvs.svelte";
     import { get_mosts_cvs, rateCandidate } from "@dependencies/load";
     import Spinner from "@utils/Spinner.svelte";
@@ -37,7 +38,7 @@
         <div class="p-1 rounded">
             {#if !isLoading}
                 {#if !timeout}
-                    <div class="mb-6 text-gray-800 ">
+                    <div class="mb-6 text-gray-800">
                         <h1
                             class=" px-1 lg:text-[14px] font-bold flex items-center"
                         >
@@ -64,15 +65,21 @@
                         </p>
                     </div>
 
-                    {#if Array.isArray(candidates) && candidates.length}
+                    {#if Array.isArray(candidates) && candidates.length > 0}
                         {#each candidates as candidate}
-                            <div
-                                class="flex items-center flex-wrap justify-start rounded text-sm bg-gray-50 hover:bg-gray-100 transition duration-50 ease-linear w-auto my-2 p-1 border"
+                            <a
+                                href="/employer/curicculum-vitae/{candidate.id}"
+                                use:inertia
+                                class="cursor-pointer flex items-center flex-wrap justify-start rounded text-sm bg-gray-50 hover:bg-gray-100 transition duration-50 ease-linear w-auto my-2 p-1 border"
                             >
                                 <div
                                     class=" flex items-center me-6 mb-1 text-xs uppercase text-nowrap"
                                 >
-                                <img class="w-8 h-8 rounded-full me-2" src={candidate.picture} alt="img">
+                                    <img
+                                        class="w-8 h-8 rounded-full me-2"
+                                        src={candidate.picture}
+                                        alt="img"
+                                    />
                                     {candidate.firstName}
                                     {candidate.lastName}
                                 </div>
@@ -106,13 +113,15 @@
                                             <span
                                                 class="bg-gray-800 py-0.5 px-2 text-xs text-gray-50 rounded ms-2"
                                                 >{candidate.rate > 1
-                                                    ? candidate.rate + "/10 points"
-                                                    : candidate.rate + "/10 point"}
+                                                    ? candidate.rate +
+                                                      "/10 points"
+                                                    : candidate.rate +
+                                                      "/10 point"}
                                             </span>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
+                            </a>
                         {/each}
                     {:else}
                         <div

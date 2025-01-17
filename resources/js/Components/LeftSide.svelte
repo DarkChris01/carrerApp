@@ -17,7 +17,7 @@
     };
 </script>
 
-<div class="p-4 my-1">
+<div class="p-4 my-1 cursor-pointer">
     <div class>
         <a
             class="w-full flex justify-center my-1"

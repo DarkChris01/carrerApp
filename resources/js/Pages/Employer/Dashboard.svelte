@@ -6,7 +6,7 @@
     export let candidates;
 </script>
 
-<div>
+<div class="cursor-pointer">
     <div>
         <div>
             <div>

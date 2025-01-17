@@ -26,7 +26,7 @@ class Enterprise extends Model
         "logo",
         "address",
         "sectors",
-        "about"
+        "aboutUs"
     ];
 
 

@@ -49,12 +49,12 @@
                                     alt="logo_enterprise"
                                 />
                             </div>
-                            <!-- <p class="text-sm my-2 font-thin text-center">
+                            <!-- <p class="text-base my-2 font-thin text-center">
                                 Ce logo sera visible sur toutes vos offres!
                             </p> -->
                         </div>
                     </div>
-                    <div class="mb-5 flex justify-around text-sm">
+                    <div class="mb-5 flex justify-around text-base">
                         <a
                             use:inertia
                             href="/my-enterprise/creer-une-entreprise"
@@ -105,7 +105,7 @@
             </div>
             {#if enterprise}
                 <div
-                    class="p-2 mt-2 text-sm rounded my-2 duration-300 text-gray-700 hover:text-black ease-in-out transition"
+                    class="p-2 mt-2 text-base rounded my-2 duration-300 text-gray-700 hover:text-black ease-in-out transition"
                 >
                     <div class="me-4 border-b font-thin my-1">
                         Nom de l'entreprise
@@ -113,7 +113,7 @@
                     {enterprise.name}
                 </div>
                 <div
-                    class="p-2 text-sm rounded my-2 duration-300 text-gray-700 hover:text-black ease-in-out transition"
+                    class="p-2 text-base rounded my-2 duration-300 text-gray-700 hover:text-black ease-in-out transition"
                 >
                     <div class="me-4 border-b font-thin my-1">
                         Raison sociale
@@ -121,7 +121,7 @@
                     <span class="capitalize">{enterprise.company_name}</span>
                 </div>
                 <div
-                    class="p-2 text-sm rounded my-2 duration-300 text-gray-700 hover:text-black ease-in-out transition"
+                    class="p-2 text-base rounded my-2 duration-300 text-gray-700 hover:text-black ease-in-out transition"
                 >
                     <div class="me-4 border-b font-thin my-1">Secteur</div>
 
@@ -143,7 +143,7 @@
                     {/if}
                 </div>
                 <div
-                    class="p-2 text-sm rounded my-2 duration-300 text-gray-700 hover:text-black ease-in-out transition"
+                    class="p-2 text-base rounded my-2 duration-300 text-gray-700 hover:text-black ease-in-out transition"
                 >
                     <div class="me-4 border-b font-thin my-1">
                         Type d'entreprise
@@ -153,37 +153,47 @@
                     </span>
                 </div>
                 <div
-                    class="p-2 text-sm rounded my-2 duration-300 text-gray-700 hover:text-black ease-in-out transition"
+                    class="p-2 text-base rounded my-2 duration-300 text-gray-700 hover:text-black ease-in-out transition"
+                >
+                    <div class="me-4 border-b font-thin my-1">
+                       A propos 
+                    </div>
+                    <p>
+                        {enterprise.aboutUs}
+                    </p>
+                </div>
+                <div
+                    class="p-2 text-base rounded my-2 duration-300 text-gray-700 hover:text-black ease-in-out transition"
                 >
                     <div class="me-4 border-b font-thin my-1">Pays</div>
                     {enterprise.country}
                 </div>
                 <div
-                    class="p-2 text-sm rounded my-2 duration-300 text-gray-700 hover:text-black ease-in-out transition"
+                    class="p-2 text-base rounded my-2 duration-300 text-gray-700 hover:text-black ease-in-out transition"
                 >
                     <div class="me-4 border-b font-thin my-1">Region</div>
                     {enterprise.region}
                 </div>
                 <div
-                    class="p-2 text-sm rounded my-2 duration-300 text-gray-700 hover:text-black ease-in-out transition"
+                    class="p-2 text-base rounded my-2 duration-300 text-gray-700 hover:text-black ease-in-out transition"
                 >
                     <div class="me-4 border-b font-thin my-1">Addresse</div>
                     {enterprise.address}
                 </div>
                 <div
-                    class="p-2 text-sm rounded my-2 duration-300 text-gray-700 hover:text-black ease-in-out transition"
+                    class="p-2 text-base rounded my-2 duration-300 text-gray-700 hover:text-black ease-in-out transition"
                 >
                     <div class="me-4 border-b font-thin my-1">Telephone</div>
                     {enterprise.phone}
                 </div>
                 <div
-                    class="p-2 text-sm rounded my-2 duration-300 text-gray-700 hover:text-black ease-in-out transition"
+                    class="p-2 text-base rounded my-2 duration-300 text-gray-700 hover:text-black ease-in-out transition"
                 >
                     <div class="me-4 border-b font-thin my-1">Email</div>
                     {enterprise.email}
                 </div>
                 <div
-                    class="p-2 text-sm flexrounded my-2 duration-300 text-gray-700 hover:text-black ease-in-out transition"
+                    class="p-2 text-base flexrounded my-2 duration-300 text-gray-700 hover:text-black ease-in-out transition"
                 >
                     <svg
                         xmlns="http://www.w3.org/2000/svg"
@@ -203,7 +213,7 @@
                     {enterprise.facebook ?? "aucune information"}
                 </div>
                 <div
-                    class="p-2 text-sm flexrounded my-2 duration-300 text-gray-700 hover:text-black ease-in-out transition"
+                    class="p-2 text-base flexrounded my-2 duration-300 text-gray-700 hover:text-black ease-in-out transition"
                 >
                     <svg
                         xmlns="http://www.w3.org/2000/svg"
@@ -224,7 +234,7 @@
                     {enterprise.linkedin ?? "aucune information"}
                 </div>
                 <div
-                    class="p-2 text-sm flexrounded my-2 duration-300 text-gray-700 hover:text-black ease-in-out transition"
+                    class="p-2 text-base flexrounded my-2 duration-300 text-gray-700 hover:text-black ease-in-out transition"
                 >
                     <svg
                         xmlns="http://www.w3.org/2000/svg"

@@ -44,6 +44,7 @@ class EnterpriseController extends Controller
         $enterprise->postal = $request->postal;
         $enterprise->twitter = $request->twitter;
         $enterprise->address = $request->address;
+        $enterprise->aboutUs = $request->about;
         $enterprise->sectors = json_encode($request->sectors);
 
         if ($request->logo) {

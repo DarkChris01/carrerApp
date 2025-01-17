@@ -26,6 +26,7 @@
         linkedin: enterprise ? enterprise.linkedin : null,
         twitter: enterprise ? enterprise.twitter : null,
         postal: enterprise ? enterprise.postal : null,
+        about: enterprise ? enterprise.aboutUs : null,
         logo: "",
     });
 
@@ -35,6 +36,10 @@
                 toast.success("Informations mis à jour!");
             },
         });
+    };
+
+    const updateAboutInput = (event) => {
+        $form.about = event.target.value;
     };
 
     onMount(async () => {
@@ -201,6 +206,18 @@
                         for="floating_type"
                         class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
                         >Type d'entreprise</label
+                    >
+                </div>
+
+                <div
+                    class="relative z-0 w-full mb-8 block py-2.5 px-0 text-gray-800 bg-transparent border-0 border-b-2 border-gray-400/80 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                >
+                    <textarea
+                        placeholder="Description de l'entreprise"
+                        on:input={(e)=>updateAboutInput(e)}
+                        rows="5"
+                        class="block px-2 py-2.5 w-full placeholder:text-blue-600 text-gray-800 bg-transparent border-1 border-gray-400/80 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                        >{$form.about ?? ""}</textarea
                     >
                 </div>
 

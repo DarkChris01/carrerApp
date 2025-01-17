@@ -37,6 +37,7 @@ class CreateEnterpriseRequest extends FormRequest
             "type" => ["required", "string", "max:100"],
             "postal" => ["nullable", "string", "max:100"],
             "logo" => ["nullable", "file", "mimes:png,jpg,jpeg"],
+            "about"=>["required","string","max:2000","min:20"]
         ];
     }
 }

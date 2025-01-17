@@ -46,7 +46,6 @@ class CvController extends Controller
 
     public function index(Request $request)
     {
-        // dd($request->all());
         $cvs = DB::table("cvs")
             ->leftjoin("competences", "cvs.id", "competences.cv_id")
             ->leftJoin("experiences", "cvs.id", "experiences.cv_id")
