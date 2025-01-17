@@ -85,7 +85,7 @@ class EnterpriseController extends Controller
 
     public function show_enterprise(Enterprise $enterprise)
     {
-        return inertia("Visit/Presentation-entreprise", [
+        return inertia("Visit/Visit_enterprise", [
             "enterprise" => $enterprise->with(["employer" => function ($query) {
                 return $query->with(["jobs" => function ($query) {
                     return $query->where("expired_at", ">", now())

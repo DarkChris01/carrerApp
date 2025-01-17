@@ -86,227 +86,191 @@
     };
 </script>
 
-<div
-    class="flex justify-between items-center relative 2xl:text-sm text-xs p-1 bg-transparent"
->
-    <div class="hidden md:flex items-center">
-        <Logo />
-    </div>
-
-    <div class="flex justify-between items-center w-full">
-        <div
-            class="flex items-center justify-start lg:justify-end w-full h-full 2xl:text-sm text-xs flex-nowrap"
-        >
-            {#if $page.props.auth.user && !$page.props.auth.isEmployer}
-                <div class="relative">
-                    <button
-                        on:click|self={toggleEntretien}
-                        class="text-nowrap btn hidden btn-sm 2xl:text-sm text-xs mx-2 lg:flex items-center hover:bg-gray-300 rounded"
-                    >
-                        Entretiens
-                        <span class="text-red-600 bg-white  w-5 h-5 flex justify-center items-center p-1 rounded-full"
-                            >{$page.props.auth.entretiens}</span
-                        >
-                    </button>
-                    {#if $entretienModalComponent}
-                        <div>
-                            <Entretiens
-                                on:click={() =>
-                                    entretienModalComponent.set(false)}
-                            />
-                        </div>
-                    {/if}
+<nav class="bg-white shadow-md">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex justify-between h-14 items-center">
+            <div class="flex">
+                <!-- Logo -->
+                <div class="hidden md:flex items-center">
+                    <Logo />
                 </div>
-                <div class="relative">
-                    <button
-                        on:click|self={toggleCandidature}
-                        class="text-nowrap btn btn-sm hidden lg:flex 2xl:text-sm text-xs mx-2 items-center hover:bg-gray-300 rounded"
+            </div>
+            <div class="hidden sm:ml-6 sm:flex sm:space-x-8">
+                {#if $page.props.auth.user && !$page.props.auth.isEmployer}
+                    <div
+                        class="relative inline-flex items-center px-1 pt-1 border-b-2 border-transparent text-sm font-medium text-gray-700 hover:border-blue-500 hover:text-blue-500"
                     >
-                        candidatures
-                        <span class="text-red-600 bg-white p-1 w-5 h-5 flex justify-center items-center rounded-full"
-                            >{$page.props.auth.candidacies}</span
+                        <button
+                            class="flex items-center"
+                            on:click|self={toggleEntretien}
                         >
-                    </button>
-                    {#if $candidatureModalComponent}
-                        <div>
-                            <Candidacies
+                            Entretiens<span
+                                class="absolute -top-1 -right-2 text-xs text-white ms-1 bg-red-600 w-4 h-4 flex justify-center items-center p-1 rounded-full"
+                                >{$page.props.auth.entretiens}</span
+                            >
+                        </button>
+                        {#if $entretienModalComponent}
+                            <div>
+                                <Entretiens
+                                    on:click={() =>
+                                        entretienModalComponent.set(false)}
+                                />
+                            </div>
+                        {/if}
+                    </div>
+                    <div
+                        class="relative inline-flex items-center px-1 pt-1 border-b-2 border-transparent text-sm font-medium text-gray-700 hover:border-blue-500 hover:text-blue-500"
+                    >
+                        <button
+                            on:click|self={toggleCandidature}
+                            class="flex items-center"
+                        >
+                            Candidatures
+                            <span
+                                class="absolute -top-1 -right-2 text-xs text-white bg-red-600 p-1 w-4 h-4 ms-1 flex justify-center items-center rounded-full"
+                                >{$page.props.auth.candidacies}</span
+                            >
+                        </button>
+                        {#if $candidatureModalComponent}
+                            <div>
+                                <Candidacies
+                                    on:click={() =>
+                                        candidatureModalComponent.set(false)}
+                                />
+                            </div>
+                        {/if}
+                    </div>
+                    <div
+                        class="relative inline-flex items-center px-1 pt-1 text-sm font-medium text-gray-700"
+                    >
+                        <button
+                            on:click={ToogleNotificationModal}
+                            class="flex items-center relative"
+                        >
+                            <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                fill="none"
+                                viewBox="0 0 24 24"
+                                stroke-width="1.5"
+                                stroke="currentColor"
+                                class="size-6"
+                            >
+                                <path
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    d="M14.857 17.082a23.848 23.848 0 0 0 5.454-1.31A8.967 8.967 0 0 1 18 9.75V9A6 6 0 0 0 6 9v.75a8.967 8.967 0 0 1-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 0 1-5.714 0m5.714 0a3 3 0 1 1-5.714 0"
+                                />
+                            </svg>
+                            {#if $notifications_store.filter((notification) => {
+                                return notification.read_at === null;
+                            }).length}
+                                <Badge
+                                    posX="left-4"
+                                    posY="-top-2"
+                                    content={$notifications_store.filter(
+                                        (notification) => {
+                                            return (
+                                                notification.read_at === null
+                                            );
+                                        },
+                                    ).length < 9
+                                        ? $notifications_store.filter(
+                                              (notification) => {
+                                                  return (
+                                                      notification.read_at ===
+                                                      null
+                                                  );
+                                              },
+                                          ).length
+                                        : "+9"}
+                                />
+                            {/if}
+                        </button>
+                        {#if $notificationModalComponent}
+                            <NotificationModal
+                                notifications={$notifications_store}
                                 on:click={() =>
-                                    candidatureModalComponent.set(false)}
-                            />
-                        </div>
-                    {/if}
-                </div>
-
-                <div class="relative flex justify-center items-end">
-                    <button
-                        type="button"
-                        on:click={ToogleNotificationModal}
-                        class="ms-2"
-                    >
-                        <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            fill="none"
-                            viewBox="0 0 24 24"
-                            stroke-width="1.5"
-                            stroke="currentColor"
-                            class="size-5 lg:size-6"
-                        >
-                            <path
-                                stroke-linecap="round"
-                                stroke-linejoin="round"
-                                d="M14.857 17.082a23.848 23.848 0 0 0 5.454-1.31A8.967 8.967 0 0 1 18 9.75V9A6 6 0 0 0 6 9v.75a8.967 8.967 0 0 1-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 0 1-5.714 0m5.714 0a3 3 0 1 1-5.714 0"
-                            />
-                        </svg>
-
-                        {#if $notifications_store.filter((notification) => {
-                            return notification.read_at === null;
-                        }).length}
-                            <Badge
-                                posX="left-5"
-                                posY="-top-2"
-                                content={$notifications_store.filter(
-                                    (notification) => {
-                                        return notification.read_at === null;
-                                    },
-                                ).length < 20
-                                    ? $notifications_store.filter(
-                                          (notification) => {
-                                              return (
-                                                  notification.read_at === null
-                                              );
-                                          },
-                                      ).length
-                                    : "+20"}
+                                    notificationModalComponent.set(false)}
                             />
                         {/if}
-                    </button>
-                    {#if $notificationModalComponent}
-                        <NotificationModal
-                            notifications={$notifications_store}
-                            on:click={() =>
-                                notificationModalComponent.set(false)}
-                        />
-                    {/if}
-                </div>
-            {/if}
-        </div>
-        <div class="relative ms-8">
-            <div class="flex items-end 2xl:text-sm text-xs font-semibold">
-                <button on:click={toggleMenu}>
-                    <img
-                        alt="avatar"
-                        class="w-10 h-10 p-0.5 rounded-full border"
-                        src={$page.props.auth.user?.avatars ??
-                            "/storage/avatars/default/man.png"}
-                    />
-                    <div
-                        class="badge absolute bottom-0 badge-error left-0 badge-xs"
-                        class:connected
-                    ></div>
-                </button>
+                    </div>
+                {/if}
             </div>
+            <div class="relative ms-8">
+                <div class="flex items-end text-sm font-semibold">
+                    <button on:click={toggleMenu}>
+                        <img
+                            alt="avatar"
+                            class="w-10 h-10 p-0.5 rounded-full border"
+                            src={$page.props.auth.user?.avatars ??
+                                "/storage/avatars/default/man.png"}
+                        />
+                        <div
+                            class="badge absolute bottom-0 badge-error left-0 badge-xs"
+                            class:connected
+                        ></div>
+                    </button>
+                </div>
 
-            {#if showmenu}
-                <ul
-                    class="menu menu-base absolute top-8 right-4 bg-base-100 rounded z-10 mt-3 min-w-48 p-2 shadow"
-                >
-                    {#if $page.props.auth.user}
-                        <li class="mt-1">
-                            <a
-                                class="justify-between flex items-center"
-                                use:inertia
-                                href="/profile"
-                            >
-                                Profil
-
-                                <svg
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    fill="none"
-                                    viewBox="0 0 24 24"
-                                    stroke-width="1.5"
-                                    stroke="currentColor"
-                                    class="size-6 ms-1 stroke-indigo-600 stroke-2"
+                {#if showmenu}
+                    <ul
+                        class="menu menu-base text-base font-medium p-2 absolute top-10 right-4 bg-base-100 rounded z-10 min-w-48 shadow"
+                    >
+                        {#if $page.props.auth.user}
+                            <li class="mt-1">
+                                <a
+                                    class="justify-between flex items-center"
+                                    use:inertia
+                                    href="/profile"
                                 >
-                                    <path
-                                        stroke-linecap="round"
-                                        stroke-linejoin="round"
-                                        d="M17.982 18.725A7.488 7.488 0 0 0 12 15.75a7.488 7.488 0 0 0-5.982 2.975m11.963 0a9 9 0 1 0-11.963 0m11.963 0A8.966 8.966 0 0 1 12 21a8.966 8.966 0 0 1-5.982-2.275M15 9.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"
-                                    />
-                                </svg>
-                            </a>
-                        </li>
+                                    Profil
 
-                        <div class="relative px-1">
+                                    <svg
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        fill="none"
+                                        viewBox="0 0 24 24"
+                                        stroke-width="1.5"
+                                        stroke="currentColor"
+                                        class="size-6 ms-1 stroke-indigo-600 stroke-2"
+                                    >
+                                        <path
+                                            stroke-linecap="round"
+                                            stroke-linejoin="round"
+                                            d="M17.982 18.725A7.488 7.488 0 0 0 12 15.75a7.488 7.488 0 0 0-5.982 2.975m11.963 0a9 9 0 1 0-11.963 0m11.963 0A8.966 8.966 0 0 1 12 21a8.966 8.966 0 0 1-5.982-2.275M15 9.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"
+                                        />
+                                    </svg>
+                                </a>
+                            </li>
+                            <li class="mt-1">
+                                <form on:submit|preventDefault={logout}>
+                                    <li>
+                                        <div class="relative text-nowrap p-0">
+                                            <button
+                                                on:mouseenter={showTooltip}
+                                                on:mouseleave={hideTooltip}
+                                            >
+                                                Se déconnecter
+                                            </button>
+                                        </div>
+                                    </li>
+                                </form>
+                            </li>
+                        {:else}
                             <li>
-                                <button
-                                    on:click|self={toggleEntretien}
-                                    class="text-nowrap flex items-center justify-start lg:hidden w-full px-2 mt-1 rounded p-0.5"
+                                <a use:inertia href="/login">Se connecter</a>
+                            </li>
+                            <li>
+                                <a use:inertia href="/register"
+                                    >Créer un compte</a
                                 >
-                                    Entretiens
-                                    <span
-                                        class="text-white w-4 h-4 flex justify-center items-center bg-red-600 p-1 rounded-full"
-                                        >{$page.props.auth.entretiens}</span
-                                    >
-                                </button>
                             </li>
-                            {#if $entretienModalComponent}
-                                <div>
-                                    <Entretiens
-                                        on:click={() =>
-                                            entretienModalComponent.set(false)}
-                                    />
-                                </div>
-                            {/if}
-                        </div>
-                        <div class="relative px-1">
-                            <li>
-                                <button
-                                    on:click|self={toggleCandidature}
-                                    class="text-nowrap flex items-center justify-start px-2 mt-1 lg:hidden w-full rounded p-0.5"
-                                >
-                                    Candidatures
-                                    <span
-                                        class="text-white w-4 h-4 flex justify-center items-center bg-red-600 p-1 rounded-full"
-                                        >{$page.props.auth.candidacies}</span
-                                    >
-                                </button>
-                            </li>
-                            {#if $candidatureModalComponent}
-                                <div class="z-50">
-                                    <Candidacies
-                                        on:click={() =>
-                                            candidatureModalComponent.set(
-                                                false,
-                                            )}
-                                    />
-                                </div>
-                            {/if}
-                        </div>
-
-                        <form on:submit|preventDefault={logout}>
-                            <li>
-                                <div class="relative text-nowrap">
-                                    <button
-                                        on:mouseenter={showTooltip}
-                                        on:mouseleave={hideTooltip}
-                                        class="relative"
-                                    >
-                                        Se déconnecter
-                                    </button>
-                                </div>
-                            </li>
-                        </form>
-                    {:else}
-                        <li><a use:inertia href="/login">Se connecter</a></li>
-                        <li>
-                            <a use:inertia href="/register">Créer un compte</a>
-                        </li>
-                    {/if}
-                </ul>
-            {/if}
+                        {/if}
+                    </ul>
+                {/if}
+            </div>
         </div>
     </div>
-</div>
+</nav>
 
 <style>
     .connected {

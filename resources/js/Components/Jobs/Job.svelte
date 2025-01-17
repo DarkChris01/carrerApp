@@ -23,49 +23,34 @@
 
 <a use:inertia href="/job/mon-offre/{job.id}">
     <div
-        class="my-1 rounded p-1 lg:p-2 text-sm transition cursor-pointer ease duration-200 hover:bg-gray-50"
+        class="my-1 rounded p-1 lg:p-2 text-base transition cursor-pointer ease duration-200 hover:bg-gray-100"
     >
         <div class="lg:flex">
-            <div class="mx-1 w-1/6 px-1">
-                <img
-                    src={job.enterprise.logo}
-                    alt="logo-entreprise"
-                    class="w-[6rem] border bg-indigo-600 rounded-md"
-                />
-            </div>
-            <div class="p-1 w-full lg:w-5/6 lg:px-4 text-sm">
-                <div class="flex justify-between items-center">
-                    <h1>
-                        {job.enterprise.name}
-                    </h1>
-
-                    <span class="bg-indigo-500 text-white rounded p-1 text-xs"
+            <div class="p-1 w-full lg:px-4 text-base">
+                <div class="flex font-extrabold justify-between items-center">
+                    <h3 class="text-lg font-extrabold text-gray-800 mb-2">
+                        {job.poste}
+                    </h3>
+                    <span class="bg-gray-800 text-white rounded p-1 text-xs"
                         >{format_date_anglo_to_french(
                             new Date(job.expired_at),
                         )}</span
                     >
                 </div>
+                <div>
+                    <p class="text-sm text-gray-600 mb-1">
+                        <strong>Entreprise :</strong>
+                        {job.enterprise.name}
+                    </p>
+                </div>
                 <div class="lg:flex items-center text-gray-600">
-                    <div class="uppercase text-sm">
-                        {job.poste}
-                    </div>
-                    <div
-                        class="w-1.5 h-1.5 mx-2 bg-gray-400 rounded-full hidden md:block"
-                    ></div>
-                    <div class="uppercase text-sm">
-                        {job.experience}
-                        {job.experience > 1 ? " ans" : " an"}
-                    </div>
-                    <div
-                        class="w-1.5 h-1.5 mx-2 bg-gray-400 rounded-full hidden md:block"
-                    ></div>
-                    <div class="uppercase text-sm">
+                    <div class="uppercase text-base">
                         {job.type}
                     </div>
                     <div
                         class="w-1.5 h-1.5 mx-2 bg-gray-400 rounded-full hidden md:block"
                     ></div>
-                    <div class="uppercase text-sm">
+                    <div class="uppercase text-base">
                         {job.country}
                     </div>
                 </div>
@@ -74,7 +59,7 @@
                         {#each JSON.parse(job.competence.competence) as competence}
                             {#if competence}
                                 <span
-                                    class="px-2 rounded bg-gray-700 text-white p-0.5 flex items-center w-fit text-xs me-2 my-1"
+                                    class="rounded bg-blue-800 px-4 text-white p-0.5 flex items-center w-fit text-sm me-2 my-1"
                                 >
                                     {competence}
                                 </span>

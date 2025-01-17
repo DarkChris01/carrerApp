@@ -4,6 +4,7 @@
     import { load_domains } from "@dependencies/load";
     import PrimaryButton from "@utils/PrimaryButton.svelte";
     import { onMount } from "svelte";
+    import Spinner from "@utils/Spinner.svelte"
     export let enterprise;
     let domains = [];
     let isLoading = true;
@@ -26,7 +27,7 @@
         }
     });
 
-    const contactUs = () => {
+    const   contactUs = () => {
         $form.post("/enterprise/contact-us", {
             onSuccess: () => {
                 toast.success("message envoyé");
@@ -38,193 +39,172 @@
     };
 </script>
 
-{#if !isLoading}
-    <!-- content here -->
-    <main class="w-full justify-start items-start">
-        <div
-            class="flex-shrink-0 relative rounded h-screen image"
-            style="background-image: url({enterprise.logo});"
-        >
-            <div class="absolute top-0 left-0 p-6">
-                <div class="text-4xl font-extrabold">{enterprise.name}</div>
-                <!-- <p class="text-gray-500 font-medium">Vous servir est notre dévise</p> -->
-            </div>
-            <div class="absolute font-extrabold p-1 rounded bottom-6 left-0 w-full bg-white/70">
-                <div class="capitalize text-2xl flex items-center justify-center">
-                    {enterprise.address}
-                    <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        stroke-width="1.5"
-                        stroke="currentColor"
-                        class="size-5 ms-1 stroke-red-600"
-                    >
-                        <path
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
-                            d="M15 10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"
-                        />
-                        <path
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
-                            d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1 1 15 0Z"
-                        />
-                    </svg>
+<!-- content here -->
+<main class="w-full justify-start items-start">
+    <div class="container mx-auto px-4 py-12">
+        <section class="bg-white rounded-lg shadow-md p-8">
+            <div class="flex flex-col md:flex-row md:space-x-8">
+                <!-- Logo de l'entreprise -->
+                <div class="flex-shrink-0">
+                    <img
+                        src={enterprise.logo}
+                        alt="Logo de l'entreprise"
+                        class="w-36 h-36 rounded-full mx-auto md:mx-0"
+                    />
                 </div>
-            </div>
-        </div>
-
-        <div class="text-base p-6 my-8">
-            <div class="bg-white p-8 rounded">
-                <h1 class="font-extrabold text-lg text-gray-800 border-b">
-                    Qui sommes-nous ?
-                </h1>
-                <div class="mt-4 text-gray-800">
-                    {exemple.description}
-                </div>
-            </div>
-
-            <div class="bg-white p-8 my-2 rounded">
-                <h1 class="font-extrabold text-lg text-gray-800 border-b">
-                    Quels services proposons nous ?
-                </h1>
-                <div class="my-5">
-                    <p class="my-2 text-gray-800">
-                        Nous offrons des solutions dans les domaines:
-                    </p>
-                    <ul>
-                        {#each JSON.parse(enterprise.sectors) as sector}
-                            <li>
-                                <div class="flex items-center capitalize">
-                                    <div
-                                        class="w-1.5 h-1.5 mx-2 bg-gray-400 rounded-full hidden md:block"
-                                    ></div>
+                <!-- Informations principales -->
+                <div class="flex-grow">
+                    <h2 class="text-3xl font-bold text-gray-800">
+                        {enterprise.name}
+                    </h2>
+                    {#if !isLoading}
+                        <span class="font-medium flex space-x-2">
+                            {#each JSON.parse(enterprise.sectors) as sector}
+                                <div
+                                    class="flex bg-blue-800 text-white px-2 rounded items-center capitalize"
+                                >
                                     {domains.find((domain) => {
                                         return domain.id === sector;
                                     }).intitules}
                                 </div>
-                            </li>
-                        {/each}
-                    </ul>
+                            {/each}
+                        </span>
+                        {:else}
+                        <div class="flex justify-start h-10 items-center">
+                            <Spinner/>
+                        </div>
+                    {/if}
+
+                    <p class="text-gray-600 mt-1">
+                        Localisation : <span class="font-medium"
+                            >{enterprise.address}</span
+                        >
+                    </p>
+                    {#if enterprise.site}
+                        <!-- content here -->
+                        <p class="text-gray-600 mt-1">
+                            Site web : <a
+                                href={enterprise.site}
+                                class="text-blue-600 hover:underline"
+                                >{enterprise.site ?? enterprise.facebook}</a
+                            >
+                        </p>
+                    {/if}
                 </div>
             </div>
-            <div class="bg-white p-8 rounded">
-                <h1 class="font-extrabold text-lg text-gray-800 border-b mt-4">
-                    Quelques offres ouvertes
-                </h1>
-                <div class="mt-6">
+        </section>
+
+        <section class="mt-8">
+            <!-- Description de l'entreprise -->
+            <div class="bg-white rounded-lg shadow-md p-8">
+                <h3 class="text-2xl font-semibold text-gray-800">
+                    À propos de nous
+                </h3>
+                <p class="text-gray-600 mt-4">
+                    {enterprise.about}
+                </p>
+            </div>
+        </section>
+
+        <section class="mt-8">
+            <!-- Offres d'emploi -->
+            <div class="bg-white rounded-lg shadow-md p-8">
+                <h3 class="text-2xl font-semibold text-gray-800">
+                    Offres d'emploi disponibles
+                </h3>
+                <ul class="mt-4 space-y-4">
                     {#each enterprise.employer.jobs as job}
-                        <div class="my-2 p-8 bg-white rounded border">
-                            <div
-                                class="flex w-full justify-between items-center"
+                        <li class="border-b border-gray-200 pb-4">
+                            <h3
+                                class="block text-lg first-letter:uppercase font-medium text-blue-600"
                             >
-                                <div class="border- font-extrabold capitalize">
-                                    {job.poste}
-                                </div>
+                                {job.poste}
+                            </h3>
+                            <div class="flex w-full justify-between items-end">
+                                <p class="text-sm text-gray-500 capitalize">
+                                    <span class="uppercase">{job.type} </span>- {job.country}
+                                </p>
                                 <a use:inertia href="/job/mon-offre/{job.id}">
-                                    <PrimaryButton size="text-base"
+                                    <PrimaryButton size="text-sm"
                                         >Consulter l'offre</PrimaryButton
                                     >
                                 </a>
                             </div>
-                            <div>
-                                <div class="mt-1 flex items-center flex-wrap">
-                                    {#each JSON.parse(job.competence.competence) as competence}
-                                        {#if competence}
-                                            <span
-                                                class="px-2 text-base rounded bg-gray-700 text-white p-0.5 flex items-center w-fit me-2 my-1"
-                                            >
-                                                {competence}
-                                            </span>
-                                        {/if}
-                                    {/each}
-                                </div>
-                            </div>
-                        </div>
+                        </li>
                     {/each}
-                </div>
+                </ul>
             </div>
-            <div class="bg-white p-8 rounded mt-4">
-                <div class="mt-6 text-base">
-                    <div>
-                        <section class="bg-white dark:bg-gray-900">
-                            <div
-                                class="py-8 lg:py-16 px-4 mx-auto max-w-screen-md"
+        </section>
+
+        <div class="bg-white p-8 rounded-lg mt-4">
+            <div class="mt-6 text-base">
+                <div>
+                    <section class="bg-white dark:bg-gray-900">
+                        <div class="py-8 lg:py-16 px-4 mx-auto max-w-screen-md">
+                            <h2
+                                class="mb-4 text-4xl tracking-tight font-extrabold text-center text-gray-900 dark:text-white"
                             >
-                                <h2
-                                    class="mb-4 text-4xl tracking-tight font-extrabold text-center text-gray-900 dark:text-white"
-                                >
-                                    Nous Contacter
-                                </h2>
-                                <p
-                                    class="mb-8 lg:mb-16 font-light text-center text-gray-800 dark:text-gray-400 sm:text-xl"
-                                >
-                                    Got a technical issue? Want to send feedback
-                                    about a beta feature? Need details about our
-                                    Business plan? Let us know.
-                                </p>
-                                <form
-                                    on:submit|preventDefault={contactUs}
-                                    class="space-y-8"
-                                >
-                                    <div>
-                                        <label
-                                            for="subject"
-                                            class="block mb-2 text-base font-medium text-gray-900 dark:text-gray-300"
-                                            >Subject</label
-                                        >
-                                        <input
-                                            type="text"
-                                            id="subject"
-                                            bind:value={$form.subject}
-                                            class="block p-3 w-full text-base text-gray-900 bg-gray-50 rounded-lg border border-gray-300 shadow-sm focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500 dark:shadow-sm-light"
-                                            placeholder="raison du message"
-                                            required
-                                        />
-                                    </div>
-                                    <div class="sm:col-span-2">
-                                        <label
-                                            for="message"
-                                            class="block mb-2 text-base font-medium text-gray-900 dark:text-gray-400"
-                                            >Message</label
-                                        >
-                                        <textarea
-                                            bind:value={$form.message}
-                                            id="message"
-                                            rows="6"
-                                            class="block p-8.5 w-full text-base text-gray-900 bg-gray-50 rounded-lg shadow-sm border border-gray-300 focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                                            placeholder="Laisser un commentaire..."
-                                        ></textarea>
-                                    </div>
-                                    <button
-                                        disabled={$form.isProgress}
-                                        type="submit"
-                                        class="py-2 px-4 font-medium text-center text-white rounded-medium btn-primary btn btn-base hover:bg-primary-800 focus:ring-4 focus:outline-none focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
-                                        >Laisser un message</button
+                                Nous Contacter
+                            </h2>
+                            <p
+                                class="mb-8 lg:mb-16 font-light text-center text-gray-800 dark:text-gray-400 sm:text-xl"
+                            >
+                                Got a technical issue? Want to send feedback
+                                about a beta feature? Need details about our
+                                Business plan? Let us know.
+                            </p>
+                            <form
+                                on:submit|preventDefault={contactUs}
+                                class="space-y-8"
+                            >
+                                <div>
+                                    <label
+                                        for="subject"
+                                        class="block mb-2 text-base font-medium text-gray-900 dark:text-gray-300"
+                                        >Subject</label
                                     >
+                                    <input
+                                        type="text"
+                                        id="subject"
+                                        bind:value={$form.subject}
+                                        class="block p-3 w-full text-base text-gray-900 bg-gray-50 rounded-lg border border-gray-300 shadow-sm focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500 dark:shadow-sm-light"
+                                        placeholder="raison du message"
+                                        required
+                                    />
+                                </div>
+                                <div class="sm:col-span-2">
+                                    <label
+                                        for="message"
+                                        class="block mb-2 text-base font-medium text-gray-900 dark:text-gray-400"
+                                        >Message</label
+                                    >
+                                    <textarea
+                                        bind:value={$form.message}
+                                        id="message"
+                                        rows="6"
+                                        class="block p-8.5 w-full text-base text-gray-900 bg-gray-50 rounded-lg shadow-sm border border-gray-300 focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                                        placeholder="Laisser un commentaire..."
+                                    ></textarea>
+                                </div>
+                                <button
+                                    disabled={$form.isProgress}
+                                    type="submit"
+                                    class="py-2 px-4 font-medium text-center text-white rounded-medium btn-primary btn btn-base hover:bg-primary-800 focus:ring-4 focus:outline-none focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
+                                    >Laisser un message</button
+                                >
 
-                                    {#if $form.errors.message}
-                                        {$form.errors.message}
-                                    {/if}
+                                {#if $form.errors.message}
+                                    {$form.errors.message}
+                                {/if}
 
-                                    {#if $form.errors.subject}
-                                        {$form.errors.subject}
-                                    {/if}
-                                </form>
-                            </div>
-                        </section>
-                    </div>
+                                {#if $form.errors.subject}
+                                    {$form.errors.subject}
+                                {/if}
+                            </form>
+                        </div>
+                    </section>
                 </div>
             </div>
         </div>
-    </main>
-{/if}
-
-<style>
-    .image {
-        background-position: center;
-        background-repeat: no-repeat;
-        background-size: cover;
-    }
-</style>
+    </div>
+</main>

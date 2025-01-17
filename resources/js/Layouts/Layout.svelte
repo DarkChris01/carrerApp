@@ -4,9 +4,10 @@
 </script>
 
 <div class="flex justify-center my-2">
-    <div class="w-full xl:w-3/4">
-        <Navbar/>
-        <slot/>
+    <div class="w-full xl:w-/4">
+        <Navbar />
+
+        <slot />
     </div>
 </div>
 <Toaster />

@@ -12,6 +12,7 @@
     import DeleteEntretienNotification from "@components/Notifications/Type/DeleteEntretienNotification.svelte";
     import UpdateEntretienNotification from "@components/Notifications/Type/UpdateEntretienNotification.svelte";
     import NotifyWhereUserSelectedForJob from "@components/Notifications/Type/NotifyWhereUserSelectedForJob.svelte";
+    import NotificationAction from "@components/Notifications/NotificationAction.svelte";
     import axios from "axios";
     import { inertia, router } from "@inertiajs/svelte";
     export let notification;
@@ -34,10 +35,15 @@
             }
         }
     };
+
+    let showAction = false;
+    const toogleAction = () => {
+        showAction = !showAction;
+    };
 </script>
 
 <button
-    class="mt-1 text-sm w-full cursor-pointer hover:bg-gray-50 rounded p-1 text-gray-600 hover:text-gray-800"
+    class="my-2 relative text-sm w-full cursor-pointer hover:bg-gray-100 rounded p-2 text-gray-600 hover:text-gray-800"
     class:unread={!notification.read_at}
     on:click={markAsRead}
 >
@@ -58,6 +64,31 @@
     {:else if notification.type === "App\\Notifications\\NotifyWhereUserSelectedForJob"}
         <NotifyWhereUserSelectedForJob {notification} />
     {/if}
+
+    <div class="absolute top-1 right-2 z-50">
+        <div class="relative">
+            <button type="button" on:click={toogleAction}>
+                <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke-width="1.5"
+                    stroke="currentColor"
+                    class="size-6"
+                >
+                    <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        d="M6.75 12a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0ZM12.75 12a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0ZM18.75 12a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Z"
+                    />
+                </svg>
+            </button>
+            {#if showAction}
+                <!-- content here -->
+                <NotificationAction {notification} />
+            {/if}
+        </div>
+    </div>
 </button>
 
 <style>

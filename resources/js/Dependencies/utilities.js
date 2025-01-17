@@ -62,6 +62,11 @@ export const formatTime = (time) => {
     return `${a[0]}h ${a[1]}`
 }
 
+export const getFullDate = (date) => {
+    const options = { day: '2-digit', month: 'long', year: 'numeric' };
+    return new Intl.DateTimeFormat("FR-fr", options).format(new Date(date));
+}
+
 export function compareDate(date1, date2 = new Date().toISOString()) {
     const timestamp1 = new Date(date1).getTime(),
         timestamp2 = new Date(date2).getTime();

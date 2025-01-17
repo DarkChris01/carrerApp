@@ -25,7 +25,8 @@ class Enterprise extends Model
         "postal",
         "logo",
         "address",
-        "sectors"
+        "sectors",
+        "about"
     ];
 
 

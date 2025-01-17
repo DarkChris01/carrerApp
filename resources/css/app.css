@@ -8,6 +8,9 @@
     font-family: "Nunito", sans-serif;
     /* font-size: 16px; */
 }
+a{
+    all: unset;
+}
 
 body {
     scroll-behavior: smooth;

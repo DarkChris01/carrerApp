@@ -3,6 +3,7 @@
     import {
         format_date_anglo_to_french,
         compareDate,
+        getFullDate,
     } from "@dependencies/utilities.js";
     import {
         candidatureModalComponent,
@@ -106,7 +107,7 @@
     </div>
 {/if}
 
-<div class="w-full bg-white p-1 md:p-2 mx-auto border">
+<div>
     <div class="my-1 flex w-full justify-end">
         {#if $page.props.auth.isEmployer}
             <div class="mt-1">
@@ -132,142 +133,75 @@
         {/if}
     </div>
 
-    <div class="my-1 p-2">
-        <div class=" my-1 p-2 rounded">
-            <div class="my-1">
-                <div class="text-gray-800">
-                    Entreprise : <span
-                        class="font-semibold 2xl:text-base text-sm capitalize"
-                    >
-                        {job.enterprise.name}</span
-                    >
-                </div>
+    <div class="max-w-5xl mx-auto p-6">
+        <div class="bg-white shadow-md rounded-lg p-6">
+            <h1 class="text-3xl font-bold text-gray-800 mb-4">
+                Titre du poste
+            </h1>
+            <p class="text-gray-600 mb-2">
+                <span class="font-semibold">Entreprise :</span>
+                {job.enterprise.name}
+            </p>
+            <p class="text-gray-600 mb-2">
+                <span class="font-semibold">Lieu :</span>
+                {job.country}
+            </p>
+            <p class="text-gray-600 mb-4">
+                <span class="font-semibold">Date de publication :</span>
+                {getFullDate(job.created_at)}
+            </p>
+            <div class="mb-6">
+                <h2 class="text-2xl font-semibold text-gray-800 mb-2">
+                    Description du poste
+                </h2>
+                <p class="text-gray-700 leading-relaxed">
+                    {job.missions}
+                </p>
             </div>
-            <div class="my-1">
-                <div class="text-gray-800">
-                    Poste : <span
-                        class="font-semibold 2xl:text-base text-sm capitalize"
-                    >
-                        {job.poste}</span
-                    >
-                </div>
-            </div>
-
-            <div class="my-1">
-                <div class="text-gray-800">
-                    Pays : <span
-                        class="font-semibold 2xl:text-base text-sm capitalize"
-                    >
-                        {job.country}</span
-                    >
-                </div>
-            </div>
-            <div class="my-1">
-                <div class="text-gray-800">
-                    Type de contrat proposé : <span
-                        class="font-semibold 2xl:text-base text-sm uppercase"
-                    >
-                        {job.type}</span
-                    >
-                </div>
-            </div>
-            <div class="my-1">
-                <div class="text-gray-800">
-                    Formation minimale réquise : <span
-                        class="font-semibold 2xl:text-base text-sm"
-                    >
-                        {#if job.formations === "bac++"}
-                            Bac+5 et plus
-                        {:else}
-                            <!-- else content here -->
-                            {job.formation}
-                        {/if}
-                    </span>
-                </div>
-            </div>
-            <div class="my-1">
-                <div class="text-gray-800">
-                    Experience minimale : <span
-                        class="font-semibold 2xl:text-base text-sm uppercase"
-                    >
-                        {job.experience}</span
-                    >
-                    {job.experience > 1 ? "ans" : "an"}
-                </div>
-            </div>
-            <div class="my-1">
-                <div class="text-gray-800">
-                    Salaire : <span class="font-semibold 2xl:text-base text-sm">
-                        {job.salary} XFA</span
-                    >
-                </div>
-            </div>
-
-            <div class="bg-indigo-600 w-fit text-white rounded p-1 text-sm">
-                {compareDate(job.expired_at) < 0
-                    ? "A expiré le " +
-                      format_date_anglo_to_french(new Date(job.expired_at))
-                    : "expire le " +
-                      format_date_anglo_to_french(new Date(job.expired_at))}
-            </div>
-
-            <div class="my-6">
-                <div class="font-bold text-gray-500/70 border-b p-0 m-0">
-                    Votre mission sera
-                </div>
-                <div class="text-base text-gray-800 p-0 m-0">
-                    <p
-                        class="my-2 text-wrap cursor-pointer hover:text-gray-800"
-                    >
-                        {job.missions}
-                    </p>
-                </div>
-            </div>
-
-            <div class="my-2 mt-6">
-                <div class="text-gray-600/60">competences:</div>
-                <div class="text-gray-800 flex flex-wrap">
+            <div class="mb-6">
+                <h2 class="text-2xl font-semibold text-gray-800 mb-2">
+                    Compétences requises
+                </h2>
+                <ul class="list-disc list-inside text-gray-700">
                     {#each JSON.parse(job.competence.competence) as competence}
                         {#if competence}
-                            <div
-                                class="bg-indigo-600 p-0.5 2xl:text-base text-sm px-3 capitalize me-1 mt-1 text-white rounded"
-                            >
-                                <span> {competence}</span>
-                            </div>
+                            <li>{competence}</li>
                         {/if}
                     {/each}
-                </div>
+                </ul>
             </div>
-
-            <div>
-                <div
-                    class="flex items-center 2xl:text-base text-sm justify-end"
+            <div class="mb-6">
+                <h2 class="text-2xl font-semibold text-gray-800 mb-2">
+                    Conditions
+                </h2>
+                <p class="text-gray-700 leading-relaxed">
+                    Contrat : {job.type}<br />
+                    Salaire : {job.salary} XFA/ mois
+                </p>
+            </div>
+            <div class="flex space-x-4">
+                <button
+                    disabled={job.candidacies.find((element) => {
+                        if ($page.props.auth.user.cv) {
+                            return (
+                                $page.props.auth.user.cv.id === element.cv_id
+                            );
+                        }
+                    })
+                        ? true
+                        : false}
+                    on:click={handleSendCandidature}
+                    class="bg-blue-600 text-white px-4 py-2 rounded shadow hover:bg-blue-700"
                 >
-                    {#if !$page.props.auth.isEmployer}
-                        <button
-                            disabled={job.candidacies.find((element) => {
-                                if ($page.props.auth.user.cv) {
-                                    return (
-                                        $page.props.auth.user.cv.id ===
-                                        element.cv_id
-                                    );
-                                }
-                            })
-                                ? true
-                                : false}
-                            on:click={handleSendCandidature}
-                            class="btn-success btn btn-sm 2xl:btn-sm text-white p-1 rounded me-2"
-                            >Postuler à cette offre
-                        </button>
-                        <a use:inertia href="/enterprise/{job.enterprise.id}">
-                            <button
-                                on:click={handleSendCandidature}
-                                class="btn-error btn btn-sm 2xl:btn-sm text-white p-1 rounded me-2"
-                                >Voir l'entreprise
-                            </button>
-                        </a>
-                    {/if}
-                </div>
+                    Postuler maintenant
+                </button>
+                <a use:inertia href="/enterprise/{job.enterprise.id}">
+                    <button
+                        class="bg-gray-300 text-gray-800 px-4 py-2 rounded shadow hover:bg-gray-400"
+                    >
+                        Voir l'entreprise
+                    </button>
+                </a>
             </div>
         </div>
     </div>

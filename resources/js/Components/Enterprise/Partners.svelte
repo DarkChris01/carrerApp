@@ -2,7 +2,7 @@
     import { load_domains } from "@dependencies/load";
     import Spinner from "@utils/Spinner.svelte";
     import { onMount } from "svelte";
-    import {inertia}  from "@inertiajs/svelte"
+    import { inertia } from "@inertiajs/svelte";
     export let enterprises;
     let domains = [];
     let isLoading = true;
@@ -29,15 +29,13 @@
 </header>
 
 {#if !isLoading}
-    <main class="container mx-auto px-4 py-8">
+    <main class="container mx-auto p-2">
         <div
-            class="flex items-start justify-start gap-6 overflow-x-auto scrollable"
+            class="flex items-start justify-start p-4 gap-6 overflow-x-auto scrollable"
         >
             <!-- Carte entreprise -->
             {#each enterprises as enterprise}
-                <div
-                    class="bg-white rounded-lg w-1/4 shadow-lg overflow-hidden"
-                >
+                <div class="bg-white rounded-lg">
                     <img
                         src={enterprise.logo}
                         alt="Logo entreprise"
@@ -47,36 +45,40 @@
                         <h3 class="font-bold text-lg text-blue-600">
                             {enterprise.name}
                         </h3>
-                        <ul class="font-extrabold capitalize">
-                            {#each JSON.parse(enterprise.sectors) as sector}
-                                <li
-                                    class="text-sm flex items-center text-gray-700 mt-2"
-                                >
-                                    <svg
-                                        xmlns="http://www.w3.org/2000/svg"
-                                        fill="none"
-                                        viewBox="0 0 24 24"
-                                        stroke-width="1.5"
-                                        stroke="currentColor"
-                                        class="size-4 me-1 stroke-2 stroke-green-600"
+                        <ul class="font-bold">
+                            {#each JSON.parse(enterprise.sectors) as sector, i}
+                                {#if i < 1}
+                                    <!-- content here -->
+                                    <li
+                                        class="text-sm first-letter:uppercase flex items-center text-gray-700 mt-2"
                                     >
-                                        <path
-                                            stroke-linecap="round"
-                                            stroke-linejoin="round"
-                                            d="m4.5 12.75 6 6 9-13.5"
-                                        />
-                                    </svg>
-                                    {domains.find((domain) => {
-                                        return domain.id === sector;
-                                    }).intitules}
-                                </li>
+                                        <svg
+                                            xmlns="http://www.w3.org/2000/svg"
+                                            fill="none"
+                                            viewBox="0 0 24 24"
+                                            stroke-width="1.5"
+                                            stroke="currentColor"
+                                            class="size-4 me-1 stroke-2 stroke-green-600"
+                                        >
+                                            <path
+                                                stroke-linecap="round"
+                                                stroke-linejoin="round"
+                                                d="m4.5 12.75 6 6 9-13.5"
+                                            />
+                                        </svg>
+                                        {domains.find((domain) => {
+                                            return domain.id === sector;
+                                        }).intitules}
+                                    </li>
+                                {/if}
                             {/each}
                         </ul>
-                        <div class="mt-4">
-                            <a use:inertia
+                        <div class="mt-4 bg-blue-600 p-1 rounded w-fit text-white text-xs">
+                            <a
+                                use:inertia
                                 href="/enterprise/{enterprise.id}"
-                                class="text-sm text-blue-600 font-semibold hover:underline"
-                                >En savoir plus</a
+                                class="text-sm  font-semibold hover:underline cursor-pointer"
+                                style="text-decoration: none;">Voir plus</a
                             >
                         </div>
                     </div>

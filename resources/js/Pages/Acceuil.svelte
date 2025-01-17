@@ -4,16 +4,18 @@
     import Partners from "@components/Enterprise/Partners.svelte";
     export let enterprises;
     export let jobs;
-    
 </script>
 
+<!-- <div class="font-bold text-base my-2">
+    { jobs.data.length > 1 ? jobs.data.length +" offres trouvées" :jobs.data.length + " offre trouvée"} 
+</div> -->
 <Partners {enterprises} />
-<div class="p-2 mt-6">
+<div class="p-6 mt-2 border border-gray-200/60">
     {#if jobs.data.length > 0}
         {#each jobs.data as job}
             <Job {job} />
         {/each}
-        {#if jobs.data > 25}
+        {#if jobs.data.length > 25}
             <PaginationNavBar datas={jobs} />
         {/if}
     {:else}

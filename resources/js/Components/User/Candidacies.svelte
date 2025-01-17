@@ -32,7 +32,7 @@
 <!-- svelte-ignore a11y-click-events-have-key-events -->
 <!-- svelte-ignore a11y-no-noninteractive-element-interactions -->
 <main
-    class="z-20 fixed lg:absolute w-full h-screen lg:w-[30rem] 2xl:w-[35rem] shadow overflow-y-auto scrollable bg-white lg:h-[35rem] 2xl:h-[50rem] border border-gray-400/20 rounded right-0 lg:right-4 top-0 lg:top-full"
+    class="z-20 fixed lg:absolute w-full h-screen lg:w-[30rem] 2xl:w-[35rem] shadow overflow-y-auto scrollable bg-white lg:h-[35rem] 2xl:h-[50rem] border border-gray-400/20 rounded right-0 lg:right-4 top-0 lg:top-10"
 >
     <div class="w-full h-full text-sm p-2 text-gray-700">
         {#if !isLoading}

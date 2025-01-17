@@ -100,6 +100,7 @@ Route::middleware('auth')->group(function () {
     Route::group(["prefix" => "notifications"], function () {
         Route::patch("/", [NotificationController::class, "markAllAsread"]);
         Route::patch("/{notification}", [NotificationController::class, "markAsread"]);
+        Route::delete("/{notification", [NotificationController::class, "destroy"])->name("destroy.notifivcation");
     });
 
     Route::group(["prefix" => "enterprise"], function () {
@@ -144,7 +145,7 @@ Route::middleware("employer")->group(function () {
         Route::group(['prefix' => 'notifications'], function () {
             Route::post('/invitation', [NotificationController::class, "sendInvitation"]);
             Route::get("/", [NotificationController::class, "index"]);
-            Route::delete("/{notification}", [NotificationController::class, "delete"]);
+            Route::delete("/{notification}", [NotificationController::class, "destroy"]);
             Route::delete("/", [NotificationController::class, "deleteAll"]);
             Route::patch("/{notification}", [NotificationController::class, "markAsread"]);
             Route::patch("/", [NotificationController::class, "markAllAsread"]);

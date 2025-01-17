@@ -65,7 +65,9 @@ class NotificationController extends Controller
         }
     }
 
-    public function delete($notification, Request $request)
+    
+
+    public function destroy($notification, Request $request)
     {
         if ($request->user("employer")) {
             $request->user('employer')

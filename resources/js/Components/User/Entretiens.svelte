@@ -18,7 +18,7 @@
 </script>
 
 <main
-    class="fixed lg:absolute overflow-y-auto scrollable bg-white select-none w-full h-screen lg:w-[30rem] 2xl:w-[35rem] lg:h-[35rem] 2xl:h-[50rem] border border-gray-400/20 rounded z-10 flex shadow right-0 lg:right-2 top-0 lg:top-full"
+    class="fixed lg:absolute overflow-y-auto scrollable bg-white select-none w-full h-screen lg:w-[30rem] 2xl:w-[35rem] lg:h-[35rem] 2xl:h-[50rem] border border-gray-400/20 rounded z-10 flex shadow right-0 lg:right-2 top-0 lg:top-10"
 >
     <div class="text-sm lg:text-sm w-full p-2 text-gray-600">
         {#if !isLoading}
